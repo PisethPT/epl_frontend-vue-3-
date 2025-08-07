@@ -1,0 +1,89 @@
+import { defineStore } from "pinia";
+
+export const useApiConfig = defineStore("apiConfig", () => {
+  const BASE_URL = "https://localhost:7067";
+  const TEAM_LOGOS_DIR = BASE_URL + "/TeamLogos/";
+  const PLAYER_LOGOS_DIR = BASE_URL + "/Players/";
+  const NEWS_IMAGE_DIR = BASE_URL + "/News/";
+
+  const USER_ENDPOINTS = {
+    LOGIN_ENDPOINT: BASE_URL + "/login",
+    REGISTER_ENDPOINT: BASE_URL + "/register",
+  };
+  const TEAM_ENDPOINTS = {
+    GET_TEAMS_ENDPOINT: BASE_URL + "/teams",
+    GET_TEAM_BY_ID_ENDPOINT: BASE_URL + "/teams/",
+    POST_NEW_TEAM_ENDPOINT: BASE_URL + "/teams/create",
+    PUT_TEAM_ENDPOINT: BASE_URL + "/teams/edit/",
+    DELETE_TEAM_ENDPOINT: BASE_URL + "/teams/delete/",
+  };
+  const PLAYER_ENDPOINTS = {
+    GET_PLAYERS_ENDPOINT: BASE_URL + "/players/by-team",
+    GET_PLAYER_BY_ID_ENDPOINT: BASE_URL + "/players/",
+    POST_NEW_PLAYER_ENDPOINT: BASE_URL + "/players/create",
+    PUT_PLAYER_ENDPOINT: BASE_URL + "/players/edit/",
+    DELETE_PLAYER_ENDPOINT: BASE_URL + "/players/delete/",
+  };
+  const MATCH_ENDPOINTS = {
+    GET_MATCHES_ENDPOINT: BASE_URL + "/matches",
+    GET_MATCH_BY_ID_ENDPOINT: BASE_URL + "/matches/",
+    POST_MATCH_ENDPOINT: BASE_URL + "/matches/create",
+    PUT_MATCH_ENDPOINT: BASE_URL + "/matches/edit/",
+    DELETE_MATCH_ENDPOINT: BASE_URL + "/matches/delete/",
+  };
+  const NEWS_ENDPOINTS = {
+    GET_NEWS_ENDPOINT: BASE_URL + "/news",
+    GET_NEWS_BY_ID_ENDPOINT: BASE_URL + "/news/",
+    POST_NEWS_ENDPOINT: BASE_URL + "/news/create",
+    PUT_NEWS_ENDPOINT: BASE_URL + "/news/edit/",
+    DELETE_NEWS_ENDPOINT: BASE_URL + "/news/delete/",
+  };
+  const SEASON_ENDPOINTS = {
+    GET_SEASONS_ENDPOINT: BASE_URL + "/seasons",
+    GET_SEASON_BY_ID_ENDPOINT: BASE_URL + "/seasons/",
+    POST_SEASON_ENDPOINT: BASE_URL + "/seasons/create",
+    PUT_SEASON_ENDPOINT: BASE_URL + "/seasons/edit/",
+    DELETE_SEASON_ENDPOINT: BASE_URL + "/seasons/delete/",
+  };
+  const CARD_ENDPOINTS = {
+    GET_CARDS_ENDPOINT: BASE_URL + "/cards",
+    GET_CARD_BY_ID_ENDPOINT: BASE_URL + "/cards/",
+    POST_CARD_ENDPOINT: BASE_URL + "/cards/create",
+    PUT_CARD_ENDPOINT: BASE_URL + "/cards/edit/",
+    DELETE_CARD_ENDPOINT: BASE_URL + "/cards/delete/",
+  };
+  const GOAL_ENDPOINTS = {
+    GET_GOALS_ENDPOINT: BASE_URL + "/goals",
+    GET_GOAL_BY_ID_ENDPOINT: BASE_URL + "/goals/",
+    POST_GOAL_ENDPOINT: BASE_URL + "/goals/create",
+    PUT_GOAL_ENDPOINT: BASE_URL + "/goals/edit/",
+    DELETE_GOAL_ENDPOINT: BASE_URL + "/goals/delete/",
+  };
+  const ASSIST_ENDPOINTS = {
+    GET_ASSISTS_ENDPOINT: BASE_URL + "/assists",
+    GET_ASSIST_BY_ID_ENDPOINT: BASE_URL + "/assists/",
+    POST_ASSIST_ENDPOINT: BASE_URL + "/assists/create",
+    PUT_ASSIST_ENDPOINT: BASE_URL + "/assists/edit/",
+    DELETE_ASSIST_ENDPOINT: BASE_URL + "/assists/delete/",
+  };
+
+  const ENDPOINTS = {
+    USER_ENDPOINTS,
+    TEAM_ENDPOINTS,
+    PLAYER_ENDPOINTS,
+    MATCH_ENDPOINTS,
+    SEASON_ENDPOINTS,
+    NEWS_ENDPOINTS,
+    CARD_ENDPOINTS,
+    GOAL_ENDPOINTS,
+    ASSIST_ENDPOINTS,
+  };
+
+  return {
+    BASE_URL,
+    TEAM_LOGOS_DIR,
+    PLAYER_LOGOS_DIR,
+    NEWS_IMAGE_DIR,
+    ENDPOINTS,
+  };
+});

@@ -119,7 +119,11 @@ function deleteRow(row)
 {
     console.log('Delete clicked', row.id);
     ElMessageBox.confirm(
-        ` <img src="${PLAYER_LOGOS_DIR + row.photo}" alt="${row.photo}" class="w-20 h-20 object-contain mx-auto"/> <br/> 
+        ` 
+        <div class="flex justify-center items-center flex-col">
+            <img src="${PLAYER_LOGOS_DIR + row.photo}" alt="${row.photo}" class="w-25 h-25 object-contain mx-auto border-2 border-gray-200 shadow-sm rounded-full"/>
+            <span class="text-sm mb-2 font-mono">${row.firstName} ${row.lastName}</span>
+        </div>
         Do you want to delete this player name <span class="font-bold text-indigo-500">${row.firstName} ${row.lastName}</span> ?
         `,
         {
@@ -162,16 +166,14 @@ function deleteRow(row)
 </script>
 
 <template>
-    <!-- 
-    <PlayerDialog :form="form" v-model:isOpenDialog="isOpenDialog" :dialogTitle="dialogTitle" /> -->
     <PlayerDialog v-model:modelValue="isOpenDialog" :title="dialogTitle" :form="form" />
 
-    <el-table :data="filterDataTable" v-loading="loading" class="w-full" height="740" border>
+    <el-table :data="filterDataTable" v-loading="loading" class="w-full" height="790" border>
         <el-table-column label="#" width="80" sortable prop="id" align="center" />
         <el-table-column label="Photo" width="120" align="center" prop="photo">
             <template #default="scope">
-                <img :src="PLAYER_LOGOS_DIR + scope.row.photo" :alt="scope.row.photo"
-                    class="w-14 h-14 object-contain mx-auto">
+                <el-avatar :size="60" :src="PLAYER_LOGOS_DIR + scope.row.photo"
+                    class="border-2 border-gray-200 shadow-sm" />
             </template>
         </el-table-column>
         <el-table-column label="First Name" sortable prop="firstName" min-width="210" />

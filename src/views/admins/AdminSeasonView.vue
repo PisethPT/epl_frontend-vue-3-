@@ -66,7 +66,7 @@ onMounted(async () =>
         loading.value = false;
     }
 });
-const filterDataTable = computed(() =>
+const dataTable = computed(() =>
 {
     return seasons.value.filter((season) =>
     {
@@ -190,9 +190,6 @@ function handleDelete(row)
 </script>
 
 <template>
-    <div class="flex justify-end mb-2">
-        <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
-    </div>
     <BaseDialogForm v-model="modelValue" :form="form" :rules="rules" :title="title" :width="width"
         :loading="submitLoading" @update:modelValue="emit('update:modelValue', $event)"
         @update:form="emit('update:form', $event)" @submit="handleSubmit">
@@ -212,7 +209,7 @@ function handleDelete(row)
         </template>
     </BaseDialogForm>
 
-    <BaseTable :table-data="filterDataTable" :columns="columns" :loading="loading" :show-index="true">
+    <BaseTable :table-data="dataTable" :columns="columns" :loading="loading" :show-index="true">
         <template #startDate="{ row }">
             <span>{{ row.startDate }}</span>
         </template>
@@ -221,13 +218,19 @@ function handleDelete(row)
         </template>
 
         <template #actions>
-            <el-table-column label="Actions" width="320" label-class-name="text-center" align="center" fixed="right">
+            <el-table-column label="Actions" width="420" label-class-name="text-center" align="center" fixed="right">
                 <template #header>
-                    <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search" clearable />
+                    <div class="flex justify-between gap-2">
+                        <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search"
+                            clearable />
+                        <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
+                    </div>
                 </template>
                 <template #default="{ row }">
-                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain>Edit</el-button>
-                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain>Delete</el-button>
+                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain
+                        class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
+                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
+                        class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
                 </template>
             </el-table-column>
         </template>

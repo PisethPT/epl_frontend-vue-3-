@@ -34,7 +34,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <el-table :data="tableData" v-loading="loading" border style="width: 100%" height="700">
+  <el-table :data="tableData" v-loading="loading" border height="720" class="w-full min-h-5">
     <!--:header-cell-style="{ background: '#f5f7fa', fontWeight: 'bold' }"-->
 
     <!-- Optional index column -->
@@ -42,7 +42,8 @@ const props = defineProps({
 
     <!-- Dynamic columns -->
     <el-table-column v-for="col in columns" :key="col.prop" :prop="col.prop" :label="col.label" :width="col.width"
-      :align="col.align || 'left'" :sortable="col.sortable || false" :class="col.class" :class-name="col.className" :min-width="col.minWidth">
+      :align="col.align || 'left'" :sortable="col.sortable || false" :class="col.class" :class-name="col.className"
+      :min-width="col.minWidth">
 
       <!-- Slot-based rendering -->
       <template #default="scope">

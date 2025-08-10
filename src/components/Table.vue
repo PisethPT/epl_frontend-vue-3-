@@ -70,12 +70,19 @@ const deleteRow = (row) =>
 {
     console.log('Delete clicked', row.id);
     ElMessageBox.confirm(
-        ` <img src="${teamStore.TEAM_LOGO_DIR + row.clubCrest}" alt="${row.photo}" class="w-20 h-20 object-contain mx-auto"/> <br/> 
+        `
+        <div class="flex justify-center items-center flex-col mb-4">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center p-2 shadow-inner" text-center>
+                <img src="${teamStore.TEAM_LOGO_DIR + row.clubCrest}" alt="${row.name}">
+            </div>
+            <span class="font-mono text-sm">${row.name}</span>
+        </div>
+        
         Do you want to delete <span class="font-bold text-indigo-500">${row.name}</span>  team?
         `,
         {
-            title: 'Delete Dialog',
-            confirmButtonText: 'OK',
+            title: 'Delete Team Confirmation',
+            confirmButtonText: 'OK, Yes',
             cancelButtonText: 'Cancel',
             type: 'warning',
             center: true,
@@ -143,11 +150,15 @@ const filteredDataTable = computed(() =>
         </el-table-column>
         <el-table-column prop="clubCrest" label="Logo" width="100" align="center">
             <template #default="scope">
-                <img :src="TEAM_LOGOS_DIR + scope.row.clubCrest" alt="logo" class="w-14 h-14 object-contain mx-auto">
+                <div class="flex justify-center">
+                    <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center p-2 shadow-inner">
+                        <img :src="TEAM_LOGOS_DIR + scope.row.clubCrest" :alt="scope.row.name">
+                    </div>
+                </div>
             </template>
         </el-table-column>
         <el-table-column prop="name" label="Team Name" width="300" style="min-width: 300;" sortable />
-        <el-table-column prop="founded" label="Founded" width="120" align="left" sortable />
+        <el-table-column prop="founded" label="Founded" width="120" align="center" sortable />
         <el-table-column prop="city" label="City" min-width="200" sortable />
         <el-table-column prop="homeStadium" label="Stadium" width="200" sortable />
         <el-table-column prop="headCoach" label="Head Coach" width="200" sortable />

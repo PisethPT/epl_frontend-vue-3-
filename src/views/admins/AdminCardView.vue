@@ -101,8 +101,13 @@ const matchOptions = ref([]);
 
 watch(() =>
 {
-    console.log('form: ' + JSON.stringify(form));
+    if (!form.playerId)
+    {
+        if (selectedPlayer.value)
+            form.playerId = selectedPlayer.value.id;
+        console.log('player assign id: ' + form.playerId);
 
+    }
     emit('update:modelValue', modelValue.value);
     emit('update:form', { ...form });
 }, { immediate: true });
@@ -438,9 +443,6 @@ const formatTime = (timeString) =>
 </script>
 
 <template>
-    <div class="flex justify-end mb-2">
-        <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
-    </div>
     <!-- dialog -->
     <BaseDialogForm v-model="modelValue" :form="form" :formRef="formRef" :rules="rules" :title="title" :width="width"
         :loading="submitLoading" @update:form="emit('update:form', $event)"
@@ -474,79 +476,186 @@ const formatTime = (timeString) =>
                 </el-form-item>
 
                 <el-form-item label="Minutes" prop="minutes">
-                    <el-input v-model.number="form.minutes" type="number" :min="0.01" />
+                    <el-input-number v-model.number="form.minutes" type="number" :min="0.01" />
                 </el-form-item>
             </div>
         </template>
     </BaseDialogForm>
 
     <!-- table -->
-    <BaseTable :table-data="filterDataTable" :columns="columns" :loading="loading" :show-index="true">
-
-        <template #player="{ row }">
-            <div class="flex items-center gap-3">
-                <el-avatar :size="60" :src="row.player.photo ? PLAYER_LOGOS_DIR + row.player.photo : ''">
-                    {{ row.player.firstName.charAt(0) }}{{ row.player.lastName.charAt(0) }}
-                </el-avatar>
-                <div class="flex flex-col">
-                    <span class="font-medium">{{ row.player.firstName }} {{ row.player.lastName }}</span>
-                    <span class="text-xs text-gray-500">#{{ row.player.playerNumber }}</span>
+    <div class="overflow-x-auto">
+        <BaseTable :table-data="filterDataTable" :columns="columns" :loading="loading" :show-index="true"
+            class="min-w-full">
+            <template #player="{ row }">
+                <div class="flex items-center gap-3 p-2">
+                    <el-avatar :size="60" :src="row.player.photo ? PLAYER_LOGOS_DIR + row.player.photo : ''"
+                        class="border-2 border-gray-200 shadow-sm">
+                        {{ row.player.firstName.charAt(0) }}{{ row.player.lastName.charAt(0) }}
+                    </el-avatar>
+                    <div class="flex flex-col">
+                        <span class="font-medium text-gray-800">{{ row.player.firstName }} {{ row.player.lastName
+                            }}</span>
+                        <span class="text-xs text-gray-500">#{{ row.player.playerNumber }}</span>
+                        <span class="text-xs text-blue-600 font-medium">{{ row.player.position }}</span>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
 
-        <template #fromTeam="{ row }">
-            <div class="flex flex-col gap-1">
-                <img :src="row.team.clubCrest ? cardStore.TEAM_LOGOS_DIR + row.team.clubCrest : ''"
-                    :alt="row.team.clubCrest" class="w-12 h-12 object-contain mx-auto">
-                <span class="text-sm text-wrap">{{ row.team.name }}</span>
-            </div>
-        </template>
-
-        <template #match="{ row }">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
-                <div class="flex justify-center items-center flex-col">
-                    <img :src="row.match.homeTeamClubCrest ? cardStore.TEAM_LOGOS_DIR + row.match.homeTeamClubCrest : ''"
-                        :alt="row.match.homeTeamClubCrest" class="w-10 h-10 object-contain mx-auto" />
-                    <div class="text-gray-500 text-center mt-1 text-xs text-wrap">{{ row.match.homeTeamName }}</div>
+            <template #fromTeam="{ row }">
+                <div class="flex flex-col items-center gap-1 min-w-[120px] p-2">
+                    <div
+                        class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center p-1 shadow-inner border border-gray-200">
+                        <img :src="row.team.clubCrest ? cardStore.TEAM_LOGOS_DIR + row.team.clubCrest : ''"
+                            :alt="row.team.clubCrest" class="w-10 h-10 object-contain">
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 text-center">{{ row.team.shortName ||
+                        row.team.name }}</span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <span class="text-xs font-medium bg-gray-100 px-2 py-1 rounded">VS</span>
-                </div>
-                <div class="flex justify-center flex-col">
-                    <img :src="row.match.awayTeamClubCrest ? cardStore.TEAM_LOGOS_DIR + row.match.awayTeamClubCrest : ''"
-                        :alt="row.match.awayTeamClubCrest" class="w-10 h-10 object-contain mx-auto" />
-                    <div class="text-gray-500 text-center mt-1 text-xs text-wrap">{{ row.match.awayTeamName }}</div>
-                </div>
-            </div>
-            <div class="text-center text-xs mt-1">{{ formatDate(row.match.matchDate) }} {{
-                formatTime(row.match.matchTime) }}</div>
-        </template>
+            </template>
 
-        <template #cardType="{ row }">
-            <div class="flex justify-center flex-col items-center">
-                <div v-if="row.cardType === 'Yellow'" class="w-7 h-10 bg-amber-400 border-1 rounded-[5px] text-center">
+            <template #match="{ row }">
+                <div class="bg-gray-50 rounded-lg p-2 border border-gray-200 m-2">
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <div class="flex flex-col items-center">
+                            <div
+                                class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 shadow border border-gray-200">
+                                <img :src="row.match.homeTeamClubCrest ? cardStore.TEAM_LOGOS_DIR + row.match.homeTeamClubCrest : ''"
+                                    class="w-8 h-8 object-contain" />
+                            </div>
+                            <div class="text-xs font-medium text-gray-700 mt-1 text-center line-clamp-2">
+                                {{ row.match.homeTeamShortName || row.match.homeTeamName }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-bold bg-gray-200 px-2 py-1 rounded-full">VS</span>
+                            <span class="text-xs font-bold text-gray-600 mt-1">
+                                {{ row.match.homeTeamScore }} - {{ row.match.awayTeamScore }}
+                            </span>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div
+                                class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 shadow border border-gray-200">
+                                <img :src="row.match.awayTeamClubCrest ? cardStore.TEAM_LOGOS_DIR + row.match.awayTeamClubCrest : ''"
+                                    class="w-8 h-8 object-contain" />
+                            </div>
+                            <div class="text-xs font-medium text-gray-700 mt-1 text-center line-clamp-2">
+                                {{ row.match.awayTeamShortName || row.match.awayTeamName }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-xs mt-2 bg-gray-100 rounded py-1 font-medium text-gray-600">
+                        {{ formatDate(row.match.matchDate) }} • {{ formatTime(row.match.matchTime) }}
+                    </div>
                 </div>
-                <div v-else class="w-7 h-10 bg-red-500 border-1 rounded-[5px] text-center"></div>
-                <span>{{ row.cardType }}</span>
-            </div>
-        </template>
+            </template>
 
-        <template #minutes="{ row }">
-            <span class="inline-block bg-gray-100 text-gray-500 text-sm font-bold px-3 py-1 rounded-full shadow">{{
-                row.minutes }}&rsquo;</span>
-        </template>
+            <template #cardType="{ row }">
+                <div class="flex justify-center flex-col items-center p-2">
+                    <div class="relative">
+                        <div :class="{
+                            'bg-amber-400 shadow-amber-200': row.cardType === 'Yellow',
+                            'bg-red-500 shadow-red-200': row.cardType === 'Red'
+                        }"
+                            class="w-6 h-9 rounded-sm shadow-inner border border-white transform rotate-3 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-white opacity-10 rounded-sm"></div>
+                        </div>
 
-        <template #actions>
-            <el-table-column label="Actions" width="320" label-class-name="text-center" align="center" fixed="right">
-                <template #header>
-                    <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search" clearable />
-                </template>
-                <template #default="{ row }">
-                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain>Edit</el-button>
-                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain>Delete</el-button>
-                </template>
-            </el-table-column>
-        </template>
-    </BaseTable>
+                        <div :class="{
+                            'bg-amber-600': row.cardType === 'Yellow',
+                            'bg-red-700': row.cardType === 'Red'
+                        }" class="absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-white"></div>
+                    </div>
+                    <span class="text-xs font-bold mt-2 uppercase tracking-wider" :class="{
+                        'text-amber-600': row.cardType === 'Yellow',
+                        'text-red-600': row.cardType === 'Red'
+                    }">
+                        {{ row.cardType }} CARD
+                    </span>
+                </div>
+            </template>
+
+            <template #minutes="{ row }">
+                <div class="flex justify-center p-2">
+                    <span
+                        class="inline-flex items-center justify-center bg-gray-100 text-gray-700 text-sm font-bold px-3 py-1 rounded-full shadow-sm w-16 border border-gray-200">
+                        {{ row.minutes }}'
+                    </span>
+                </div>
+            </template>
+
+            <template #actions>
+                <el-table-column label="Actions" width="420" label-class-name="text-center" align="center"
+                    fixed="right">
+                    <template #header>
+                        <div class="flex justify-between gap-2">
+                            <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search"
+                                clearable />
+                            <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
+                        </div>
+                    </template>
+                    <template #default="{ row }">
+                        <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain 
+                            class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
+                        <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
+                            class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
+                    </template>
+                </el-table-column>
+            </template>
+        </BaseTable>
+    </div>
+
+    <!-- table footer -->
+    <div
+        class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div class="text-sm text-gray-600">
+            Showing <span class="font-medium">{{ filterDataTable.length }}</span> disciplinary records
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-600">Cards:</span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium">
+                <span class="w-3 h-3 bg-amber-400 rounded-full"></span>
+                {{ yellowCardCount }} Yellow
+            </span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium">
+                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                {{ redCardCount }} Red
+            </span>
+        </div>
+    </div>
 </template>
+
+<style scoped>
+/* Custom transitions */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+/* Custom scrollbar for table */
+::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+</style>

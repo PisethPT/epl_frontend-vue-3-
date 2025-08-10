@@ -1,29 +1,35 @@
 <script setup>
-import { ref, onMounted, computed, watch, defineEmits } from 'vue';
-import { useGoalStore, usePlayerStore, useMatchStore } from '@/stores';
-import BaseTable from '@/components/BaseTable.vue';
+import { ref, reactive, onMounted, computed, defineEmits, watch } from 'vue';
+import { useAssistStore, usePlayerStore, useMatchStore } from '@/stores';
 import BaseDialogForm from '@/components/BaseDialogForm.vue';
-import BaseSelectWithIcon from '@/components/BaseSelectWithIcon.vue';
+import BaseTable from '@/components/BaseTable.vue';
 import BaseMatchSelect from '@/components/BaseMatchSelect.vue';
+import BaseSelectWithIcon from '@/components/BaseSelectWithIcon.vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import
 {
-    Plus,
-    EditPen,
     Delete,
+    EditPen,
     Search,
+    Plus,
 } from '@element-plus/icons-vue';
 
+// ref
 const emit = defineEmits(['update:form', 'update:modelValue', 'submit']);
 
-const goalStore = useGoalStore();
+const assistStore = useAssistStore();
 const playerStore = usePlayerStore();
 const matchStore = useMatchStore();
+const TEAM_LOGOS_DIR = ref('');
+const PLAYER_LOGOS_DIR = ref('');
 
-const goals = ref([]);
-const PLAYER_LOGOS_DIR = ref();
-const TEAM_LOGOS_DIR = ref();
+const assists = ref([]);
 const query = ref('');
-
+const loading = ref(false);
+const modelValue = ref(false);
+const submitLoading = ref(false);
+const width = ref('800px');
+const title = ref('Add New Player Assist');
 const form = reactive({
     id: 0,
     matchId: null,
@@ -31,11 +37,6 @@ const form = reactive({
     playerId: null,
     minutes: 0,
 });
-const modelValue = ref(false);
-const loading = ref(false);
-const submitLoading = ref(false);
-const width = ref('800px');
-const title = ref('Add New Goal');
 const rules = {
     minutes: [
         { required: true, message: 'Enter minute of player giving card', trigger: 'blur' },
@@ -43,13 +44,13 @@ const rules = {
     ],
     matchId: [{ required: true, message: 'Select current match', trigger: 'change' }],
     teamId: [{ required: true, message: 'Select player team', trigger: 'change' }],
-    playerId: [{ required: true, message: 'Select player that giving card', trigger: 'change' }],
+    playerId: [{ required: true, message: 'Select player that giving assist', trigger: 'change' }],
 }
 const columns = [
     { label: 'Player', prop: 'player', slot: 'player', minWidth: 220, align: 'center', sortable: true },
     { label: 'From Team', prop: 'team', slot: 'fromTeam', minWidth: 200, align: 'center', sortable: true },
     { label: 'On Match', prop: 'match', slot: 'match', minWidth: 350, align: 'center', sortable: true },
-    { label: 'Goal', prop: 'goal', slot: 'goal', minWidth: 120, align: 'center', sortable: true },
+    { label: 'Assist', prop: 'assist', slot: 'assist', minWidth: 120, align: 'center', sortable: true },
     { label: 'Minutes', prop: 'minutes', slot: 'minutes', minWidth: 120, align: 'center', sortable: true },
 ]
 
@@ -68,8 +69,10 @@ const playerItemSelect = ref([]);
 const playerPlaceholder = ref('Select Player');
 const matchOptions = ref([]);
 
-watch(() =>
+// watch
+watch((val) =>
 {
+    // console.log('watch: ', { ...form });
     if (!form.playerId)
     {
         if (selectedPlayer.value)
@@ -78,7 +81,7 @@ watch(() =>
 
     }
     emit('update:modelValue', modelValue.value);
-    emit('update:form', { ...form });
+    emit('update:form', { ...form })
 }, { immediate: true });
 
 watch(selectedMatch, (val) =>
@@ -115,21 +118,21 @@ watch(selectedPlayer, (val) =>
     if (val)
     {
         form.playerId = val.id ?? null
-        // console.log('select player: ' + form.playerId);
+        console.log('select player: ' + form.playerId);
     }
 })
 
+// on mount
 onMounted(async () =>
 {
-    loading.value = true
+    loading.value = true;
     try
     {
-        await goalStore.getGoals();
-        goals.value = goalStore.goals;
-        //console.log('goal data: ' + JSON.stringify(goals.value));
-
-        PLAYER_LOGOS_DIR.value = goalStore.PLAYER_LOGOS_DIR;
-        TEAM_LOGOS_DIR.value = goalStore.TEAM_LOGOS_DIR;
+        await assistStore.get();
+        assists.value = assistStore.assists;
+        // console.log(JSON.stringify(assists.value));
+        TEAM_LOGOS_DIR.value = assistStore.TEAM_LOGOS_DIR;
+        PLAYER_LOGOS_DIR.value = assistStore.PLAYER_LOGOS_DIR;
 
         await playerStore.getTeamSelectListItem();
         teamItemSelect.value = playerStore.teamItemSelect;
@@ -155,32 +158,33 @@ onMounted(async () =>
                 })
             })
         }
+
     } catch (error)
     {
         console.log('error: ' + error);
         ElMessage.error('error on mount: ' + error);
-    }
-    finally
+    } finally
     {
         loading.value = false;
     }
+
 });
 
+// computed
 const tableData = computed(() =>
 {
-    return goals.value.filter((goal) =>
+    return assists.value.filter((assist) =>
     {
         return (
-            goal.team.name.toLowerCase().includes(query.value.toLowerCase())
+            assist.player.firstName.toLowerCase().includes(query.value.toLowerCase())
         )
     })
 })
 
-// functions
+// methods
 function handleOpenDialog()
 {
-    title.value = 'Create New Goal';
-    // Reset form fields
+    title.value = 'Create New Player Assist';
     form.id = 0;
     form.matchId = null;
     form.teamId = null;
@@ -205,16 +209,16 @@ function handleOpenDialog()
 
 async function handleSubmit()
 {
+    submitLoading.value = true;
     try
     {
-        submitLoading.value = true;
-        if (form.id != 0)
+        if (form.id > 0)
         {
-            console.log('edit goal: ' + form.id, ', form:' + form);
-            const data = await goalStore.editGoalById({ ...form }, form.id);
+            console.log('form edit: ', JSON.stringify(form));
+            const data = await assistStore.edit({ ...form }, form.id);
             if (data === 200)
             {
-                ElMessage.success('Edit Goal Successfully');
+                ElMessage.success('Edit Card Successfully');
                 modelValue.value = false;
             } else
             {
@@ -222,17 +226,17 @@ async function handleSubmit()
             }
         } else
         {
-            console.log('create goal: ' + form);
-            const data = await goalStore.createGoal({ ...form });
+            const data = await assistStore.create({ ...form });
             if (data === 201)
             {
-                ElMessage.success('Create Goal Successfully');
+                ElMessage.success('Create Card Successfully');
                 modelValue.value = false;
             } else
             {
                 ElMessage.error('Error happened: ' + data);
             }
         }
+
         emit('update:form', { ...form });
         emit('submit', { ...form });
     } catch (error)
@@ -244,11 +248,9 @@ async function handleSubmit()
         submitLoading.value = false;
     }
 }
-
 async function handleEdit(row)
 {
-    console.log('edit on id: ' + row.id);
-    title.value = 'Edit Goal'
+    title.value = 'Edit Player Assist'
     selectedMatch.value = matchOptions.value.find((match) => match.id === row.matchId);
     selectedTeam.value = teamItemSelect.value.find((team) => team.id === row.team.id);
 
@@ -256,14 +258,18 @@ async function handleEdit(row)
     playerItemSelect.value = playerStore.playerItemSelect;
     selectedPlayer.value = playerItemSelect.value.find((player) => player.id === row.player.id);
 
+    const playerId = selectedPlayer.value.id;
     form.id = row.id;
-    form.matchId = row.matchId;
-    form.teamId = row.team.id;
-    form.playerId = selectedPlayer.value ?? row.player.id;
+    form.matchId = selectedMatch.value.id;
+    form.teamId = selectedTeam.value.id;
+    form.playerId = playerId;
     form.minutes = row.minutes;
+    //console.log('edit by player id: ' + JSON.stringify(form));
+    emit('update:form', { ...form });
 
     modelValue.value = true;
     submitLoading.value = false;
+
 }
 
 async function handleDelete(row)
@@ -289,7 +295,9 @@ async function handleDelete(row)
     <div class="relative-container">
       <img src="${playerPhoto}" alt="Player Photo" class="player-photo" />
       <div class="goal text-center flex justify-center items-center bg-white text-black text-sm font-bold">
-        ⚽
+        <div class="foot-badge ${row.player.preferredFoot === 'Right' ? 'bg-amber-100' : 'bg-gray-100'}">
+        <span class="text-xs">👟</span>
+      </div>
       </div>
       <img src="${teamLogo}" alt="Team Logo" class="team-logo" />
     </div>
@@ -315,12 +323,12 @@ async function handleDelete(row)
     </div>
 
     <p class="text-base text-center text-gray-700 font-medium mt-2">
-      Are you sure you want to delete this goal?
+      Are you sure you want to delete this assist?
     </p>
   </div>
 `;
     ElMessageBox.confirm(htmlContent, {
-        title: 'Delete Goal Confirmation',
+        title: 'Delete Player Assist Confirmation',
         confirmButtonText: 'Yes, Delete',
         cancelButtonText: 'Cancel',
         type: 'warning',
@@ -331,27 +339,27 @@ async function handleDelete(row)
         {
             try
             {
-                if (row.matchId)
+                if (row.id)
                 {
-                    const data = await goalStore.deleteGoalById(row.id);
+                    const data = await assistStore.delete(row.id);
                     if (data === 200)
                     {
                         ElMessage.success({
                             type: 'success',
-                            message: 'Goal deleted successfully',
+                            message: 'Assist deleted successfully',
                         });
                     } else
                     {
                         ElMessage.error({
                             type: 'error',
-                            message: 'Failed to delete goal. Please try again.',
+                            message: 'Failed to delete assist. Please try again.',
                         });
                     }
                 } else
                 {
                     ElMessage.error({
                         type: 'error',
-                        message: 'Goal ID not found: ' + row.id,
+                        message: 'Assist ID not found: ' + row.id,
                     });
                 }
             } catch (error)
@@ -383,7 +391,7 @@ const formatDate = (dateString) =>
 
 const formatTime = (timeString) =>
 {
-    const date = new Date(`1970-01-01T${timeString}`) // base date to parse time only
+    const date = new Date(`1970-01-01T${timeString}`)
     return date.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
@@ -394,9 +402,10 @@ const formatTime = (timeString) =>
 
 <template>
     <!-- dialog -->
-    <BaseDialogForm v-model="modelValue" :form="form" :formRef="formRef" :rules="rules" :title="title" :width="width"
-        :loading="submitLoading" @update:form="emit('update:form', $event)"
-        @update:modelValue="emit('update:modelValue', $event)" @submit="handleSubmit">
+    <BaseDialogForm v-model="modelValue" :form="form" :rules="rules" :loading="submitLoading" :title="title"
+        :width="width" @update:modelValue="emit('update:modelValue', $event)" @update:form="emit('update:form', $event)"
+        @submit="handleSubmit">
+
         <template #form>
             <BaseMatchSelect v-model="selectedMatch" :options="matchOptions" prop="matchId" :label="matchSelectLabel"
                 :placeholder="selectMatchPlaceholder" :width="selectWidth" />
@@ -415,127 +424,126 @@ const formatTime = (timeString) =>
     </BaseDialogForm>
 
     <!-- table -->
-    <div class="overflow-x-auto">
-        <BaseTable :table-data="tableData" :columns="columns" :loading="loading" :show-index="true" class="min-w-full">
-            <template #player="{ row }">
-                <div class="flex items-center gap-3">
-                    <el-avatar :size="60" :src="row.player.photo ? PLAYER_LOGOS_DIR + row.player.photo : ''"
-                        class="border-2 border-gray-200 shadow-sm">
-                        {{ row.player.firstName.charAt(0) }}{{ row.player.lastName.charAt(0) }}
-                    </el-avatar>
-                    <div class="flex flex-col">
-                        <span class="font-medium text-gray-800">{{ row.player.firstName }} {{ row.player.lastName
-                            }}</span>
-                        <span class="text-xs text-gray-500">#{{ row.player.playerNumber }}</span>
-                        <span class="text-xs text-blue-600 font-medium">{{ row.player.position }}</span>
-                    </div>
+    <BaseTable :table-data="tableData" :columns="columns" :loading="loading" :show-index="true" class="min-w-full">
+        <template #player="{ row }">
+            <div class="flex items-center gap-3">
+                <el-avatar :size="60" :src="row.player.photo ? PLAYER_LOGOS_DIR + row.player.photo : ''"
+                    class="border-2 border-gray-200 shadow-sm">
+                    {{ row.player.firstName.charAt(0) }}{{ row.player.lastName.charAt(0) }}
+                </el-avatar>
+                <div class="flex flex-col">
+                    <span class="font-medium text-gray-800">{{ row.player.firstName }} {{ row.player.lastName }}</span>
+                    <span class="text-xs text-gray-500">#{{ row.player.playerNumber }}</span>
+                    <span class="text-xs text-blue-600 font-medium">{{ row.player.position }}</span>
                 </div>
-            </template>
+            </div>
+        </template>
 
-            <template #fromTeam="{ row }">
-                <div class="flex flex-col items-center gap-1 min-w-[120px]">
-                    <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center p-1 shadow-inner">
-                        <img :src="row.team.clubCrest ? TEAM_LOGOS_DIR + row.team.clubCrest : ''"
-                            :alt="row.team.clubCrest" class="w-10 h-10 object-contain">
-                    </div>
-                    <span class="text-sm font-medium text-gray-700 text-center">{{ row.team.shortName ||
-                        row.team.name }}</span>
-                    <span class="text-xs text-gray-500">{{ row.team.league }}</span>
+        <template #fromTeam="{ row }">
+            <div class="flex flex-col items-center gap-1 min-w-[120px]">
+                <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center p-1 shadow-inner">
+                    <img :src="row.team.clubCrest ? TEAM_LOGOS_DIR + row.team.clubCrest : ''" :alt="row.team.clubCrest"
+                        class="w-10 h-10 object-contain">
                 </div>
-            </template>
+                <span class="text-sm font-medium text-gray-700 text-center">{{ row.team.shortName ||
+                    row.team.name }}</span>
+                <span class="text-xs text-gray-500">{{ row.team.league }}</span>
+            </div>
+        </template>
 
-            <template #match="{ row }">
-                <div class="bg-gray-50 rounded-lg p-2 border border-gray-200">
-                    <div class="grid grid-cols-3 gap-2 items-center">
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 shadow">
-                                <img :src="row.match.homeTeamClubCrest ? TEAM_LOGOS_DIR + row.match.homeTeamClubCrest : ''"
-                                    class="w-8 h-8 object-contain" />
-                            </div>
-                            <div class="text-xs font-medium text-gray-700 mt-1 text-center line-clamp-2">
-                                {{ row.match.homeTeamShortName || row.match.homeTeamName }}
-                            </div>
+        <template #match="{ row }">
+            <div class="bg-gray-50 rounded-lg p-2 border border-gray-200">
+                <div class="grid grid-cols-3 gap-2 items-center">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 shadow">
+                            <img :src="row.match.homeTeamClubCrest ? TEAM_LOGOS_DIR + row.match.homeTeamClubCrest : ''"
+                                class="w-8 h-8 object-contain" />
                         </div>
-
-                        <div class="flex flex-col items-center">
-                            <span class="text-xs font-bold bg-gray-200 px-2 py-1 rounded-full">VS</span>
-                            <span class="text-xs font-bold text-gray-600 mt-1">
-                                {{ row.match.homeTeamScore }} - {{ row.match.awayTeamScore }}
-                            </span>
-                        </div>
-
-                        <div class="flex flex-col items-center">
-                            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 shadow">
-                                <img :src="row.match.awayTeamClubCrest ? TEAM_LOGOS_DIR + row.match.awayTeamClubCrest : ''"
-                                    class="w-8 h-8 object-contain" />
-                            </div>
-                            <div class="text-xs font-medium text-gray-700 mt-1 text-center line-clamp-2">
-                                {{ row.match.awayTeamShortName || row.match.awayTeamName }}
-                            </div>
+                        <div class="text-xs font-medium text-gray-700 mt-1 text-center line-clamp-2">
+                            {{ row.match.homeTeamShortName || row.match.homeTeamName }}
                         </div>
                     </div>
 
-                    <div class="text-center text-xs mt-2 bg-gray-100 rounded py-1 font-medium text-gray-600">
-                        {{ formatDate(row.match.matchDate) }} • {{ formatTime(row.match.matchTime) }}
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs font-bold bg-gray-200 px-2 py-1 rounded-full">VS</span>
+                        <span class="text-xs font-bold text-gray-600 mt-1">
+                            {{ row.match.homeTeamScore }} - {{ row.match.awayTeamScore }}
+                        </span>
                     </div>
-                </div>
-            </template>
 
-            <template #goal="{ row }">
-                <div class="flex justify-center">
-                    <div class="bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center shadow-inner">
-                        <span class="text-xl">⚽</span>
-                    </div>
-                </div>
-            </template>
-
-            <template #minutes="{ row }">
-                <div class="flex justify-center">
-                    <span
-                        class="inline-flex items-center justify-center bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full shadow-sm w-16">
-                        {{ row.minutes }}'
-                    </span>
-                </div>
-            </template>
-
-            <template #actions>
-                <el-table-column label="Actions" width="420" label-class-name="text-center" align="center"
-                    fixed="right">
-                    <template #header>
-                        <div class="flex justify-between gap-2">
-                            <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search"
-                                clearable />
-                            <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 shadow">
+                            <img :src="row.match.awayTeamClubCrest ? TEAM_LOGOS_DIR + row.match.awayTeamClubCrest : ''"
+                                class="w-8 h-8 object-contain" />
                         </div>
-                    </template>
-                    <template #default="{ row }">
-                        <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain
-                            class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
-                        <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
-                            class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
-                    </template>
-                </el-table-column>
-            </template>
-        </BaseTable>
-    </div>
+                        <div class="text-xs font-medium text-gray-700 mt-1 text-center line-clamp-2">
+                            {{ row.match.awayTeamShortName || row.match.awayTeamName }}
+                        </div>
+                    </div>
+                </div>
 
-    <!-- table footer -->
+                <div class="text-center text-xs mt-2 bg-gray-100 rounded py-1 font-medium text-gray-600">
+                    {{ formatDate(row.match.matchDate) }} • {{ formatTime(row.match.matchTime) }}
+                </div>
+            </div>
+        </template>
+
+        <template #assist="{ row }">
+            <div class="flex justify-center">
+                <div v-if="row.player.preferredFoot == 'Right'"
+                    class="bg-yellow-100 w-10 h-10 rounded-full flex items-center justify-center shadow-inner">
+                    <span class="text-xl">👟</span>
+                </div>
+                <div v-else class="bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center shadow-inner">
+                    <span class="text-xl">👟</span>
+                </div>
+            </div>
+        </template>
+
+        <template #minutes="{ row }">
+            <div class="flex justify-center">
+                <span
+                    class="inline-flex items-center justify-center bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full shadow-sm w-16">
+                    {{ row.minutes }}'
+                </span>
+            </div>
+        </template>
+
+        <template #actions>
+            <el-table-column label="Actions" width="420" label-class-name="text-center" align="center" fixed="right">
+                <template #header>
+                    <div class="flex justify-between gap-2">
+                        <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search"
+                            clearable />
+                        <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
+                    </div>
+                </template>
+                <template #default="{ row }">
+                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain 
+                        class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
+                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain 
+                        class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
+                </template>
+            </el-table-column>
+        </template>
+    </BaseTable>
+
+    <!-- table footer-->
     <div
         class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between gap-3">
         <div class="text-sm text-gray-600">
             Showing <span class="font-medium">{{ tableData.length }}</span> disciplinary records
         </div>
         <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-600">Goals:</span>
+            <span class="text-sm text-gray-600">Preferred Foots:</span>
             <span class="inline-flex items-center gap-1 text-sm font-medium">
-                <span class="w-3 h-3 bg-blue-400 rounded-full"></span>
-                {{ yellowCardCount }} Goal
+                <span class="w-3 h-3 bg-yellow-100 rounded-full"></span>
+                {{ yellowCardCount }} Right
             </span>
             <span class="inline-flex items-center gap-1 text-sm font-medium">
-                <span class="w-3 h-3 bg-gray-500 rounded-full"></span>
-                {{ redCardCount }} Own Goal
+                <span class="w-3 h-3 bg-blue-100 rounded-full"></span>
+                {{ redCardCount }} Left
             </span>
         </div>
     </div>
-
 </template>

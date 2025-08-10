@@ -107,7 +107,7 @@ onMounted(async () =>
 })
 
 // computed
-const filterData = computed(() =>
+const tableData = computed(() =>
 {
     return news.value.filter((n) =>
     {
@@ -342,11 +342,6 @@ async function formatVideoLink(link)
 </script>
 
 <template>
-    <!-- button create -->
-    <div class="flex justify-end mb-2">
-        <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
-    </div>
-
     <!-- dialog -->
     <BaseDialogForm v-model="modelValue" :form="form" :rules="rules" :loading="submitLoading" :width="width"
         :disabled="!fileList.length" :title="title" @update:modelValue="emit('update:modelValue', $event)"
@@ -408,7 +403,7 @@ async function formatVideoLink(link)
     </BaseDialogForm>
 
     <!-- table -->
-    <BaseTable :table-data="filterData" :columns="columns" :loading="loading" :show-index="true">
+    <BaseTable :table-data="tableData" :columns="columns" :loading="loading" :show-index="true">
         <template #publishedDate="{ row }">
             <span>{{ formatDate(row.publishedDate) }}</span>
         </template>
@@ -444,18 +439,44 @@ async function formatVideoLink(link)
             <span>{{ row.user && row.user.firstName ? row.user.firstName : '' }} {{ row.user && row.user.lastName ?
                 row.user.lastName : '' }}</span>
         </template>
+        
         <template #actions>
-            <el-table-column label="Actions" width="320" label-class-name="text-center" align="center" fixed="right">
+            <el-table-column label="Actions" width="420" label-class-name="text-center" align="center" fixed="right">
                 <template #header>
-                    <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search" clearable />
+                    <div class="flex justify-between gap-2">
+                        <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search"
+                            clearable />
+                        <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
+                    </div>
                 </template>
                 <template #default="{ row }">
-                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain>Edit</el-button>
-                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain>Delete</el-button>
+                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain
+                        class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
+                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
+                        class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
                 </template>
             </el-table-column>
         </template>
     </BaseTable>
+
+    <!-- table footer-->
+    <div
+        class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div class="text-sm text-gray-600">
+            Showing <span class="font-medium">{{ tableData.length }}</span> disciplinary records
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-600">Preferred Foots:</span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium">
+                <span class="w-3 h-3 bg-yellow-100 rounded-full"></span>
+                {{ yellowCardCount }} Right
+            </span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium">
+                <span class="w-3 h-3 bg-blue-100 rounded-full"></span>
+                {{ redCardCount }} Left
+            </span>
+        </div>
+    </div>
 
     <!-- image preview -->
     <el-dialog v-model="previewVisible" width="500px">

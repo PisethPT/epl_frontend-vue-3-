@@ -52,6 +52,7 @@ const isCollapse = ref(true);
 const dialogTitle = ref('Add New Team');
 const isTeamOpenDialog = ref(false);
 const contentTitle = ref('Dashboard');
+const subTitle = ref("");
 const isCreate = ref(false);
 
 
@@ -158,68 +159,85 @@ const checkoutSelectedMenu = (key) =>
         case 'admin-dashboard':
             {
                 contentTitle.value = 'Dashboard';
+                subTitle.value = '';
                 isCreate.value = false;
                 break;
             }
         case 'admin-news-index':
             {
                 contentTitle.value = 'News';
+                subTitle.value = '';
                 isCreate.value = false;
                 break;
             }
         case 'admin-teams-index':
             {
                 contentTitle.value = 'Teams';
+                subTitle.value = '';
                 isCreate.value = true;
                 break;
             }
         case 'admin-players-index':
             {
                 contentTitle.value = 'Players';
+                subTitle.value = '';
                 isCreate.value = true;
                 break;
             }
         case 'admin-matches-index':
             {
                 contentTitle.value = 'Matches';
+                subTitle.value = '';
                 isCreate.value = false;
                 break;
             }
         case 'admin-seasons-index':
             {
                 contentTitle.value = 'Seasons';
+                subTitle.value = '';
                 isCreate.value = false;
                 break;
             }
         case 'admin-top-scorer-index':
             {
                 contentTitle.value = 'Top Scorer';
+                subTitle.value = '';
                 isCreate.value = true;
                 break;
             }
         case 'admin-cards-index':
             {
-                contentTitle.value = 'Cards';
+                contentTitle.value = 'Player Cards';
+                subTitle.value = 'Disciplinary records for matches';
                 isCreate.value = false;
                 break;
             }
         case 'admin-goals-index':
             {
                 contentTitle.value = 'Goals';
+                subTitle.value = 'Disciplinary records for matches';
                 isCreate.value = false;
                 break;
             }
         case 'admin-assists-index':
             {
                 contentTitle.value = 'Assists';
+                subTitle.value = 'Disciplinary records for matches';
                 isCreate.value = true;
                 break;
             }
-
+        case 'admin-user-manage':
+            {
+                contentTitle.value = 'User Manage';
+                subTitle.value = '';
+                isCreate.value = false;
+                break;
+            }
         default:
             {
-                contentTitle.value = 'Dashboard',
-                    isCreate = false;
+                contentTitle.value = 'Dashboard';
+                subTitle.value = '';
+                isCreate.value = false;
                 break;
             }
     }
@@ -354,7 +372,7 @@ const checkoutSelectedMenu = (key) =>
                         <template #title>Seasons</template>
                     </el-menu-item>
 
-                    <el-menu-item index="user-mange">
+                    <el-menu-item index="admin-user-manage">
                         <el-icon>
                             <SetUp />
                         </el-icon>
@@ -415,18 +433,20 @@ const checkoutSelectedMenu = (key) =>
             </el-header>
 
             <el-main class="transition-all ease-in-out duration-200">
-                <el-card>
-                    <template #header>
-                        <div class="card-header flex justify-between">
-                            <span>{{ contentTitle }}</span>
-                            <el-button v-if="isCreate" @click="openDialogs" type="info" :icon="Plus" plain>Add
-                                New</el-button>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                    <!-- Table Header -->
+                    <div
+                        class="p-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800">{{ contentTitle }}</h2>
+                            <p class="text-sm text-gray-600">{{ subTitle }}</p>
                         </div>
-                    </template>
+                    </div>
                     <Empty v-if="route.name === 'admin-not-found'" />
                     <RouterView v-else />
-                </el-card>
+                </div>
             </el-main>
+
         </el-container>
     </el-container>
 </template>

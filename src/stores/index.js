@@ -5,3 +5,4 @@ export * from "./seasonStore";
 export * from "./newsStore";
 export * from "./cardStore";
 export * from "./goalStore";
+export * from './assistStore';

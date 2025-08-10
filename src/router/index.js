@@ -15,6 +15,7 @@ import AdminSeasonView from "@/views/admins/AdminSeasonView.vue";
 import AdminNewsView from "@/views/admins/AdminNewsView.vue";
 import AdminCardView from "@/views/admins/AdminCardView.vue";
 import AdminGoalView from "@/views/admins/AdminGoalView.vue";
+import AdminAssistView from "@/views/admins/AdminAssistView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,11 +30,11 @@ const router = createRouter({
       name: "admin",
       component: AdminLayoutView,
       children: [
-        {
-          path: "/admin/dashboard",
-          name: "admin-dashboard",
-          component: AdminDashboard,
-        },
+        // {
+        //   path: "/admin/dashboard",
+        //   name: "admin-dashboard",
+        //   component: AdminDashboard,
+        // },
         {
           path: "/admin/news/index",
           name: "admin-news-index",
@@ -68,6 +69,11 @@ const router = createRouter({
           path: "/admin/goals/index",
           name: "admin-goals-index",
           component: AdminGoalView,
+        },
+        {
+          path: "/admin/assists/index",
+          name: "admin-assists-index",
+          component: AdminAssistView,
         },
         {
           path: ":pathMatch(.*)*",

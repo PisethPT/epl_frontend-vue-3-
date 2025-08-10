@@ -35,7 +35,6 @@ const dialogImageUrl = ref('')
 const previewVisible = ref(false)
 const nationalities = ref([]);
 
-
 const localForm = ref({
     id: 0,
     firstName: '',
@@ -63,11 +62,7 @@ const formRules = {
 onMounted(async () =>
 {
     await playerStore.getTeamSelectListItem()
-    teams.value = playerStore.teamItemSelect.map(team => ({
-        id: team.id,
-        name: team.name,
-        logo: playerStore.TEAM_LOGOS_DIR + team.clubCrest
-    }));
+    teams.value = playerStore.teamItemSelect;
 
     nationalities.value = nationalityData.nationalities.map(nat => ({
         id: nat.name,
@@ -75,7 +70,6 @@ onMounted(async () =>
         logo: nat.icon
     }));
 })
-
 
 watch(() => props.form, (val) =>
 {
@@ -152,6 +146,8 @@ function onSubmit()
 
         localForm.value.teamId = selectedTeam.value ? selectedTeam.value.id : null
         localForm.value.nationality = selectedNationality.value ? selectedNationality.value.name : null
+        console.log(localForm.value.nationality, ', ', selectedNationality.value.name);
+
         if (!localForm.value.nationality)
         {
             ElMessage.error('Please select a nationality')
@@ -233,7 +229,7 @@ function onSubmit()
                 </el-form-item>
 
                 <el-form-item label="Player Number" prop="playerNumber">
-                    <el-input v-model.number="localForm.playerNumber" type="number" min="1" />
+                    <el-input-number v-model.number="localForm.playerNumber" type="number" min="1" />
                 </el-form-item>
             </div>
 

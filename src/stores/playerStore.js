@@ -104,10 +104,10 @@ export const usePlayerStore = defineStore("PlayerStore", {
     },
     async createPlayer(form, fileList) {
       try {
-        const formData = new FormData();
+        const formData = new FormData();  
         formData.append("firstName", form.firstName);
         formData.append("lastName", form.lastName);
-        formData.append("national", form.nationality);
+        formData.append("nationality", form.nationality);
         formData.append("preferredFoot", form.preferredFoot);
         formData.append("socialMedia", form.socialMedia);
         formData.append("position", form.position);
@@ -119,7 +119,7 @@ export const usePlayerStore = defineStore("PlayerStore", {
           formData.append("photo", file.raw);
         });
 
-        console.log("form data: " + formData);
+        // console.log("form data: " + formData);
 
         const token = localStorage.getItem("token");
         const response = await axios.post(
@@ -144,6 +144,9 @@ export const usePlayerStore = defineStore("PlayerStore", {
         const formData = new FormData();
         formData.append("firstName", form.firstName);
         formData.append("lastName", form.lastName);
+        formData.append("nationality", form.nationality);
+        formData.append("preferredFoot", form.preferredFoot);
+        formData.append("socialMedia", form.socialMedia);
         formData.append("position", form.position);
         formData.append("playerNumber", form.playerNumber);
         formData.append("teamId", form.teamId);

@@ -63,8 +63,8 @@ const handleSelect = (index) =>
             <el-menu-item index="guest-epl-home" class="flex justify-evenly align-middle items-center gap-2 mr-2 p-2">
                 <img style="width: 20px;" src="/src/assets/pl-main-logo.png" alt="epl-logo" />
                 <div class="flex flex-col gap-0" style="line-height: 11px!important;">
-                    <span class="text-white p-0">Premier</span>
-                    <span class="text-white p-0">League</span>
+                    <span class="text-white font-bold p-0">Premier</span>
+                    <span class="text-white font-bold p-0">League</span>
                 </div>
             </el-menu-item>
             <el-menu-item index="guest-teams-index"
@@ -72,7 +72,7 @@ const handleSelect = (index) =>
                 <el-icon>
                     <Football class="text-white" />
                 </el-icon>
-                <span class="text-white">Teams</span>
+                <span class="text-white">Clubs</span>
             </el-menu-item>
 
             <el-menu-item index="guest-players-index">

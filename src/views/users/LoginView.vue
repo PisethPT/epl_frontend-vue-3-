@@ -41,7 +41,7 @@ function onLogin()
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#56015e] to-[#1e0021]">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#28002b] to-[#330d36]">
         <div class="bg-white/90 rounded-md shadow-2xl p-8 w-full max-w-md">
             <div class="text-center mb-6">
                 <img src="/src/assets/pl-main-logo.png" alt="EPL Logo" class="mx-auto h-16 mb-4" />

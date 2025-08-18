@@ -466,14 +466,14 @@ async function formatVideoLink(link)
             Showing <span class="font-medium">{{ tableData.length }}</span> disciplinary records
         </div>
         <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-600">Preferred Foots:</span>
+            <span class="text-sm text-gray-600">News:</span>
             <span class="inline-flex items-center gap-1 text-sm font-medium">
-                <span class="w-3 h-3 bg-yellow-100 rounded-full"></span>
-                {{ yellowCardCount }} Right
+                <span class="w-3 h-3 bg-green-600 rounded-full"></span>
+                {{ yellowCardCount }} Active
             </span>
             <span class="inline-flex items-center gap-1 text-sm font-medium">
-                <span class="w-3 h-3 bg-blue-100 rounded-full"></span>
-                {{ redCardCount }} Left
+                <span class="w-3 h-3 bg-gray-600 rounded-full"></span>
+                {{ redCardCount }} Inactive
             </span>
         </div>
     </div>

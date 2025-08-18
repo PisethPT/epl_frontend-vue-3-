@@ -4,6 +4,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
+const registerUrl = ref('/register');
 
 // Create Element Plus Form Model
 const loginForm = ref({
@@ -40,12 +41,12 @@ function onLogin()
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 to-black">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#56015e] to-[#1e0021]">
         <div class="bg-white/90 rounded-md shadow-2xl p-8 w-full max-w-md">
             <div class="text-center mb-6">
                 <img src="/src/assets/pl-main-logo.png" alt="EPL Logo" class="mx-auto h-16 mb-4" />
                 <h1
-                    class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-950 bg-clip-text text-transparent">
+                    class="text-3xl font-bold bg-gradient-to-r from-[#37003c] to-[#1e0021] bg-clip-text text-transparent">
                     English Premier League Login
                 </h1>
 
@@ -69,6 +70,10 @@ function onLogin()
                     </el-button>
                 </el-form-item>
             </el-form>
+            <div class="flex justify-center">
+                <span class="text-center self-center">Do you have account ? click <el-link :href="registerUrl"
+                        type="primary" :underline="false"> Register</el-link></span>
+            </div>
         </div>
     </div>
 </template>

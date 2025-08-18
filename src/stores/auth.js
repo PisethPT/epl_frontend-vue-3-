@@ -51,7 +51,7 @@ export const useAuthStore = defineStore("auth", () => {
         const decoded = parseJwt(token);
         const role = getRole(decoded);
 
-        //console.log("✅ Login success, user:", decoded);
+        //console.log("Login success, user:", decoded);
 
         ElMessage.success("Login successful!");
         isLogin.value = true;
@@ -63,6 +63,42 @@ export const useAuthStore = defineStore("auth", () => {
     } catch (error) {
       console.error("Login failed", error);
       ElMessage.error(error.response?.data?.message || "Login failed!");
+    }
+  }
+
+  async function register(form) {
+    try {
+      const formData = new FormData();
+      formData.append("firstName", form.firstName);
+      formData.append("lastName", form.lastName);
+      formData.append("email", form.email);
+      formData.append("password", form.password);
+      formData.append("gender", form.gender);
+
+      const response = await axios.post(
+        apiConfig.ENDPOINTS.USER_ENDPOINTS.REGISTER_ENDPOINT,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        ElMessage.success("Register successful!");
+        router.push({ name: "login" });
+      } else {
+        console.error("Login failed", error);
+        ElMessage.error(error.response?.data?.message || "Login failed!");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Backend error:", error.response.data);
+      } else {
+        console.error("Request error:", error.message);
+      }
+      return error;
     }
   }
 
@@ -98,6 +134,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   return {
     login,
+    register,
     checkAuth,
     userName,
     isLogin,

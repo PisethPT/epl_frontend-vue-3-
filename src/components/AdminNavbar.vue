@@ -166,35 +166,35 @@ const checkoutSelectedMenu = (key) =>
         case 'admin-news-index':
             {
                 contentTitle.value = 'News';
-                subTitle.value = '';
+                subTitle.value = 'Daily news feed for this session';
                 isCreate.value = false;
                 break;
             }
         case 'admin-teams-index':
             {
                 contentTitle.value = 'Teams';
-                subTitle.value = '';
+                subTitle.value = 'All team football on session 2025/2026';
                 isCreate.value = true;
                 break;
             }
         case 'admin-players-index':
             {
                 contentTitle.value = 'Players';
-                subTitle.value = '';
+                subTitle.value = 'All team\'s players';
                 isCreate.value = true;
                 break;
             }
         case 'admin-matches-index':
             {
                 contentTitle.value = 'Matches';
-                subTitle.value = '';
+                subTitle.value = 'Daily matches on session 2024/2026';
                 isCreate.value = false;
                 break;
             }
         case 'admin-seasons-index':
             {
                 contentTitle.value = 'Seasons';
-                subTitle.value = '';
+                subTitle.value = 'English Premier League 2025/2026';
                 isCreate.value = false;
                 break;
             }
@@ -282,7 +282,9 @@ const checkoutSelectedMenu = (key) =>
                         <el-icon>
                             <Odometer />
                         </el-icon>
-                        <template #title>Dashboard</template>
+                        <template #title>
+                            <span class="text-white">Dashboard</span>
+                        </template>
                     </el-menu-item>
 
                     <el-menu-item index="admin-news-index">
@@ -451,12 +453,23 @@ const checkoutSelectedMenu = (key) =>
     </el-container>
 </template>
 
-<style scoped>
+<style>
+html,
+body {
+    background: white !important;
+}
+
 .toolbar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     right: 20px;
+}
+
+:deep(.el-menu-item:hover) {
+    background-color: transparent !important;
+    color: inherit !important;
+    /* keep same text color */
 }
 </style>

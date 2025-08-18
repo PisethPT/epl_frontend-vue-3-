@@ -6,7 +6,10 @@ export const useFunctionsStore = defineStore("functions", () => {
   const uploading = false;
   const dialogImageUrl = "";
   const dialogVisible = false;
+
   function logout() {
+    console.log('logout');
+    
     localStorage.removeItem("token");
     router.push({ name: "login" });
   }

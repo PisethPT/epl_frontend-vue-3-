@@ -13,6 +13,7 @@ export const useMatchStore = defineStore("match", {
           label: "",
         },
       ],
+      matchTables: [],
       seasonSelectListItem: [],
       matchDetails: null,
       TEAM_LOGOS_DIR: apiConfig.TEAM_LOGOS_DIR,
@@ -205,6 +206,46 @@ export const useMatchStore = defineStore("match", {
         return response.status;
       } catch (error) {
         console.log("Error delete match: " + error);
+        return error;
+      }
+    },
+    async getMatchTables() {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          this.apiConfig.ENDPOINTS.MATCH_ENDPOINTS.GET_MATCHES_TABLES_ENDPOINT,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.status === 200) {
+          let pos = 1;
+          this.matchTables = [];
+          this.matchTables = await response.data.content.map((element) => ({
+            pos: pos++,
+            teamName: element.teamName,
+            teamImage: element.teamImage,
+            pl: element.pl,
+            w: element.w,
+            d: element.d,
+            l: element.l,
+            gf: element.gf,
+            ga: element.ga,
+            gd: element.gd,
+            pts: element.pts,
+            nextMatch: element.nextMatch,
+            nextTeam: element.nextTeam,
+          }));
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Backend error:", error.response.data);
+        } else {
+          console.error("Request error:", error.message);
+        }
         return error;
       }
     },

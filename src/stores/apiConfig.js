@@ -26,6 +26,7 @@ export const useApiConfig = defineStore("apiConfig", () => {
   };
   const MATCH_ENDPOINTS = {
     GET_MATCHES_ENDPOINT: BASE_URL + "/matches",
+    GET_MATCHES_TABLES_ENDPOINT: BASE_URL + "/matches/tables",
     GET_MATCH_BY_ID_ENDPOINT: BASE_URL + "/matches/",
     POST_MATCH_ENDPOINT: BASE_URL + "/matches/create",
     PUT_MATCH_ENDPOINT: BASE_URL + "/matches/edit/",
@@ -34,6 +35,7 @@ export const useApiConfig = defineStore("apiConfig", () => {
   const NEWS_ENDPOINTS = {
     GET_NEWS_ENDPOINT: BASE_URL + "/news",
     GET_NEWS_BY_ID_ENDPOINT: BASE_URL + "/news/",
+    GET_NEWS_DAILY_ENDPOINT: BASE_URL + "/news/daily",
     POST_NEWS_ENDPOINT: BASE_URL + "/news/create",
     PUT_NEWS_ENDPOINT: BASE_URL + "/news/edit/",
     DELETE_NEWS_ENDPOINT: BASE_URL + "/news/delete/",

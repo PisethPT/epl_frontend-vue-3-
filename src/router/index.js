@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/views/users/LoginView.vue";
+import RegisterView from "@/views/users/RegisterView.vue";
 import Empty from "@/components/Empty.vue";
 import GuestLayoutView from "@/views/layouts/GuestLayoutView.vue";
 import AdminLayoutView from "@/views/layouts/AdminLayoutView.vue";
+import HomeView from "@/views/HomeView.vue";
 import GuestTeamsIndex from "@/views/TeamsView.vue";
 import GuestPlayerIndex from "@/views/PlayersView.vue";
 import GuestMatchesIndex from "@/views/MatchesView.vue";
@@ -26,15 +28,20 @@ const router = createRouter({
       component: LoginView,
     },
     {
+      path: "/register",
+      name: "register",
+      component: RegisterView,
+    },
+    {
       path: "/admin",
       name: "admin",
       component: AdminLayoutView,
       children: [
-        // {
-        //   path: "/admin/dashboard",
-        //   name: "admin-dashboard",
-        //   component: AdminDashboard,
-        // },
+        {
+          path: "/admin/dashboard",
+          name: "admin-dashboard",
+          component: AdminDashboard,
+        },
         {
           path: "/admin/news/index",
           name: "admin-news-index",
@@ -87,6 +94,11 @@ const router = createRouter({
       name: "index",
       component: GuestLayoutView,
       children: [
+        {
+          path: "/guest/elp/home",
+          name: "guest-epl-home",
+          component: HomeView,
+        },
         {
           path: "/guest/teams/index",
           name: "guest-teams-index",

@@ -32,6 +32,7 @@ const teamItemSelect = ref([]);
 const seasonItemSelect = ref([]);
 const homeTeamPlaceholder = ref('Select Home Team');
 const awayTeamPlaceholder = ref('Select Away Team');
+
 const form = reactive({
   id: 0,
   seasonId: null,
@@ -74,6 +75,10 @@ const columns = [
   { label: 'Finish', prop: 'isGameFinish', width: 150, slot: 'isGameFinish', align: 'center', sortable: true },
   { label: 'Status', prop: 'kickoffStatus', width: 150, align: 'center', slot: 'kickoffStatus', sortable: true },
 ]
+
+const liveCount = ref(0);
+const upComingCount = ref(2);
+const finishedCount = ref(8)
 
 const emit = defineEmits(['update:modelValue', 'update:form', 'submit']);
 
@@ -145,7 +150,7 @@ onMounted(async () =>
   }
 });
 
-const filterDataTable = computed(() =>
+const tableData = computed(() =>
 {
   return teams.value.filter((item) =>
   {
@@ -341,9 +346,6 @@ const formatTime = (timeString) =>
 </script>
 
 <template>
-  <div class="flex justify-end mb-2">
-    <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
-  </div>
   <BaseDialogForm v-model="modelValue" :form="form" :rules="rules" :title="title" :width="width"
     :loading="submitLoading" @update:modelValue="emit('update:modelValue', $event)"
     @update:form="emit('update:form', $event)" @submit="onSubmit">
@@ -404,7 +406,7 @@ const formatTime = (timeString) =>
     </template>
   </BaseDialogForm>
 
-  <BaseTable :columns="columns" :table-data="filterDataTable" :loading="loading" :show-index="true">
+  <BaseTable :table-data="tableData" :columns="columns" :loading="loading" :show-index="true">
     <!-- Custom render for logo -->
     <template #homeTeamClubCrest="{ row }">
       <img :src="row.homeTeamClubCrest ? TEAM_LOGOS_DIR + row.homeTeamClubCrest : ''" alt="logo" width="40"
@@ -458,19 +460,44 @@ const formatTime = (timeString) =>
       </div>
     </template>
 
-    <!-- Custom render for actions -->
     <template #actions>
-      <el-table-column label="Actions" width="320" label-class-name="text-center" align="center" fixed="right">
+      <el-table-column label="Actions" width="420" label-class-name="text-center" align="center" fixed="right">
         <template #header>
-          <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search" clearable />
+          <div class="flex justify-between gap-2">
+            <el-input v-model="query" size="normal" placeholder="Search ..." :prefix-icon="Search" clearable />
+            <el-button type="info" @click="handleOpenDialog" :icon="Plus" plain>Add New</el-button>
+          </div>
         </template>
         <template #default="{ row }">
-          <div v-if="!row.isGameFinish">
-            <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain>Edit</el-button>
-            <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain>Delete</el-button>
-          </div>
+          <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain
+            class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
+          <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
+            class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
         </template>
       </el-table-column>
     </template>
   </BaseTable>
+
+  <!-- table footer-->
+  <div
+    class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between gap-3">
+    <div class="text-sm text-gray-600">
+      Showing <span class="font-medium">{{ tableData.length }}</span> disciplinary records
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-600">Matches status:</span>
+      <span class="inline-flex items-center gap-1 text-sm font-medium">
+        <span class="w-3 h-3 bg-red-600 rounded-full"></span>
+        {{ liveCount }} Live
+      </span>
+      <span class="inline-flex items-center gap-1 text-sm font-medium">
+        <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
+        {{ upComingCount }} Upcoming
+      </span>
+      <span class="inline-flex items-center gap-1 text-sm font-medium">
+        <span class="w-3 h-3 bg-gray-600 rounded-full"></span>
+        {{ finishedCount }} Finished
+      </span>
+    </div>
+  </div>
 </template>

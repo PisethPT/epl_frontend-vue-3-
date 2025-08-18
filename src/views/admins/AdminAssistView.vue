@@ -22,6 +22,8 @@ const playerStore = usePlayerStore();
 const matchStore = useMatchStore();
 const TEAM_LOGOS_DIR = ref('');
 const PLAYER_LOGOS_DIR = ref('');
+const rightFootCount = ref(2);
+const lefFootCount = ref(3);
 
 const assists = ref([]);
 const query = ref('');
@@ -519,9 +521,9 @@ const formatTime = (timeString) =>
                     </div>
                 </template>
                 <template #default="{ row }">
-                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain 
+                    <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain
                         class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
-                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain 
+                    <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
                         class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
                 </template>
             </el-table-column>
@@ -538,11 +540,11 @@ const formatTime = (timeString) =>
             <span class="text-sm text-gray-600">Preferred Foots:</span>
             <span class="inline-flex items-center gap-1 text-sm font-medium">
                 <span class="w-3 h-3 bg-yellow-100 rounded-full"></span>
-                {{ yellowCardCount }} Right
+                {{ rightFootCount }} Right
             </span>
             <span class="inline-flex items-center gap-1 text-sm font-medium">
                 <span class="w-3 h-3 bg-blue-100 rounded-full"></span>
-                {{ redCardCount }} Left
+                {{ lefFootCount }} Left
             </span>
         </div>
     </div>

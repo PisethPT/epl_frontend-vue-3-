@@ -59,7 +59,12 @@ import
 
 </template>
 
-<style>
+<style scoped>
+html,
+body {
+  background: #1e0021 !important;
+}
+
 @media (min-width: 1024px) {
   .about {
     min-height: 100vh;

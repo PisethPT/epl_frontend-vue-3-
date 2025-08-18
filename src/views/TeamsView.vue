@@ -33,3 +33,11 @@ const teams = computed(() => teamStore.searchTeams(query.value));
         </div>
     </div>
 </template>
+
+
+<style scoped>
+html,
+body {
+    background: #1e0021 !important;
+}
+</style>

@@ -41,6 +41,9 @@ const columns = [
     { label: 'End Date', prop: 'endDate', slot: 'endDate', minWidth: 150, sortable: true },
 ]
 
+const newSessionCount = ref(1);
+const oldSessionCount = ref(1);
+
 // watch
 
 watch(() =>
@@ -66,7 +69,7 @@ onMounted(async () =>
         loading.value = false;
     }
 });
-const dataTable = computed(() =>
+const tableData = computed(() =>
 {
     return seasons.value.filter((season) =>
     {
@@ -209,7 +212,7 @@ function handleDelete(row)
         </template>
     </BaseDialogForm>
 
-    <BaseTable :table-data="dataTable" :columns="columns" :loading="loading" :show-index="true">
+    <BaseTable :table-data="tableData" :columns="columns" :loading="loading" :show-index="true">
         <template #startDate="{ row }">
             <span>{{ row.startDate }}</span>
         </template>
@@ -235,4 +238,23 @@ function handleDelete(row)
             </el-table-column>
         </template>
     </BaseTable>
+
+    <!-- table footer-->
+    <div
+        class="px-4 py-3 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div class="text-sm text-gray-600">
+            Showing <span class="font-medium">{{ tableData.length }}</span> disciplinary records
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-600">Sessions:</span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium">
+                <span class="w-3 h-3 bg-green-600 rounded-full"></span>
+                {{ newSessionCount }} New
+            </span>
+            <span class="inline-flex items-center gap-1 text-sm font-medium">
+                <span class="w-3 h-3 bg-black rounded-full"></span>
+                {{ oldSessionCount }} Old
+            </span>
+        </div>
+    </div>
 </template>

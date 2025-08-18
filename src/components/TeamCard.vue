@@ -1,7 +1,11 @@
 <script setup>
 import { defineProps } from 'vue';
 import { useApiConfig } from '@/stores/apiConfig';
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus';
+import 
+{
+    Plus,
+} from '@element-plus/icons-vue'
 
 const props = defineProps({
     team: {
@@ -14,7 +18,8 @@ const props = defineProps({
             city: '',
             founded: 0,
             homeStadium: '',
-            headCoach: ''
+            headCoach: '',
+            websiteUrl: '',
         })
     }
 });
@@ -63,6 +68,14 @@ function showTeamDetails(team)
 <template>
     <el-card class="w-80 m-2 hover:shadow-pink-900 hover:cursor-pointer hover:shadow-2xl"
         @click="showTeamDetails(team)">
+        <div v-if="team.websiteUrl" class="bg-gray-100 text-gray-900 rounded-md absolute py-1 px-2 hover:bg-gray-200">
+            <a :href="team.websiteUrl" target="_blank" class="text-xs text-center">
+                <el-icon>
+                    <Plus />
+                </el-icon>
+                Follow
+            </a>
+        </div>
         <img :src="TEAM_LOGOS_DIR + team.clubCrest" alt="Club Crest" class="w-24 h-24 object-contain mx-auto my-4" />
         <h3 class="text-lg font-bold text-center">{{ team.name }}</h3>
         <p class="text-sm text-center text-gray-600">City: {{ team.city }}</p>

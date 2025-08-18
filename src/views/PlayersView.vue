@@ -36,3 +36,11 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 
     </div>
 </template>
+
+
+<style scoped>
+html,
+body {
+    background: #1e0021 !important;
+}
+</style>

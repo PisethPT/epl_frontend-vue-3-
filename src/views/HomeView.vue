@@ -103,11 +103,11 @@ onMounted(async () =>
           <!-- Matches List -->
           <div class="divide-y divide-gray-200">
             <div v-for="match in matches" :key="match.id"
-              class="flex items-center justify-between py-3 px-2 hover:!bg-gradient-to-br from-[#28002b] to-[#330d36] hover:rounded-2xl transition">
+              class="flex items-center justify-between py-3 px-2 transition">
               <!-- Home Team -->
               <div class="flex items-center gap-2 w-1/3">
-                <img :src="match.home.logo" alt="" class="h-12 w-12 object-contain" />
-                <span class="truncate font-medium text-white">{{ match.home.name }}</span>
+                <img :src="match.home.logo" alt="" class="h-8 w-8 object-contain" />
+                <span class="truncate font-  text-white">{{ match.home.name }}</span>
               </div>
 
               <!-- Score / Time -->
@@ -125,7 +125,7 @@ onMounted(async () =>
               <!-- Away Team -->
               <div class="flex items-center gap-2 justify-end w-1/3">
                 <span class="truncate font-medium text-white text-right">{{ match.away.name }}</span>
-                <img :src="match.away.logo" alt="" class="h-12 w-12 object-contain" />
+                <img :src="match.away.logo" alt="" class="h-8 w-8 object-contain" />
               </div>
             </div>
           </div>

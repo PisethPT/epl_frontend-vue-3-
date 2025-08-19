@@ -190,3 +190,5 @@ const filteredDataTable = computed(() =>
     <el-pagination class="flex justify-center my-2" background layout="prev, pager, next" :total="totalPage"
         v-model:page-size="pageSize" v-model:current-page="currentPage" />
 </template>
+
+

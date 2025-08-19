@@ -283,7 +283,7 @@ const checkoutSelectedMenu = (key) =>
                             <Odometer />
                         </el-icon>
                         <template #title>
-                            <span class="text-white">Dashboard</span>
+                            <span>Dashboard</span>
                         </template>
                     </el-menu-item>
 
@@ -453,12 +453,7 @@ const checkoutSelectedMenu = (key) =>
     </el-container>
 </template>
 
-<style>
-html,
-body {
-    background: white !important;
-}
-
+<style >
 .toolbar {
     display: inline-flex;
     align-items: center;

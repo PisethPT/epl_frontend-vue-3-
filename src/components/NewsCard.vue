@@ -33,3 +33,4 @@ const props = defineProps({
         <!-- <div class="text-xs text-gray-400 float-end mb-4 mr-4 px-1 bg-[#37003c] rounded-xs">News</div> -->
     </div>
 </template>
+

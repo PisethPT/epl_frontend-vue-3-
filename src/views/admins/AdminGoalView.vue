@@ -425,7 +425,7 @@ const formatTime = (timeString) =>
                     </el-avatar>
                     <div class="flex flex-col">
                         <span class="font-medium text-gray-800">{{ row.player.firstName }} {{ row.player.lastName
-                            }}</span>
+                        }}</span>
                         <span class="text-xs text-gray-500">#{{ row.player.playerNumber }}</span>
                         <span class="text-xs text-blue-600 font-medium">{{ row.player.position }}</span>
                     </div>

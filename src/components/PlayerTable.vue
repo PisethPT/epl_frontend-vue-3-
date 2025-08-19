@@ -227,3 +227,4 @@ function deleteRow(row)
     <el-pagination class="flex justify-center my-2" background layout="prev, pager, next" :total="props.totalPage"
         v-model:page-size="props.pageSize" v-model:current-page="props.currentPage" />
 </template>
+

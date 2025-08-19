@@ -2,6 +2,7 @@
 import { ref, onMounted, onUpdated, computed } from 'vue';
 import TeamCard from '@/components/TeamCard.vue';
 import { useTeamStore } from "@/stores/teamStore";
+import { ElMessage } from 'element-plus';
 import
 {
     ArrowRightBold,
@@ -12,11 +13,21 @@ import
 
 const teamStore = useTeamStore();
 const query = ref('');
+const loading = ref(false);
 
 onMounted(async () =>
 {
-    await teamStore.getTeams();
-
+    try
+    {
+        await teamStore.getTeams();
+    } catch (error)
+    {
+        console.log('error: ' + error);
+        ElMessage.error('error on mount: ' + error);
+    } finally
+    {
+        loading.value = false;
+    }
 });
 
 const teams = computed(() => teamStore.searchTeams(query.value));
@@ -26,7 +37,8 @@ const teams = computed(() => teamStore.searchTeams(query.value));
     <div class="content-center">
         <h1
             class="text-white text-5xl font-bold !bg-gradient-to-br from-[#28002b] to-[#330d36] px-3 py-4 mx-3 my-6 rounded-2xl">
-            Clubs</h1>
+            Clubs
+        </h1>
         <div class="flex justify-between flex-wrap">
             <h1 class="ml-5 font-bold text-2xl text-white">2025/26 Season Clubs</h1>
             <!-- <el-input v-model="query" class="!sm:w-full" style="width: 500px; min-width: auto; margin: 10px 20px; background: #37003c!important;"
@@ -45,11 +57,11 @@ const teams = computed(() => teamStore.searchTeams(query.value));
             class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !rounded-2xl !border-0 mb-4 mx-3 custom-card overflow-hidden">
             <template #header>
                 <div class="flex items-center justify-between">
-                    <h2 class="text-white font-bold text-md w-1/3">Clubs</h2>
+                    <h2 class="text-white font-bold text-sm w-1/3">Clubs</h2>
                     <div class="flex justify-between w-1/3">
-                        <h2 class="text-white font-bold text-md w-1/3">Stadium</h2>
-                        <h2 class="text-white font-bold text-md w-1/3">Website</h2>
-                        <h2 class="text-white font-bold text-md w-1/3">Follow</h2>
+                        <h2 class="text-white font-bold text-sm w-1/3">Stadium</h2>
+                        <h2 class="text-white font-bold text-sm w-1/3">Website</h2>
+                        <h2 class="text-white font-bold text-sm w-1/3">Follow</h2>
                     </div>
                 </div>
             </template>
@@ -58,12 +70,12 @@ const teams = computed(() => teamStore.searchTeams(query.value));
                 <div v-for="team in teams" :key="team.id"
                     class="flex items-center justify-between py-3 px-2 transition">
                     <div class="flex items-center gap-2 w-1/3">
-                        <div class="rounded-[14px] px-[2px]" :style="{ backgroundColor: team.teamThemeColor }">
+                        <div class="rounded-[14px] px-[2px] min-w-12 min-h-12" :style="{ backgroundColor: team.teamThemeColor }">
                             <img :src="teamStore.TEAM_LOGO_DIR + team.clubCrest" alt="Club Crest"
                                 class="w-12 h-12 p-1 object-contain mx-auto" />
                         </div>
                         <div class="flex gap-2 items-center w-full">
-                            <h3 class="text-lg font-bold text-center text-white text-wrap">{{ team.name }}</h3>
+                            <h3 class="text-md font-bold text-center text-white text-wrap">{{ team.name }}</h3>
                             <el-icon>
                                 <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
                             </el-icon>

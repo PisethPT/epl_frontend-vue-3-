@@ -494,7 +494,7 @@ const formatTime = (timeString) =>
                     </el-avatar>
                     <div class="flex flex-col">
                         <span class="font-medium text-gray-800">{{ row.player.firstName }} {{ row.player.lastName
-                            }}</span>
+                        }}</span>
                         <span class="text-xs text-gray-500">#{{ row.player.playerNumber }}</span>
                         <span class="text-xs text-blue-600 font-medium">{{ row.player.position }}</span>
                     </div>
@@ -597,7 +597,7 @@ const formatTime = (timeString) =>
                         </div>
                     </template>
                     <template #default="{ row }">
-                        <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain 
+                        <el-button type="warning" @click="handleEdit(row)" :icon="EditPen" plain
                             class="shadow-sm hover:shadow-md transition-shadow">Edit</el-button>
                         <el-button type="danger" @click="handleDelete(row)" :icon="Delete" plain
                             class="shadow-sm hover:shadow-md transition-shadow">Delete</el-button>
@@ -628,6 +628,11 @@ const formatTime = (timeString) =>
 </template>
 
 <style scoped>
+html,
+body {
+    background: #1e0021 !important;
+}
+
 /* Custom transitions */
 .fade-enter-active,
 .fade-leave-active {

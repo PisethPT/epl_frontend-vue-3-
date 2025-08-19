@@ -549,3 +549,10 @@ const formatTime = (timeString) =>
         </div>
     </div>
 </template>
+
+<style scoped>
+html,
+body {
+    background: #1e0021 !important;
+}
+</style>

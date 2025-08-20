@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useMatchStore, useNewsStore } from '@/stores';
 import NewsCard from '@/components/NewsCard.vue';
+import BaseMatchCard from '@/components/BaseMatchCard.vue';
 import { ElMessage } from 'element-plus';
 
 const matchStore = useMatchStore();
@@ -9,6 +10,7 @@ const newsStore = useNewsStore();
 
 
 const matchTables = ref([]);
+const matches = ref([]);
 const news = ref([]);
 const TEAM_LOGOS_DIR = ref('');
 const NEWS_IMAGE_DIR = ref('');
@@ -23,27 +25,6 @@ const options = [
 const rounds = [1, 2, 3, 4, 5]
 const selectedRound = ref(1)
 
-const matches = ref([
-  {
-    id: 1,
-    home: { name: "Arsenal", logo: "https://crests.football-data.org/57.png", score: 2 },
-    away: { name: "Chelsea", logo: "https://crests.football-data.org/61.png", score: 1 },
-    status: "FT",
-  },
-  {
-    id: 2,
-    home: { name: "Liverpool", logo: "https://crests.football-data.org/64.png", score: 3 },
-    away: { name: "Man City", logo: "https://crests.football-data.org/65.png", score: 3 },
-    status: "FT",
-  },
-  {
-    id: 3,
-    home: { name: "Tottenham", logo: "https://crests.football-data.org/73.png" },
-    away: { name: "Everton", logo: "https://crests.football-data.org/62.png" },
-    kickoff: "20:00",
-    status: "Upcoming",
-  },
-])
 
 
 onMounted(async () =>
@@ -54,6 +35,9 @@ onMounted(async () =>
     await matchStore.getMatchTables();
     TEAM_LOGOS_DIR.value = matchStore.TEAM_LOGOS_DIR;
     matchTables.value = matchStore.matchTables;
+
+    await matchStore.getMatches();
+    matches.value = matchStore.matches;
 
     await newsStore.getDailyNews();
     news.value = newsStore.dailyNews;
@@ -69,6 +53,7 @@ onMounted(async () =>
     matchTablesLoading.value = false;
   }
 });
+
 
 </script>
 
@@ -89,48 +74,6 @@ onMounted(async () =>
 
     <el-row :gutter="20" class="mt-4 flex-1">
       <el-col :xs="24" :sm="24" :md="14">
-        <el-card class="!bg-[#37003c] shadow-sm !border-0 !rounded-2xl mb-4 custom-card overflow-hidden">
-          <!-- Header -->
-          <template #header>
-            <div class="flex items-center justify-between">
-              <h2 class="text-white font-bold text-2xl">Matches</h2>
-              <el-select v-model="selectedRound" size="small" class="!w-32" placeholder="Round">
-                <el-option v-for="round in rounds" :key="round" :label="'GW ' + round" :value="round" />
-              </el-select>
-            </div>
-          </template>
-
-          <!-- Matches List -->
-          <div class="divide-y divide-gray-200">
-            <div v-for="match in matches" :key="match.id"
-              class="flex items-center justify-between py-3 px-2 transition">
-              <!-- Home Team -->
-              <div class="flex items-center gap-2 w-1/3">
-                <img :src="match.home.logo" alt="" class="h-8 w-8 object-contain" />
-                <span class="truncate font-  text-white">{{ match.home.name }}</span>
-              </div>
-
-              <!-- Score / Time -->
-              <div class="text-center w-1/3">
-                <template v-if="match.status === 'FT'">
-                  <span class="font-bold text-white">{{ match.home.score }} - {{ match.away.score }}</span>
-                  <p class="text-[11px] text-white">FT</p>
-                </template>
-                <template v-else>
-                  <span class="font-bold text-white">{{ match.kickoff }}</span>
-                  <p class="text-[11px] text-white">Upcoming</p>
-                </template>
-              </div>
-
-              <!-- Away Team -->
-              <div class="flex items-center gap-2 justify-end w-1/3">
-                <span class="truncate font-medium text-white text-right">{{ match.away.name }}</span>
-                <img :src="match.away.logo" alt="" class="h-8 w-8 object-contain" />
-              </div>
-            </div>
-          </div>
-        </el-card>
-
         <el-card class="!bg-[#37003c] shadow-sm !border-0 !rounded-2xl mb-4 custom-card">
           <template #header>
             <div class="card-header">
@@ -139,18 +82,26 @@ onMounted(async () =>
           </template>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="md:col-span-2" v-if="news.length > 0">
-              <NewsCard :news="news[0]" class="h-full" />
+              <NewsCard :news="news[0]" class="h-full" :isBodyShow="true" />
             </div>
             <div class="md:col-span-1 space-y-4">
               <NewsCard v-for="(n, index) in news.slice(1, 3)" :key="n.id" :news="n" />
             </div>
 
-            <div class="md:col-span-2" v-if="news.length > 3">
-              <NewsCard :news="news[3]" class="h-full" />
+            <div class="md:col-span-1 space-y-4" v-if="news.length > 3">
+              <NewsCard v-for="(n, index) in news.slice(3, 5)" :key="n.id" :news="n" />
             </div>
 
-            <div class="md:col-span-1 space-y-4" v-if="news.length > 4">
-              <NewsCard v-for="(n, index) in news.slice(4)" :key="n.id" :news="n" />
+            <div class="md:col-span-2" v-if="news.length > 5">
+              <NewsCard :news="news[5]" class="h-full" :isBodyShow="true" />
+            </div>
+
+            <div class="md:col-span-2" v-if="news.length > 6">
+              <NewsCard :news="news[6]" class="h-full" :isBodyShow="true" />
+            </div>
+
+            <div class="md:col-span-1 space-y-4" v-if="news.length > 7">
+              <NewsCard v-for="(n, index) in news.slice(7, 8)" :key="n.id" :news="n" class="h-fit" :isBodyShow="true" />
             </div>
           </div>
           <div
@@ -160,8 +111,30 @@ onMounted(async () =>
         </el-card>
       </el-col>
 
-      <!-- Table Premier Leagues -->
       <el-col :xs="24" :sm="24" :md="10">
+        <!-- Matches -->
+        <el-card class="!bg-[#37003c] shadow-sm !border-0 !rounded-2xl mb-5 custom-card overflow-hidden">
+          <template #header>
+            <div class="flex items-center justify-between">
+              <h2 class="text-white font-bold text-2xl">Matches</h2>
+              <el-select v-model="selectedRound" size="small" class="!w-32" placeholder="Round">
+                <el-option v-for="round in rounds" :key="round" :label="'GW ' + round" :value="round" />
+              </el-select>
+            </div>
+          </template>
+          <div class="w-full max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+              <h1 class="text-3xl font-bold text-white mb-2">Premier League Matches</h1>
+              <p class="text-blue-400 font-semibold">Matchday 1 of 38</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <BaseMatchCard v-for="match in matches.slice(0, 8)" :key="match.id" :match="match" />
+            </div>
+          </div>
+        </el-card>
+
+        <!-- Table Premier Leagues -->
         <el-card class="!bg-[#37003c] h-auto shadow-sm rounded-sm​ mb-4 !border-0 !rounded-2xl custom-card">
           <template #header style="border: none!important;">
             <div class="card-header flex justify-between items-center">
@@ -176,7 +149,7 @@ onMounted(async () =>
             :header-cell-style="{ background: '#37003c', color: 'white', fontWeight: 'bold' }"
             :cell-style="{ background: '#37003c', color: 'white' }" :border="false">
             <el-table-column fixed prop="pos" label="Pos" width="50" align="center" />
-            <el-table-column fixed prop="teamImage" label="Team" style="min-width: 300px;">
+            <el-table-column fixed prop="teamImage" label="Team" style="min-width: 400px;">
               <template #default="scope">
                 <div class="flex text-center items-center gap-3">
                   <img :src="TEAM_LOGOS_DIR + scope.row.teamImage" :alt="scope.row.teamName"

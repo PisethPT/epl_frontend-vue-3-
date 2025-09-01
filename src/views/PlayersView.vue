@@ -105,7 +105,7 @@ onMounted(async () =>
                     </div>
 
                     <div class="w-1/4 flex justify-end">
-                        <a href="team.websiteUrl" target="_blank"
+                        <a v-if="player.socialMedia != ''" :href="player.socialMedia" target="_blank"
                             class=" text-xs border-1 text-white rounded-3xl py-2 px-6 hover:bg-white hover:text-black text-center hover:cursor-pointer">
                             Follow
                         </a>

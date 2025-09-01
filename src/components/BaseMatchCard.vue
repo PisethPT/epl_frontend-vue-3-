@@ -23,6 +23,10 @@ const props = defineProps({
             matchDate: null,
             matchTime: null,
         }),
+    },
+    borderStyle:{
+        type: String,
+        default: 'none'
     }
 });
 
@@ -48,7 +52,7 @@ const formatTime = (timeString) =>
 </script>
 
 <template>
-    <div class="!bg-[#4b1254] rounded-2xl p-4 shadow-lg">
+    <div class="!bg-[#4b1254] rounded-2xl  p-4 shadow-lg" :style="{border: borderStyle}">
         <div class="flex justify-between items-center mb-4">
             <span class="text-xs text-white">Premier League</span>
             <span v-if="match.kickoffStatus == 2"

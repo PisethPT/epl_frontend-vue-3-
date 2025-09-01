@@ -30,6 +30,7 @@ const props = defineProps({
             headCoach: '',
             clubCrest: '',
             websiteUrl: '',
+            clubThemeColor: '',
         }),
     },
 })
@@ -55,6 +56,7 @@ const localForm = reactive({
     headCoach: '',
     clubCrest: '',
     websiteUrl: '',
+    clubThemeColor: '',
 })
 
 watch(
@@ -247,6 +249,12 @@ function handleClear()
                 <el-input v-model="localForm.websiteUrl" type="url" :prefix-icon="Link" clearable />
             </el-form-item>
 
+            <div class="demo-color-block">
+                <el-form-item label="Club Theme Color" prop="clubThemeColor">
+                    <el-color-picker v-model="localForm.clubThemeColor" />
+                </el-form-item>
+            </div>
+
             <el-form-item label="Team logo">
                 <el-upload action="#" :auto-upload="false" :file-list="fileList" :limit="1" list-type="picture-card"
                     :on-change="handleFileChange" accept="image/*">
@@ -284,3 +292,15 @@ function handleClear()
         <img class="w-full" :src="dialogImageUrl" alt="Preview" />
     </el-dialog>
 </template>
+
+<style>
+.demo-color-block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.demo-color-block .demonstration {
+    margin-right: 16px;
+}
+</style>

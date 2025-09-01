@@ -10,6 +10,7 @@ import
     EditPen,
     Delete,
     Link,
+    Edit,
 } from '@element-plus/icons-vue';
 
 
@@ -189,16 +190,29 @@ function deleteRow(row)
             </template>
         </el-table-column>
         <el-table-column label="Position" sortable prop="position" width="150" />
-        <el-table-column label="Shirt Number" sortable prop="playerNumber" width="150" align="center" />
+        <el-table-column label="Shirt Number" sortable prop="playerNumber" width="150" align="center">
+            <template #default="{ row }">
+                <div class="flex justify-center items-center text-center">
+                    <span
+                        class="flex w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-xl items-center justify-center text-center shadow-md border-2 border-white"
+                        :title="`Shirt Number: ${row.playerNumber}`">
+                        {{ row.playerNumber }}
+                    </span>
+                </div>
+            </template>
+        </el-table-column>
         <el-table-column label="Preferred Foot" sortable prop="preferredFoot" width="150" align="center" />
         <el-table-column prop="socialMedia" label="Social Media" width="200" align="center" sortable>
             <template #default="{ row }">
                 <el-link v-if="row.socialMedia" :underline="false" :href="row.socialMedia" target="_blank"
                     rel="noopener noreferrer" class="text-blue-500">
-                    Follow
-                    <el-icon class="ml-1">
-                        <Link />
-                    </el-icon>
+                    <div
+                        class="bg-white text-xs rounded-2xl shadow-md hover:shadow-md transition-shadow px-3 py-2 mb-2">
+                        Follow
+                        <el-icon class="ml-1">
+                            <Edit />
+                        </el-icon>
+                    </div>
                 </el-link>
             </template>
         </el-table-column>
@@ -227,4 +241,3 @@ function deleteRow(row)
     <el-pagination class="flex justify-center my-2" background layout="prev, pager, next" :total="props.totalPage"
         v-model:page-size="props.pageSize" v-model:current-page="props.currentPage" />
 </template>
-

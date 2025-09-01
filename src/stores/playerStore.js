@@ -104,7 +104,7 @@ export const usePlayerStore = defineStore("PlayerStore", {
     },
     async createPlayer(form, fileList) {
       try {
-        const formData = new FormData();  
+        const formData = new FormData();
         formData.append("firstName", form.firstName);
         formData.append("lastName", form.lastName);
         formData.append("nationality", form.nationality);
@@ -113,7 +113,7 @@ export const usePlayerStore = defineStore("PlayerStore", {
         formData.append("position", form.position);
         formData.append("playerNumber", form.playerNumber);
         formData.append("teamId", form.teamId);
-        fileList.forEach((file) => {
+        fileList.value.forEach((file) => {
           console.log("file: " + file.raw);
 
           formData.append("photo", file.raw);
@@ -150,7 +150,7 @@ export const usePlayerStore = defineStore("PlayerStore", {
         formData.append("position", form.position);
         formData.append("playerNumber", form.playerNumber);
         formData.append("teamId", form.teamId);
-        fileList.forEach((file) => {
+        fileList.value.forEach((file) => {
           formData.append("photo", file.raw);
         });
 

@@ -7,6 +7,6 @@ import AdminNavbar from '@/components/AdminNavbar.vue';
 <style scoped>
 html,
 body {
-    background: #1e0021 !important;
+    background: white !important;
 }
 </style>

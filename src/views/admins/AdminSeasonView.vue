@@ -1,11 +1,11 @@
 <script setup>
-import { ref, reactive, onMounted, computed, defineEmits, defineProps, watch } from 'vue';
+import { ref, reactive, onMounted, computed, defineEmits, watch } from 'vue';
 import BaseDialogForm from '@/components/BaseDialogForm.vue';
 import BaseTable from '@/components/BaseTable.vue';
 import { useSeasonStore } from '@/stores/seasonStore';
 import
 {
-    Plus,
+    // Plus,
     EditPen,
     Delete,
     Search,
@@ -209,6 +209,8 @@ function handleDelete(row)
                     <el-date-picker v-model="form.endDate" />
                 </el-form-item>
             </div>
+
+
         </template>
     </BaseDialogForm>
 
@@ -258,3 +260,14 @@ function handleDelete(row)
         </div>
     </div>
 </template>
+<style>
+.demo-color-block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.demo-color-block .demonstration {
+    margin-right: 16px;
+}
+</style>

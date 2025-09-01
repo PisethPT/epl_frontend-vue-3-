@@ -2,6 +2,7 @@
 import { defineProps } from 'vue';
 import { useApiConfig } from '@/stores/apiConfig';
 import { ElMessageBox } from 'element-plus';
+import { RouterLink } from 'vue-router';
 import 
 {
     ArrowRightBold,
@@ -69,32 +70,37 @@ function showTeamDetails(team)
 </script>
 
 <template>
-    <el-card
-        class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !border-0 !rounded-2xl w-[90vw] sm:w-[45vw]  md:w-[45vw] lg:w-[30vw] xl:w-[23.5vw] m-2">
-        <div class="flex items-center gap-4">
-            <div class="rounded-[14px] mt-2 px-1" :style="{ backgroundColor: team.teamThemeColor }">
-                <img :src="TEAM_LOGOS_DIR + team.clubCrest" alt="Club Crest" class="w-12 h-12 object-contain mx-auto" />
+    <RouterLink :to="{ name: 'guest-team-detail', params: { id: team.id } }">
+        <el-card
+            class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !border-0 !rounded-2xl w-[90vw] sm:w-[45vw]  md:w-[45vw] lg:w-[30vw] xl:w-[24vw]">
+            <div class="flex items-center gap-4">
+                <div class="rounded-[14px] mt-2 px-1" :style="{ backgroundColor: team.teamThemeColor }">
+                    <img :src="TEAM_LOGOS_DIR + team.clubCrest" alt="Club Crest"
+                        class="w-12 h-12 object-contain mx-auto" />
+                </div>
+                <div class="flex justify-between items-center w-full">
+                    <h3 class="text-lg font-bold text-center text-white text-wrap">{{ team.name }}</h3>
+                    <el-icon>
+                        <ArrowRightBold class="text-white text-xs hover:cursor-pointer"
+                            @click="showTeamDetails(team)" />
+                    </el-icon>
+                </div>
             </div>
-            <div class="flex justify-between items-center w-full">
-                <h3 class="text-lg font-bold text-center text-white text-wrap">{{ team.name }}</h3>
-                <el-icon>
-                    <ArrowRightBold class="text-white text-xs hover:cursor-pointer" @click="showTeamDetails(team)" />
-                </el-icon>
-            </div>
-        </div>
 
-        <div class="flex justify-between gap-3 mt-4 ">
-            <a href="#"
-                class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
-                Follow
-            </a>
-            <a :href="team.websiteUrl" target="_blank"
-                class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
-                Visit website
-                <el-icon>
-                    <Edit />
-                </el-icon>
-            </a>
-        </div>
-    </el-card>
+            <div class="flex justify-between gap-3 mt-4 ">
+                <a href="#"
+                    class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
+                    Follow
+                </a>
+                <a v-if="team.websiteUrl !== ''" :href="team.websiteUrl" target="_blank"
+                    class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
+                    Visit website
+                    <el-icon>
+                        <Edit />
+                    </el-icon>
+                </a>
+            </div>
+        </el-card>
+    </RouterLink>
+
 </template>

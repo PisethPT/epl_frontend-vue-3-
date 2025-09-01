@@ -12,6 +12,7 @@ import
 } from '@element-plus/icons-vue'
 
 const teamStore = useTeamStore();
+const TEAM_LOGO_DIR = ref('');
 const query = ref('');
 const loading = ref(false);
 
@@ -20,6 +21,7 @@ onMounted(async () =>
     try
     {
         await teamStore.getTeams();
+        TEAM_LOGO_DIR.value = teamStore.TEAM_LOGOS_DIR;
     } catch (error)
     {
         console.log('error: ' + error);
@@ -44,7 +46,7 @@ const teams = computed(() => teamStore.searchTeams(query.value));
             <!-- <el-input v-model="query" class="!sm:w-full" style="width: 500px; min-width: auto; margin: 10px 20px; background: #37003c!important;"
                 size="small" placeholder="Search ..." :prefix-icon="Search" clearable /> -->
         </div>
-        <div class="flex justify-center w-full flex-wrap">
+        <div class="flex justify-center w-full flex-wrap grid-cols-5 gap-3">
             <div v-for="team in teams" :key="team.id">
                 <TeamCard :team="team"></TeamCard>
             </div>
@@ -70,8 +72,9 @@ const teams = computed(() => teamStore.searchTeams(query.value));
                 <div v-for="team in teams" :key="team.id"
                     class="flex items-center justify-between py-3 px-2 transition">
                     <div class="flex items-center gap-2 w-1/3">
-                        <div class="rounded-[14px] px-[2px] min-w-12 min-h-12" :style="{ backgroundColor: team.teamThemeColor }">
-                            <img :src="teamStore.TEAM_LOGO_DIR + team.clubCrest" alt="Club Crest"
+                        <div class="rounded-[14px] px-[2px] min-w-12 min-h-12"
+                            :style="{ backgroundColor: team.teamThemeColor }">
+                            <img :src="TEAM_LOGO_DIR + team.clubCrest" alt="Club Crest"
                                 class="w-12 h-12 p-1 object-contain mx-auto" />
                         </div>
                         <div class="flex gap-2 items-center w-full">
@@ -84,7 +87,7 @@ const teams = computed(() => teamStore.searchTeams(query.value));
                     <div class="flex w-1/3 gap-4 float-end">
                         <span class="text-white w-1/3 text-xs">{{ team.homeStadium }}</span>
                         <div class="text-white w-1/3">
-                            <a :href="team.websiteUrl" target="_blank"
+                            <a v-if="team.websiteUrl !== ''" :href="team.websiteUrl" target="_blank"
                                 class="text-xs border-1 text-white rounded-3xl py-2 px-6 hover:bg-white hover:text-black w-full text-center hover:cursor-pointer">
                                 Visit website
                                 <el-icon>

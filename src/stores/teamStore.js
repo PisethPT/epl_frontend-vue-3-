@@ -9,7 +9,7 @@ export const useTeamStore = defineStore("teamStore", {
       teams: [],
       fileList: [],
       apiConfigStore,
-      TEAM_LOGO_DIR: apiConfigStore.TEAM_LOGOS_DIR,
+      TEAM_LOGOS_DIR: apiConfigStore.TEAM_LOGOS_DIR,
     };
   },
   getters: {
@@ -54,6 +54,7 @@ export const useTeamStore = defineStore("teamStore", {
         formData.append("homeStadium", form.homeStadium);
         formData.append("headCoach", form.headCoach);
         formData.append("websiteUrl", form.websiteUrl);
+        formData.append("teamThemeColor", form.teamThemeColor);
         fileList.value.forEach((file) => {
           formData.append("clubCrest", file.raw);
         });
@@ -93,6 +94,7 @@ export const useTeamStore = defineStore("teamStore", {
           formData.append("homeStadium", form.homeStadium);
           formData.append("headCoach", form.headCoach);
           formData.append("websiteUrl", form.websiteUrl);
+          formData.append("teamThemeColor", form.teamThemeColor);
 
           if (fileList.value.length > 0 || fileList.value != null) {
             fileList.value.forEach((file) => {

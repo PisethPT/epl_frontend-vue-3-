@@ -19,6 +19,9 @@ import AdminCardView from "@/views/admins/AdminCardView.vue";
 import AdminGoalView from "@/views/admins/AdminGoalView.vue";
 import AdminAssistView from "@/views/admins/AdminAssistView.vue";
 
+// clubs child
+import ClubDetailView from "@/views/clubs/ClubDetailView.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -95,7 +98,7 @@ const router = createRouter({
       component: GuestLayoutView,
       children: [
         {
-          path: "/guest/elp/home",
+          path: "/guest/epl/home",
           name: "guest-epl-home",
           component: HomeView,
         },
@@ -103,6 +106,11 @@ const router = createRouter({
           path: "/guest/teams/index",
           name: "guest-teams-index",
           component: GuestTeamsIndex,
+        },
+        {
+          path: "/guest/teams/index/:id",
+          name: "guest-team-detail",
+          component: ClubDetailView,
         },
         {
           path: "/guest/players/index",

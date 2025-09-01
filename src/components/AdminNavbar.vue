@@ -26,6 +26,7 @@ import
     GoldMedal,
     Odometer,
     MoreFilled,
+    ArrowRightBold,
 } from '@element-plus/icons-vue';
 import router from '@/router';
 import TeamDialog from './TeamDialog.vue';
@@ -114,12 +115,6 @@ onMounted(() =>
 });
 
 
-const logout = () =>
-{
-    functionStore.logout();
-    authStore.isLogin = false;
-}
-
 const handleOpen = (key, keyPath) =>
 {
     console.log(key, keyPath)
@@ -132,8 +127,12 @@ const handleClose = (key, keyPath) =>
 
 const handleSelect = (key, keyPath) =>
 {
-    if (key == '5-2')
-        logout();
+    if (key == 'logout')
+    {
+        functionStore.logout();
+        authStore.isLogin = false;
+        return;
+    }
     console.log(key, keyPath)
 
     function expand()
@@ -172,15 +171,15 @@ const checkoutSelectedMenu = (key) =>
             }
         case 'admin-teams-index':
             {
-                contentTitle.value = 'Teams';
-                subTitle.value = 'All team football on session 2025/2026';
+                contentTitle.value = 'Clubs';
+                subTitle.value = 'All club football on session 2025/2026';
                 isCreate.value = true;
                 break;
             }
         case 'admin-players-index':
             {
                 contentTitle.value = 'Players';
-                subTitle.value = 'All team\'s players';
+                subTitle.value = 'All club\'s players';
                 isCreate.value = true;
                 break;
             }
@@ -299,13 +298,13 @@ const checkoutSelectedMenu = (key) =>
                             <el-icon>
                                 <Star />
                             </el-icon>
-                            <span>Teams</span>
+                            <span>Clubs</span>
                         </template>
                         <el-menu-item index="admin-teams-index">
                             <el-icon>
                                 <Football />
                             </el-icon>
-                            All Teams
+                            All Clubs
                         </el-menu-item>
 
                         <el-menu-item index="admin-top-scorer-index">
@@ -348,8 +347,32 @@ const checkoutSelectedMenu = (key) =>
                                 <el-icon>
                                     <MoreFilled />
                                 </el-icon>
-                                <span>Others</span></template>
-                            <el-menu-item index="2-4-1">item one</el-menu-item>
+                                <span>Fantasy</span>
+                            </template>
+                            <el-menu-item index="2-4-1">
+                                <template #title>
+                                    <el-icon size="small">
+                                        <ArrowRightBold />
+                                    </el-icon>
+                                    <span>Fantasy Premier League</span>
+                                </template>
+                            </el-menu-item>
+                            <el-menu-item index="2-4-2">
+                                <template #title>
+                                    <el-icon size="small">
+                                        <ArrowRightBold />
+                                    </el-icon>
+                                    <span>Fantasy Draft</span>
+                                </template>
+                            </el-menu-item>
+                            <el-menu-item index="2-4-3">
+                                <template #title>
+                                    <el-icon size="small">
+                                        <ArrowRightBold />
+                                    </el-icon>
+                                    <span>Fantasy Challenge</span>
+                                </template>
+                            </el-menu-item>
                         </el-sub-menu>
                     </el-sub-menu>
 
@@ -397,7 +420,7 @@ const checkoutSelectedMenu = (key) =>
                                     <span>About Me</span>
                                 </template>
                             </el-menu-item>
-                            <el-menu-item index="5-2">
+                            <el-menu-item index="logout">
                                 <template #title>
                                     <el-icon>
                                         <switch-button />
@@ -453,7 +476,12 @@ const checkoutSelectedMenu = (key) =>
     </el-container>
 </template>
 
-<style >
+<style scoped>
+html,
+body {
+    background: white !important;
+}
+
 .toolbar {
     display: inline-flex;
     align-items: center;

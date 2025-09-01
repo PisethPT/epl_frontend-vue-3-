@@ -8,6 +8,8 @@ import
     Delete,
     Search,
     Link,
+    ArrowRightBold,
+    Edit,
 } from '@element-plus/icons-vue'
 
 const props = defineProps({
@@ -48,6 +50,7 @@ const form = reactive({
     headCoach: '',
     clubCrest: '',
     websiteUrl: '',
+    clubThemeColor: ''
 });
 
 const TEAM_LOGOS_DIR = teamStore.TEAM_LOGO_DIR;
@@ -125,6 +128,8 @@ const incrementIndex = (index) =>
 
 const filteredDataTable = computed(() =>
 {
+    console.log(props.tableData);
+
     const q = query.value.toString().toLowerCase();
     return props.tableData.filter((team) =>
         team.name.toString().toLowerCase().includes(q) ||
@@ -157,6 +162,14 @@ const filteredDataTable = computed(() =>
                 </div>
             </template>
         </el-table-column>
+        <el-table-column prop="clubThemeColor" label="Theme" width="80" align="center">
+            <template #default="scope">
+                <div class="rounded-2xl w-8 h-8 mx-auto shadow-sm"
+                    :style="{ backgroundColor: scope.row.teamThemeColor }">
+                </div>
+                <span class="text-xs">{{ scope.row.teamThemeColor }}</span>
+            </template>
+        </el-table-column>
         <el-table-column prop="name" label="Team Name" width="300" style="min-width: 300;" sortable />
         <el-table-column prop="founded" label="Founded" width="120" align="center" sortable />
         <el-table-column prop="city" label="City" min-width="200" sortable />
@@ -164,12 +177,14 @@ const filteredDataTable = computed(() =>
         <el-table-column prop="headCoach" label="Head Coach" width="200" sortable />
         <el-table-column prop="websiteUrl" label="Official Website" width="200" align="center" sortable>
             <template #default="{ row }">
-                <el-link v-if="row.websiteUrl" :href="row.websiteUrl" target="_blank" rel="noopener noreferrer"
-                    class="text-blue-500">
-                    Visit Website
-                    <el-icon class="ml-1">
-                        <Link />
-                    </el-icon>
+                <el-link v-if="row.websiteUrl" :underline="false" :href="row.websiteUrl" target="_blank" rel="noopener noreferrer"
+                    class="text-blue-500 ">
+                    <div class="bg-white text-xs rounded-2xl shadow-md hover:shadow-md transition-shadow px-3 py-2 mb-2">
+                        Visit Website
+                        <el-icon class="ml-1">
+                            <Edit />
+                        </el-icon>
+                    </div>
                 </el-link>
             </template>
         </el-table-column>
@@ -190,5 +205,3 @@ const filteredDataTable = computed(() =>
     <el-pagination class="flex justify-center my-2" background layout="prev, pager, next" :total="totalPage"
         v-model:page-size="pageSize" v-model:current-page="currentPage" />
 </template>
-
-

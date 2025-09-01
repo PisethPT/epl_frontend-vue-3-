@@ -61,7 +61,7 @@ onMounted(async () =>
   <main class="px-3 min-h-screen flex flex-col">
     <!-- Carousel -->
     <el-carousel :interval="4000" type="card" height="230px" class="mt-4">
-      <el-carousel-item v-for="item in news" :key="item" class="rounded-2xl relative">
+      <el-carousel-item v-for="item in news.slice(0, 5)" :key="item" class="rounded-2xl relative">
         <div class="relative w-full h-full">
           <img :src="item.image ? NEWS_IMAGE_DIR + item.image : ''" :alt="item.title"
             class="w-full h-full object-cover rounded-2xl" />
@@ -124,8 +124,8 @@ onMounted(async () =>
           </template>
           <div class="w-full max-w-6xl mx-auto">
             <div class="text-center mb-8">
-              <h1 class="text-3xl font-bold text-white mb-2">Premier League Matches</h1>
-              <p class="text-blue-400 font-semibold">Matchday 1 of 38</p>
+              <h1 class="text-xl font-bold text-white mb-2">Premier League Matches</h1>
+              <p class="text-[#04f1fc] font-semibold">Matchday 1 of 38</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, defineProps, defineEmits } from 'vue';
-import { ElDialog, ElForm, ElFormItem, ElButton, ElSelect, ElOption, ElMessage } from 'element-plus';
+import { ElDialog, ElForm, ElButton, ElMessage } from 'element-plus';
 
 const props = defineProps({
     modelValue: {
@@ -73,7 +73,7 @@ const handleClose = () =>
 
 const handleClear = () =>
 {
-    formRef.value.resetFields();    
+    formRef.value.resetFields();
     handleClose();
     // Emit an event to clear the form data
     emit('update:form', {});
@@ -97,4 +97,3 @@ const handleClear = () =>
 
     </el-dialog>
 </template>
-

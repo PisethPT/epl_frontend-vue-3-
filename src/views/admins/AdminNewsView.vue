@@ -226,7 +226,7 @@ async function handleSubmit()
     {
         if (!fileList.value.length)
         {
-            ElMessage.warning('Please select a news photo')
+            ElMessage.warning('Please select a club crest')
             return
         }
 

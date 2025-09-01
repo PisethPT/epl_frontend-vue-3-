@@ -173,7 +173,7 @@ onMounted(async () =>
         teamItemSelect.value = playerStore.teamItemSelect;
         PLAYER_LOGOS_DIR.value = cardStore.PLAYER_LOGOS_DIR;
 
-        TEAM_LOGOS_DIR.value = teamStore.TEAM_LOGO_DIR;
+        TEAM_LOGOS_DIR.value = teamStore.TEAM_LOGOS_DIR;
         const currentlyMatches = await matchStore.filteringMatches(0) ?? [];
         if (currentlyMatches.length > 0)
         {

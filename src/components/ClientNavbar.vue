@@ -67,6 +67,54 @@ const handleSelect = (index) =>
                     <span class="text-white font-bold p-0">League</span>
                 </div>
             </el-menu-item>
+            <el-menu-item index="guest-matches-index">
+                <el-icon>
+                    <Calendar class="text-white" />
+                </el-icon>
+                <span class="text-white">Matches</span>
+            </el-menu-item>
+            <el-menu-item index="guest-table-index">
+                <el-icon>
+                    <GoldMedal class="text-white" />
+                </el-icon>
+                <span class="text-white">Table</span>
+            </el-menu-item>
+            <el-menu-item index="">
+                <el-icon>
+                    <Timer class="text-white" />
+                </el-icon>
+                <span class="text-white">Statistics</span>
+            </el-menu-item>
+            <el-sub-menu index="2" class="transparent-submenu" popper-class="transparent-popper">
+                <template #title>
+                    <el-icon>
+                        <TrophyBase class="text-white" />
+                    </el-icon>
+                    <span class="text-white">Fantasy</span>
+                </template>
+                <el-menu-item index="gust-fantasyPremierLeague-index">Fantasy Premier League</el-menu-item>
+                <el-menu-item index="gust-fantasyDraft-index">Fantasy Draft</el-menu-item>
+                <el-menu-item index="gust-fantasyChallenge-index">Fantasy Challenge</el-menu-item>
+            </el-sub-menu>
+            <el-menu-item index="guest-news-index">
+                <el-icon>
+                    <MessageBox class="text-white" />
+                </el-icon>
+                <span class="text-white">News</span>
+            </el-menu-item>
+            <el-menu-item index="guest-transfers-index">
+                <el-icon>
+                    <Timer class="text-white" />
+                </el-icon>
+                <span class="text-white">Transfers</span>
+            </el-menu-item>
+            <el-menu-item index="guest-players-index">
+                <el-icon>
+                    <Star class="text-white" />
+                </el-icon>
+                <span class="text-white">Players</span>
+            </el-menu-item>
+
             <el-menu-item index="guest-teams-index"
                 class="flex items-center space-x-2 hover:!text-white hover:!bg-transparent">
                 <el-icon>
@@ -74,55 +122,12 @@ const handleSelect = (index) =>
                 </el-icon>
                 <span class="text-white">Clubs</span>
             </el-menu-item>
-
-            <el-menu-item index="guest-players-index">
-                <el-icon>
-                    <Star class="text-white" />
-                </el-icon>
-                <span class="text-white">Players</span>
-            </el-menu-item>
-            <el-menu-item index="guest-matches-index">
-                <el-icon>
-                    <Calendar class="text-white" />
-                </el-icon>
-                <span class="text-white">Matches</span>
-            </el-menu-item>
-            <el-menu-item index="">
-                <el-icon>
-                    <GoldMedal class="text-white" />
-                </el-icon>
-                <span class="text-white">Top Scores</span>
-            </el-menu-item>
-            <el-menu-item index="guest-news-index">
-                <el-icon>
-                    <MessageBox class="text-white" />
-                </el-icon>
-                <span class="text-white">News</span>
-            </el-menu-item>
-            <el-menu-item index="">
+            <el-menu-item index="guest-videos-index">
                 <el-icon>
                     <Timer class="text-white" />
                 </el-icon>
-                <span class="text-white">Sessions</span>
+                <span class="text-white">Videos</span>
             </el-menu-item>
-
-            <el-sub-menu index="2" class="transparent-submenu" popper-class="transparent-popper">
-                <template #title>
-                    <el-icon>
-                        <TrophyBase class="text-white" />
-                    </el-icon>
-                    <span class="text-white">Leaderboard</span>
-                </template>
-                <el-menu-item index="2-1">item one</el-menu-item>
-                <el-menu-item index="2-2">item two</el-menu-item>
-                <el-menu-item index="2-3">item three</el-menu-item>
-                <el-sub-menu index="2-4">
-                    <template #title>item four</template>
-                    <el-menu-item index="2-4-1">item one</el-menu-item>
-                    <el-menu-item index="2-4-2">item two</el-menu-item>
-                    <el-menu-item index="2-4-3">item three</el-menu-item>
-                </el-sub-menu>
-            </el-sub-menu>
         </div>
 
         <div class="flex justify-evenly">
@@ -153,14 +158,15 @@ body {
 }
 
 .fixed-top-menu {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  margin-bottom: 120px!important;
-  z-index: 1000 !important;
-  background-color: transparent !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-bottom: 120px !important;
+    z-index: 1000 !important;
+    background-color: transparent !important;
 }
+
 .el-menu--horizontal>.el-menu-item:nth-child(1) {
     margin-block: auto;
 }

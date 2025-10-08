@@ -1,18 +1,21 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { usePlayerStore } from '@/stores';
-import nationalityData from '../assets/nationality.json';
+import nationalityData from '@/assets/nationality.json';
 import { ElMessage } from 'element-plus';
 import
 {
     ArrowRightBold,
     Search,
 } from '@element-plus/icons-vue'
+import PageTitleBase from '@/components/PageTitleBase.vue';
 
+const title = ref('Players');
 const playersStore = usePlayerStore();
 const players = ref([]);
 const query = ref('');
 const loading = ref(false);
+const sponsorImage = ref('/src/assets/sponsors/PL2526-ClubKits-Referral-Promos-_0000s_0000_ARS.webp');
 
 onMounted(async () =>
 {
@@ -34,10 +37,10 @@ onMounted(async () =>
 
 <template>
     <div class="content-center">
-        <h1
-            class="text-white text-5xl font-bold !bg-gradient-to-br from-[#28002b] to-[#330d36] px-3 py-4 mx-3 my-6 rounded-2xl">
-            Players
-        </h1>
+        <!-- sponsor bar -->
+        <SponsorBar :sponsorImage="sponsorImage" />
+
+        <PageTitleBase :title="title" />
         <!-- <div class="flex justify-center flex-row m-2 flex-wrap gap-2">
             <el-input v-model="query" style="width: 500px; min-width: auto;" size="large" placeholder="Search ..."
                 :suffix-icon="Search" />
@@ -67,15 +70,15 @@ onMounted(async () =>
                     class="flex items-center justify-between py-3 px-2 transition">
                     <div class="flex justify-between w-2/4">
                         <div class="flex items-center gap-2 w-1/2">
-                            <div class="rounded-[14px] px-[2px] min-w-12 min-h-12 text-center"
+                            <div class="rounded-[14px] min-w-12 min-h-12 overflow-hidden"
                                 :style="{ backgroundColor: player.teamThemeColor }">
                                 <img :src="playersStore.PLAYER_PHOTO_DIR + player.photo" alt="Club Crest"
-                                    class="w-12 h-12 p-1 object-contain mx-auto" />
+                                    class="w-12 h-12 object-contain mx-auto pt-1" />
                             </div>
                             <div class="flex gap-2 items-center w-full">
                                 <h3 class="text-md font-bold text-center text-white text-wrap">{{ player.firstName }} {{
                                     player.lastName
-                                }}</h3>
+                                    }}</h3>
                                 <el-icon>
                                     <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
                                 </el-icon>

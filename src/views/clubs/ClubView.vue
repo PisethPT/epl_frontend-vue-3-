@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUpdated, computed } from 'vue';
-import TeamCard from '@/components/TeamCard.vue';
+import ClubCard from '@/components/ClubCard.vue';
+import PageTitleBase from '@/components/PageTitleBase.vue';
 import { useTeamStore } from "@/stores/teamStore";
 import { ElMessage } from 'element-plus';
 import
@@ -10,11 +11,14 @@ import
     Plus,
     Search,
 } from '@element-plus/icons-vue'
+import SponsorBar from '@/components/SponsorBar.vue';
 
+const title = ref('Clubs');
 const teamStore = useTeamStore();
 const TEAM_LOGO_DIR = ref('');
 const query = ref('');
 const loading = ref(false);
+const sponsorImage = ref('/src/assets/sponsors/9044630324637544770.png');
 
 onMounted(async () =>
 {
@@ -32,23 +36,25 @@ onMounted(async () =>
     }
 });
 
-const teams = computed(() => teamStore.searchTeams(query.value));
+const clubs = computed(() => teamStore.searchTeams(query.value));
 </script>
 
 <template>
     <div class="content-center">
-        <h1
-            class="text-white text-5xl font-bold !bg-gradient-to-br from-[#28002b] to-[#330d36] px-3 py-4 mx-3 my-6 rounded-2xl">
-            Clubs
-        </h1>
+        <!-- sponsor bar -->
+        <SponsorBar :sponsorImage="sponsorImage" :rounded="false"/>
+
+        <!-- page title -->
+        <PageTitleBase :title="title" />
+
         <div class="flex justify-between flex-wrap">
             <h1 class="ml-5 font-bold text-2xl text-white">2025/26 Season Clubs</h1>
             <!-- <el-input v-model="query" class="!sm:w-full" style="width: 500px; min-width: auto; margin: 10px 20px; background: #37003c!important;"
                 size="small" placeholder="Search ..." :prefix-icon="Search" clearable /> -->
         </div>
-        <div class="flex justify-center w-full flex-wrap grid-cols-5 gap-3">
-            <div v-for="team in teams" :key="team.id">
-                <TeamCard :team="team"></TeamCard>
+        <div class="flex justify-center w-full flex-wrap grid-cols-5 gap-3 mt-2">
+            <div v-for="club in clubs" :key="club.id">
+                <ClubCard :club="club"></ClubCard>
             </div>
         </div>
     </div>
@@ -69,25 +75,25 @@ const teams = computed(() => teamStore.searchTeams(query.value));
             </template>
 
             <div class="divide-y divide-[#4b1254]">
-                <div v-for="team in teams" :key="team.id"
+                <div v-for="club in clubs" :key="club.id"
                     class="flex items-center justify-between py-3 px-2 transition">
                     <div class="flex items-center gap-2 w-1/3">
                         <div class="rounded-[14px] px-[2px] min-w-12 min-h-12"
-                            :style="{ backgroundColor: team.teamThemeColor }">
-                            <img :src="TEAM_LOGO_DIR + team.clubCrest" alt="Club Crest"
+                            :style="{ backgroundColor: club.teamThemeColor }">
+                            <img :src="TEAM_LOGO_DIR + club.clubCrest" alt="Club Crest"
                                 class="w-12 h-12 p-1 object-contain mx-auto" />
                         </div>
                         <div class="flex gap-2 items-center w-full">
-                            <h3 class="text-md font-bold text-center text-white text-wrap">{{ team.name }}</h3>
+                            <h3 class="text-md font-bold text-center text-white text-wrap">{{ club.name }}</h3>
                             <el-icon>
                                 <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
                             </el-icon>
                         </div>
                     </div>
                     <div class="flex w-1/3 gap-4 float-end">
-                        <span class="text-white w-1/3 text-xs">{{ team.homeStadium }}</span>
+                        <span class="text-white w-1/3 text-xs">{{ club.homeStadium }}</span>
                         <div class="text-white w-1/3">
-                            <a v-if="team.websiteUrl !== ''" :href="team.websiteUrl" target="_blank"
+                            <a v-if="club.websiteUrl !== ''" :href="club.websiteUrl" target="_blank"
                                 class="text-xs border-1 text-white rounded-3xl py-2 px-6 hover:bg-white hover:text-black w-full text-center hover:cursor-pointer">
                                 Visit website
                                 <el-icon>
@@ -96,7 +102,7 @@ const teams = computed(() => teamStore.searchTeams(query.value));
                             </a>
                         </div>
                         <div class="text-white w-1/3">
-                            <a :href="team.websiteUrl" target="_blank"
+                            <a :href="club.websiteUrl" target="_blank"
                                 class="text-xs border-1 text-white rounded-3xl py-2 px-6 hover:bg-white hover:text-black w-full text-center hover:cursor-pointer">
                                 Follow
                             </a>

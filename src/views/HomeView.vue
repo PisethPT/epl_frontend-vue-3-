@@ -59,8 +59,9 @@ onMounted(async () =>
 
 <template>
   <main class="px-3 min-h-screen flex flex-col">
+    
     <!-- Carousel -->
-    <el-carousel :interval="4000" type="card" height="230px" class="mt-4">
+    <!-- <el-carousel :interval="4000" type="card" height="230px" class="mt-4">
       <el-carousel-item v-for="item in news.slice(0, 5)" :key="item" class="rounded-2xl relative">
         <div class="relative w-full h-full">
           <img :src="item.image ? NEWS_IMAGE_DIR + item.image : ''" :alt="item.title"
@@ -70,7 +71,7 @@ onMounted(async () =>
           </h3>
         </div>
       </el-carousel-item>
-    </el-carousel>
+    </el-carousel> -->
 
     <el-row :gutter="20" class="mt-4 flex-1">
       <el-col :xs="24" :sm="24" :md="14">

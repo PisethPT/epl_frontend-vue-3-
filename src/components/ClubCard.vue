@@ -11,7 +11,7 @@ import
 } from '@element-plus/icons-vue'
 
 const props = defineProps({
-    team: {
+    club: {
         type: Object,
         required: true,
         default: () => ({
@@ -30,14 +30,14 @@ const props = defineProps({
 const apiConfigStore = useApiConfig();
 const TEAM_LOGOS_DIR = apiConfigStore.TEAM_LOGOS_DIR;
 
-function showTeamDetails(team)
+function showTeamDetails(club)
 {
-    const name = team?.name || 'N/A'
-    const city = team?.city || 'N/A'
-    const founded = team?.founded || 'N/A'
-    const stadium = team?.homeStadium || 'N/A'
-    const coach = team?.headCoach || 'N/A'
-    const logoUrl = `${TEAM_LOGOS_DIR}${team?.clubCrest}`
+    const name = club?.name || 'N/A'
+    const city = club?.city || 'N/A'
+    const founded = club?.founded || 'N/A'
+    const stadium = club?.homeStadium || 'N/A'
+    const coach = club?.headCoach || 'N/A'
+    const logoUrl = `${TEAM_LOGOS_DIR}${club?.clubCrest}`
 
     ElMessageBox.alert(
         `
@@ -70,19 +70,19 @@ function showTeamDetails(team)
 </script>
 
 <template>
-    <RouterLink :to="{ name: 'guest-team-detail', params: { id: team.id } }">
+    <RouterLink :to="{ name: 'guest-club-detail', params: { id: club.id } }">
         <el-card
             class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !border-0 !rounded-2xl w-[90vw] sm:w-[45vw]  md:w-[45vw] lg:w-[30vw] xl:w-[24vw]">
             <div class="flex items-center gap-4">
-                <div class="rounded-[14px] mt-2 px-1" :style="{ backgroundColor: team.teamThemeColor }">
-                    <img :src="TEAM_LOGOS_DIR + team.clubCrest" alt="Club Crest"
+                <div class="rounded-[14px] mt-2 px-1" :style="{ backgroundColor: club.teamThemeColor }">
+                    <img :src="TEAM_LOGOS_DIR + club.clubCrest" alt="Club Crest"
                         class="w-12 h-12 object-contain mx-auto" />
                 </div>
                 <div class="flex justify-between items-center w-full">
-                    <h3 class="text-lg font-bold text-center text-white text-wrap">{{ team.name }}</h3>
+                    <h3 class="text-lg font-bold text-center text-white text-wrap">{{ club.name }}</h3>
                     <el-icon>
                         <ArrowRightBold class="text-white text-xs hover:cursor-pointer"
-                            @click="showTeamDetails(team)" />
+                            @click="showTeamDetails(club)" />
                     </el-icon>
                 </div>
             </div>
@@ -92,7 +92,7 @@ function showTeamDetails(team)
                     class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
                     Follow
                 </a>
-                <a v-if="team.websiteUrl !== ''" :href="team.websiteUrl" target="_blank"
+                <a v-if="club.websiteUrl !== ''" :href="club.websiteUrl" target="_blank"
                     class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
                     Visit website
                     <el-icon>

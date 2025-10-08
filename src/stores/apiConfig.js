@@ -5,6 +5,7 @@ export const useApiConfig = defineStore("apiConfig", () => {
   const TEAM_LOGOS_DIR = BASE_URL + "/TeamLogos/";
   const PLAYER_LOGOS_DIR = BASE_URL + "/Players/";
   const NEWS_IMAGE_DIR = BASE_URL + "/News/";
+  const ISSUE_FILE_DIR = BASE_URL + "/IssueFiles/";
 
   const USER_ENDPOINTS = {
     LOGIN_ENDPOINT: BASE_URL + "/login",
@@ -68,6 +69,9 @@ export const useApiConfig = defineStore("apiConfig", () => {
     PUT_ASSIST_ENDPOINT: BASE_URL + "/assists/edit/",
     DELETE_ASSIST_ENDPOINT: BASE_URL + "/assists/delete/",
   };
+  const ISSUE_ENDPOINTS = {
+    GET_ISSUES_ENDPOINT: BASE_URL + "/issues",
+  };
 
   const ENDPOINTS = {
     USER_ENDPOINTS,
@@ -79,6 +83,7 @@ export const useApiConfig = defineStore("apiConfig", () => {
     CARD_ENDPOINTS,
     GOAL_ENDPOINTS,
     ASSIST_ENDPOINTS,
+    ISSUE_ENDPOINTS,
   };
 
   return {
@@ -86,6 +91,7 @@ export const useApiConfig = defineStore("apiConfig", () => {
     TEAM_LOGOS_DIR,
     PLAYER_LOGOS_DIR,
     NEWS_IMAGE_DIR,
+    ISSUE_FILE_DIR,
     ENDPOINTS,
   };
 });

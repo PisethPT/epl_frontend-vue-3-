@@ -16,6 +16,7 @@ import
     Star,
 } from '@element-plus/icons-vue'
 import router from '@/router';
+import MatchesBar from './MatchesBar.vue';
 
 const userName = ref('');
 const authStore = useAuthStore();
@@ -73,13 +74,13 @@ const handleSelect = (index) =>
                 </el-icon>
                 <span class="text-white">Matches</span>
             </el-menu-item>
-            <el-menu-item index="guest-table-index">
+            <el-menu-item index="guest-tables-index">
                 <el-icon>
                     <GoldMedal class="text-white" />
                 </el-icon>
                 <span class="text-white">Table</span>
             </el-menu-item>
-            <el-menu-item index="">
+            <el-menu-item index="guest-statistics-index">
                 <el-icon>
                     <Timer class="text-white" />
                 </el-icon>
@@ -115,7 +116,7 @@ const handleSelect = (index) =>
                 <span class="text-white">Players</span>
             </el-menu-item>
 
-            <el-menu-item index="guest-teams-index"
+            <el-menu-item index="guest-clubs-index"
                 class="flex items-center space-x-2 hover:!text-white hover:!bg-transparent">
                 <el-icon>
                     <Football class="text-white" />
@@ -147,6 +148,8 @@ const handleSelect = (index) =>
     </el-menu>
 
     <main class="flex-1 pt-[60px]">
+        <!-- matches bar -->
+        <MatchesBar />
         <RouterView />
     </main>
 </template>

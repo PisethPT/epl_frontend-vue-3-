@@ -232,6 +232,13 @@ const checkoutSelectedMenu = (key) =>
                 isCreate.value = false;
                 break;
             }
+        case 'admin-issues-index':
+            {
+                contentTitle.value = 'Issues';
+                subTitle.value = 'System issues and updates';
+                isCreate.value = false;
+                break;
+            }
         default:
             {
                 contentTitle.value = 'Dashboard';
@@ -412,7 +419,7 @@ const checkoutSelectedMenu = (key) =>
                             <span>Settings</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="5-1">
+                            <el-menu-item index="admin-issues-index">
                                 <template #title>
                                     <el-icon>
                                         <user />
@@ -476,7 +483,7 @@ const checkoutSelectedMenu = (key) =>
     </el-container>
 </template>
 
-<style scoped>
+<style>
 html,
 body {
     background: white !important;

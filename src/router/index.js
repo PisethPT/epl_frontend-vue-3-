@@ -5,9 +5,15 @@ import Empty from "@/components/Empty.vue";
 import GuestLayoutView from "@/views/layouts/GuestLayoutView.vue";
 import AdminLayoutView from "@/views/layouts/AdminLayoutView.vue";
 import HomeView from "@/views/HomeView.vue";
-import GuestTeamsIndex from "@/views/TeamsView.vue";
-import GuestPlayerIndex from "@/views/PlayersView.vue";
-import GuestMatchesIndex from "@/views/MatchesView.vue";
+import GuestClubsIndex from "@/views/clubs/ClubView.vue";
+import GuestPlayerIndex from "@/views/players/PlayersView.vue";
+import GuestMatchesIndex from "@/views/matches/MatchesView.vue";
+import GuestTablesIndex from "@/views/tables/TableView.vue";
+import GuestStatisticsIndex from "@/views/statistics/StatisticView.vue";
+import GuestNewsIndex from "@/views/news/NewsView.vue";
+import GuestTransfersIndex from "@/views/transfers/TransferView.vue";
+import GuestVideosIndex from "@/views/videos/VideoView.vue";
+
 // admin pages
 import AdminDashboard from "@/views/admins/DashboardView.vue";
 import AdminTeamView from "@/views/admins/AdminTeamView.vue";
@@ -18,6 +24,7 @@ import AdminNewsView from "@/views/admins/AdminNewsView.vue";
 import AdminCardView from "@/views/admins/AdminCardView.vue";
 import AdminGoalView from "@/views/admins/AdminGoalView.vue";
 import AdminAssistView from "@/views/admins/AdminAssistView.vue";
+import AdminIssuesView from "@/views/admins/IssuesView.vue";
 
 // clubs child
 import ClubDetailView from "@/views/clubs/ClubDetailView.vue";
@@ -86,6 +93,11 @@ const router = createRouter({
           component: AdminAssistView,
         },
         {
+          path: "/admin/issues/index",
+          name: "admin-issues-index",
+          component: AdminIssuesView,
+        },
+        {
           path: ":pathMatch(.*)*",
           name: "admin-not-found",
           component: Empty,
@@ -103,13 +115,13 @@ const router = createRouter({
           component: HomeView,
         },
         {
-          path: "/guest/teams/index",
-          name: "guest-teams-index",
-          component: GuestTeamsIndex,
+          path: "/guest/clubs/index",
+          name: "guest-clubs-index",
+          component: GuestClubsIndex,
         },
         {
-          path: "/guest/teams/index/:id",
-          name: "guest-team-detail",
+          path: "/guest/clubs/index/:id",
+          name: "guest-club-detail",
           component: ClubDetailView,
         },
         {
@@ -123,9 +135,61 @@ const router = createRouter({
           component: GuestMatchesIndex,
         },
         {
+          path: "/guest/tables/index",
+          name: "guest-tables-index",
+          component: GuestTablesIndex,
+        },
+        {
+          path: "/guest/statistics/index",
+          name: "guest-statistics-index",
+          component: GuestStatisticsIndex,
+          children: [
+            {
+              path: "/guest/statistics/stats/dashboard",
+              name: "guest-statistics-stats-dashboard",
+              component: () => import("@/views/statistics/Dashboard.vue"),
+            },
+            {
+              path: "/guest/statistics/stats/players",
+              name: "guest-statistics-stats-players",
+              component: () => import("@/views/statistics/Players.vue"),
+            },
+            {
+              path: "/guest/statistics/stats/clubs",
+              name: "guest-statistics-stats-clubs",
+              component: () => import("@/views/statistics/Clubs.vue"),
+            },
+            {
+              path: "/guest/statistics/stats/all-time-stats",
+              name: "guest-statistics-stats-all-time-stats",
+              component: () => import("@/views/statistics/AllTimeStats.vue"),
+            },
+            {
+              path: "/guest/statistics/stats/records",
+              name: "guest-statistics-stats-records",
+              component: () => import("@/views/statistics/Records.vue"),
+            },
+            {
+              path: "/guest/statistics/stats/players-comparison",
+              name: "guest-statistics-stats-players-comparison",
+              component: () => import("@/views/statistics/PlayersComparison.vue"),
+            },
+          ],
+        },
+        {
           path: "/guest/news/index",
           name: "guest-news-index",
-          component: import("@/views/NewsView.vue"),
+          component: GuestNewsIndex,
+        },
+        {
+          path: "/guest/transfers/index",
+          name: "guest-transfers-index",
+          component: GuestTransfersIndex,
+        },
+        {
+          path: "/guest/videos/index",
+          name: "guest-videos-index",
+          component: GuestVideosIndex,
         },
       ],
     },
@@ -135,7 +199,7 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
+      // component: () => import("../views/AboutView.vue"),
     },
   ],
 });

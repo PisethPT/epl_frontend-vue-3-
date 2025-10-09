@@ -1,9 +1,266 @@
 <script setup>
 import { ref } from 'vue';
-import { useApiConfig } from '@/stores/apiConfig';
 import { ArrowRight, Plus } from '@element-plus/icons-vue';
+import BasePlayerComparison from '@/components/BasePlayerComparison.vue';
 
-const apiConfig = useApiConfig();
+const fwdComparison = ref({
+    playerOne: {
+        info: {
+            name: 'Haaland',
+            photo: '223094.png',
+            shortPosition: 'FWD',
+        },
+        club: {
+            name: 'Manchester City',
+            clubCrest: 'mci.png',
+            clubTheme: '#7ab2e1',
+        },
+        sessions: '2025/26',
+    },
+    playerTwo: {
+        info: {
+            name: 'Wood',
+            photo: '60689.png',
+            shortPosition: 'FWD',
+        },
+        club: {
+            name: 'Nottingham Forest',
+            clubCrest: 'nf.svg',
+            clubTheme: '#eb0024',
+        },
+        sessions: '2025/26',
+    },
+    comparisonsFields: [
+        {
+            label: 'Expected Goals',
+            playerOnePoint: '7.43',
+            playerTwoPoint: '2.73',
+            playerOneMark: true,
+            playerTwoMark: false,
+        },
+        {
+            label: 'Assists',
+            playerOnePoint: '1',
+            playerTwoPoint: 'N/A',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Goals',
+            playerOnePoint: '8',
+            playerTwoPoint: '2',
+            playerOneMark: true,
+            playerTwoMark: false,
+        },
+        {
+            label: 'Appearances',
+            playerOnePoint: '6',
+            playerTwoPoint: '6',
+            playerOneMark: true,
+            playerTwoMark: true,
+        },
+        {
+            label: 'GoalInvolvements',
+            playerOnePoint: '1.33',
+            playerTwoPoint: '0.33',
+            playerOneMark: true,
+            playerTwoMark: false,
+        },
+    ],
+});
+
+const midComparison = ref({
+    playerOne: {
+        info: {
+            name: 'Ødegaard',
+            photo: 'martin_qdegaard.png',
+            shortPosition: 'MID',
+        },
+        club: {
+            name: 'Arsenal',
+            clubCrest: 'ars.png',
+            clubTheme: '#ff0000',
+        },
+        sessions: '2025/26',
+    },
+    playerTwo: {
+        info: {
+            name: 'Eze',
+            photo: '232413.png',
+            shortPosition: 'MID',
+        },
+        club: {
+            name: 'Arsenal',
+            clubCrest: 'ars.png',
+            clubTheme: '#ff0000',
+        },
+        sessions: '2025/26',
+    },
+    comparisonsFields: [
+        {
+            label: 'Expected Goals',
+            playerOnePoint: '0.14',
+            playerTwoPoint: '0.24',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Total Passes',
+            playerOnePoint: '93',
+            playerTwoPoint: '77',
+            playerOneMark: true,
+            playerTwoMark: false,
+        },
+        {
+            label: 'Total Tackles',
+            playerOnePoint: '2',
+            playerTwoPoint: '2',
+            playerOneMark: true,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Goals',
+            playerOnePoint: 'N/A',
+            playerTwoPoint: 'N/A',
+            playerOneMark: true,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Assists',
+            playerOnePoint: 'N/A',
+            playerTwoPoint: '2',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'GoalInvolvements',
+            playerOnePoint: 'N/A',
+            playerTwoPoint: 'N/A',
+            playerOneMark: true,
+            playerTwoMark: true,
+        },
+    ],
+});
+
+const defComparison1 = ref({
+    playerOne: {
+        info: {
+            name: 'Milenkovic',
+            photo: '227444.png',
+            shortPosition: 'DEF',
+        },
+        club: {
+            name: 'Nottingham Forest',
+            clubCrest: 'nf.svg',
+            clubTheme: '#eb0024',
+        },
+        sessions: '2025/26',
+    },
+    playerTwo: {
+        info: {
+            name: 'van Dijk',
+            photo: '97032.png',
+            shortPosition: 'DEF',
+        },
+        club: {
+            name: 'Liverpool',
+            clubCrest: 'liv.png',
+            clubTheme: '#ffffff',
+        },
+        sessions: '2025/26',
+    },
+    comparisonsFields: [
+        {
+            label: 'Clean Sheets',
+            playerOnePoint: 'N/A',
+            playerTwoPoint: '2',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Goals Conceded',
+            playerOnePoint: '10',
+            playerTwoPoint: '7',
+            playerOneMark: true,
+            playerTwoMark: false,
+        },
+        {
+            label: 'Total Tackles',
+            playerOnePoint: '2',
+            playerTwoPoint: '3',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Clearances',
+            playerOnePoint: '28',
+            playerTwoPoint: '55',
+            playerOneMark: false,
+            playerTwoMark: true,
+        }
+    ],
+});
+
+const defComparison2 = ref({
+    playerOne: {
+        info: {
+            name: 'Aina',
+            photo: '159506.png',
+            shortPosition: 'DEF',
+        },
+        club: {
+            name: 'Nottingham Forest',
+            clubCrest: 'nf.svg',
+            clubTheme: '#eb0024',
+        },
+        sessions: '2025/26',
+    },
+    playerTwo: {
+        info: {
+            name: 'Muñoz',
+            photo: '247348.png',
+            shortPosition: 'DEF',
+        },
+        club: {
+            name: 'Crystal Palace',
+            clubCrest: 'cry.png',
+            clubTheme: '#ee2e24',
+        },
+        sessions: '2025/26',
+    },
+    comparisonsFields: [
+        {
+            label: 'Clean Sheets',
+            playerOnePoint: 'N/A',
+            playerTwoPoint: '3',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Goals Conceded',
+            playerOnePoint: '5',
+            playerTwoPoint: '3',
+            playerOneMark: true,
+            playerTwoMark: false,
+        },
+        {
+            label: 'Total Tackles',
+            playerOnePoint: '6',
+            playerTwoPoint: '12',
+            playerOneMark: false,
+            playerTwoMark: true,
+        },
+        {
+            label: 'Clearances',
+            playerOnePoint: '11',
+            playerTwoPoint: '20',
+            playerOneMark: false,
+            playerTwoMark: true,
+        }
+    ],
+});
+
+
 </script>
 
 <template>
@@ -51,94 +308,10 @@ const apiConfig = useApiConfig();
         <h2 class="text-white md:text-3xl text-xl font-bold mb-4">Popular player comparisons</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            <div v-for="card in 4" class="bg-[#28002b] flex flex-col rounded-2xl w-full h-142">
-                <div class="w-full h-auto">
-                    <div class="mx-4 my-4 grid grid-cols-2 gap-2">
-                        <div class="bg-[#3e003f] rounded-2xl h-45 w-full p-2">
-                            <div class="flex flex-col gap-1">
-                                <div
-                                    class="bg-[#ff0000] flex justify-center rounded-2xl h-27 w-full overflow-hidden pt-2">
-                                    <img :src="apiConfig.PLAYER_LOGOS_DIR + 'oleksandr_zinchenko.png'" alt="Club Crest"
-                                        class="w-25 h-25 object-contain mx-auto" />
-                                </div>
-                                <div class="grid grid-rows-2 gap-3">
-                                    <span class="text-white text-[11px] sm:text-xs md:text-sm lg:text-[12px] font-bold text-center whitespace-nowrap p-0">Oleksandr Zinchenko</span>
-                                    <div class="flex justify-between mt-auto">
-                                        <div class="flex gap-1 items-center">
-                                            <img :src="apiConfig.TEAM_LOGOS_DIR + 'ars.png'" alt=""
-                                                class="w-4 h-4 object-contain">
-                                            <span class="text-white text-[10px]">Arsenal</span>
-                                        </div>
-                                        <span class="text-white text-[10px]">FWD</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#3e003f] rounded-2xl h-45 w-full p-2">
-                            <div class="flex flex-col gap-1">
-                                <div
-                                    class="bg-[#480024] flex justify-center rounded-2xl h-27 w-full overflow-hidden pt-2">
-                                    <img :src="apiConfig.PLAYER_LOGOS_DIR + 'emiliano_buendía.png'" alt="Club Crest"
-                                        class="w-25 h-25 object-contain mx-auto" />
-                                </div>
-                                <div class="grid grid-rows-2 gap-3">
-                                    <span class="text-white text-[11px] sm:text-xs md:text-sm lg:text-[12px] font-bold text-center whitespace-nowrap p-0">Emiliano Buendía </span>
-                                    <div class="flex justify-between mt-auto">
-                                        <div class="flex gap-1 items-center">
-                                            <img :src="apiConfig.TEAM_LOGOS_DIR + 'avl.png'" alt=""
-                                                class="w-4 h-4 object-contain">
-                                            <span class="text-white text-[10px]">Aston Villa</span>
-                                        </div>
-                                        <span class="text-white text-[10px]">FWD</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-5">
-                    <div class="flex justify-between px-5">
-                        <span class="text-white font-bold text-md">2025/26</span>
-                        <span class="text-white font-normal text-md">Session</span>
-                        <span class="text-white font-bold text-md">2025/26</span>
-                    </div>
-
-                    <div class="grid grid-cols-[50px_1fr_50px]">
-                        <span class="text-white font-bold text-md border-[#ff0000] border-l-4 ps-4">7.43</span>
-                        <span class="text-white font-normal text-md text-center">Expected goals</span>
-                        <span class="text-white font-bold text-md text-end border-transparent border-r-4 pe-4">2.73</span>
-                    </div>
-
-                     <div class="grid grid-cols-[50px_1fr_50px]">
-                        <span class="text-white font-bold text-md border-transparent border-l-4 ps-4">1</span>
-                        <span class="text-white font-normal text-md text-center">Assist</span>
-                        <span class="text-white font-bold text-md text-end border-[#480024] border-r-4 pe-4">N/A</span>
-                    </div>
-
-                    <div class="grid grid-cols-[50px_1fr_50px]">
-                        <span class="text-white font-bold text-md border-[#ff0000] border-l-4 ps-4">8</span>
-                        <span class="text-white font-normal text-md text-center">Goals</span>
-                        <span class="text-white font-bold text-md text-end border-transparent border-r-4 pe-4">2</span>
-                    </div>
-                    <div class="grid grid-cols-[50px_1fr_50px]">
-                        <span class="text-white font-bold text-md border-[#ff0000] border-l-4 ps-4">6</span>
-                        <span class="text-white font-normal text-md text-center">Appearances</span>
-                        <span class="text-white font-bold text-md text-end border-[#480024] border-r-4 pe-4">6</span>
-                    </div>
-                    <div class="grid grid-cols-[50px_1fr_50px]">
-                        <span class="text-white font-bold text-md border-[#ff0000] border-l-4 ps-4">1.33</span>
-                        <span class="text-white font-normal text-md text-center">Goal Involvements</span>
-                        <span class="text-white font-bold text-md text-end border-transparent border-r-4 pe-4">0.33</span>
-                    </div>
-
-                </div>
-
-                <div class="w-full px-4 py-4 mt-auto">
-                    <button class="bg-white text-xs text-[#28002b] rounded-2xl w-full h-8 cursor-pointer">View full comparison </button>
-                </div>
-            </div>
+            <BasePlayerComparison :comparisons="fwdComparison" />
+            <BasePlayerComparison :comparisons="midComparison" />
+            <BasePlayerComparison :comparisons="defComparison1" />
+            <BasePlayerComparison :comparisons="defComparison2" />
         </div>
     </div>
 

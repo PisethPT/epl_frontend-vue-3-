@@ -42,7 +42,7 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
 <template>
     <div class="content-center">
         <!-- sponsor bar -->
-        <SponsorBar :sponsorImage="sponsorImage" :rounded="false"/>
+        <SponsorBar :sponsorImage="sponsorImage" :rounded="false" />
 
         <!-- page title -->
         <PageTitleBase :title="title" />
@@ -78,16 +78,18 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
                 <div v-for="club in clubs" :key="club.id"
                     class="flex items-center justify-between py-3 px-2 transition">
                     <div class="flex items-center gap-2 w-1/3">
-                        <div class="rounded-[14px] px-[2px] min-w-12 min-h-12"
+                        <div class="flex justify-center items-center rounded-[14px] px-[2px] w-14 h-12"
                             :style="{ backgroundColor: club.teamThemeColor }">
                             <img :src="TEAM_LOGO_DIR + club.clubCrest" alt="Club Crest"
-                                class="w-12 h-12 p-1 object-contain mx-auto" />
+                                class="w-auto h-11 p-1 object-contain mx-auto" />
                         </div>
                         <div class="flex gap-2 items-center w-full">
                             <h3 class="text-md font-bold text-center text-white text-wrap">{{ club.name }}</h3>
-                            <el-icon>
-                                <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
-                            </el-icon>
+                            <RouterLink :to="{ name: 'guest-club-detail', params: { id: club.id } }">
+                                <el-icon>
+                                    <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
+                                </el-icon>
+                            </RouterLink>
                         </div>
                     </div>
                     <div class="flex w-1/3 gap-4 float-end">

@@ -70,20 +70,20 @@ function showTeamDetails(club)
 </script>
 
 <template>
-    <RouterLink :to="{ name: 'guest-club-detail', params: { id: club.id } }">
         <el-card
             class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !border-0 !rounded-2xl w-[90vw] sm:w-[45vw]  md:w-[45vw] lg:w-[30vw] xl:w-[24vw]">
             <div class="flex items-center gap-4">
-                <div class="rounded-[14px] mt-2 px-1" :style="{ backgroundColor: club.teamThemeColor }">
+                <div class="flex justify-center items-center rounded-[14px] mt-2 px-1 w-14 h-12" :style="{ backgroundColor: club.teamThemeColor }">
                     <img :src="TEAM_LOGOS_DIR + club.clubCrest" alt="Club Crest"
-                        class="w-12 h-12 object-contain mx-auto" />
+                        class="w-auto h-10 object-contain mx-auto" />
                 </div>
                 <div class="flex justify-between items-center w-full">
                     <h3 class="text-lg font-bold text-center text-white text-wrap">{{ club.name }}</h3>
+                    <RouterLink :to="{ name: 'guest-club-detail', params: { id: club.id } }">
                     <el-icon>
-                        <ArrowRightBold class="text-white text-xs hover:cursor-pointer"
-                            @click="showTeamDetails(club)" />
+                        <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
                     </el-icon>
+                    </RouterLink>
                 </div>
             </div>
 
@@ -101,6 +101,6 @@ function showTeamDetails(club)
                 </a>
             </div>
         </el-card>
-    </RouterLink>
+    
 
 </template>

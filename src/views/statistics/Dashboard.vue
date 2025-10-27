@@ -1,7 +1,5 @@
 <script setup>
-import { ref, defineProps } from 'vue';
-import { useApiConfig } from '@/stores/apiConfig';
-import { ArrowRight } from '@element-plus/icons-vue';
+import { ref } from 'vue';
 import BasePlayerStat from '@/components/BasePlayerStat.vue';
 import BasePLClubStat from '@/components/BasePLClubStat.vue';
 import BaseStatPrior from '@/components/BaseStatPrior.vue';
@@ -9,7 +7,7 @@ import BaseStatPrior from '@/components/BaseStatPrior.vue';
 
 <template>
     <div class="mx-4 my-4">
-        <h2 class="text-white md:text-3xl text-xl font-bold mb-4">2025/26 Player Stats</h2>
+        <h2 class="text-white md:text-2xl text-xl font-bold mb-4">2025/26 Player Stats</h2>
         <div class="flex flex-wrap gap-5">
             <BasePlayerStat :title="'Goals'" />
             <BasePlayerStat :title="'Assists'" />
@@ -19,7 +17,7 @@ import BaseStatPrior from '@/components/BaseStatPrior.vue';
     </div>
 
     <div class="mx-4 my-4">
-        <h2 class="text-white md:text-3xl text-xl font-bold mb-4">Premier League Club Stats</h2>
+        <h2 class="text-white md:text-2xl text-xl font-bold mb-4">Premier League Club Stats</h2>
         <div class="flex flex-wrap gap-5">
             <BasePLClubStat :title="'Goals '" />
             <BasePLClubStat :title="'Tackles Won '" />

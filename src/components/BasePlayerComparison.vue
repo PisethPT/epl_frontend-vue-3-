@@ -1,6 +1,10 @@
 <script setup>
-import { ref, defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 import { useApiConfig } from '@/stores/apiConfig';
+import BaseComparisonsFields from './BaseComparisonsFields.vue';
+
+const apiConfig = useApiConfig();
+const emit = defineEmits(['viewFullComparison']);
 
 const props = defineProps({
     comparisons: {
@@ -9,6 +13,7 @@ const props = defineProps({
         default:
         {
             playerOne: {
+                id: 0,
                 info: {
                     name: '',
                     photo: '',
@@ -22,6 +27,7 @@ const props = defineProps({
                 sessions: '2025/26',
             },
             playerTwo: {
+                id: 0,
                 info: {
                     name: '',
                     photo: '',
@@ -36,46 +42,16 @@ const props = defineProps({
             },
             comparisonsFields: [
                 {
-                    label: 'Expected Goals',
+                    label: 'Labels',
                     playerOnePoint: 'N/A',
                     playerTwoPoint: 'N/A',
                     playerOneMark: true,
                     playerTwoMark: false,
-                },
-                {
-                    label: 'Assists',
-                    playerOnePoint: 'N/A',
-                    playerTwoPoint: 'N/A',
-                    playerOneMark: false,
-                    playerTwoMark: true,
-                },
-                {
-                    label: 'Goals',
-                    playerOnePoint: 'N/A',
-                    playerTwoPoint: 'N/A',
-                    playerOneMark: true,
-                    playerTwoMark: false,
-                },
-                {
-                    label: 'Appearances',
-                    playerOnePoint: 'N/A',
-                    playerTwoPoint: 'N/A',
-                    playerOneMark: true,
-                    playerTwoMark: true,
-                },
-                {
-                    label: 'GoalInvolvements',
-                    playerOnePoint: 'N/A',
-                    playerTwoPoint: 'N/A',
-                    playerOneMark: true,
-                    playerTwoMark: false,
-                },
+                }
             ],
         },
     },
 });
-
-const apiConfig = useApiConfig();
 
 </script>
 
@@ -97,12 +73,12 @@ const apiConfig = useApiConfig();
                             <div class=" flex justify-between">
                                 <div class="flex gap-1 items-center">
                                     <img :src="props.comparisons.playerOne.club.clubCrest ? apiConfig.TEAM_LOGOS_DIR + props.comparisons.playerOne.club.clubCrest : ''"
-                                        alt="" class="w-4 h-4 object-contain">
+                                        alt="" class="w-auto h-4 object-contain">
                                     <span class="text-white text-[10px]">{{ props.comparisons.playerOne.club.name
-                                    }}</span>
+                                        }}</span>
                                 </div>
                                 <span class="text-white text-[10px]">{{ props.comparisons.playerOne.info.shortPosition
-                                }}</span>
+                                    }}</span>
                             </div>
                         </div>
                     </div>
@@ -122,12 +98,12 @@ const apiConfig = useApiConfig();
                             <div class="flex justify-between">
                                 <div class="flex gap-1 items-center">
                                     <img :src="props.comparisons.playerTwo.club.clubCrest ? apiConfig.TEAM_LOGOS_DIR + props.comparisons.playerTwo.club.clubCrest : ''"
-                                        alt="" class="w-4 h-4 object-contain">
+                                        alt="" class="w-auto h-4 object-contain">
                                     <span class="text-white text-[10px]">{{ props.comparisons.playerTwo.club.name
-                                    }}</span>
+                                        }}</span>
                                 </div>
                                 <span class="text-white text-[10px]">{{ props.comparisons.playerTwo.info.shortPosition
-                                }}</span>
+                                    }}</span>
                             </div>
                         </div>
                     </div>
@@ -142,20 +118,14 @@ const apiConfig = useApiConfig();
                 <span class="text-white font-bold text-md">{{ props.comparisons.playerTwo.sessions }}</span>
             </div>
 
-            <div v-for="(comparison, index) in props.comparisons.comparisonsFields" :key="index"
-                class="grid grid-cols-[50px_1fr_50px]">
-                <span class="text-white font-bold text-md border-l-4 ps-4"
-                    :style="{ borderColor: comparison.playerOneMark === true ? props.comparisons.playerOne.club.clubTheme : 'transparent' }">{{
-                        comparison.playerOnePoint }}</span>
-                <span class="text-white font-normal text-md text-center">{{ comparison.label }}</span>
-                <span class="text-white font-bold text-md text-end border-r-4 pe-4"
-                    :style="{ borderColor: comparison.playerTwoMark === true ? props.comparisons.playerTwo.club.clubTheme : 'transparent' }">{{
-                        comparison.playerTwoPoint }}</span>
-            </div>
+            <BaseComparisonsFields :comparisons="props.comparisons" />
         </div>
 
         <div class="w-full px-4 py-4 mt-auto">
-            <button class="bg-white text-xs text-[#28002b] rounded-2xl w-full h-8 cursor-pointer">View full comparison </button>
+            <button class="bg-white text-xs text-[#28002b] rounded-2xl w-full h-8 hover:bg-gray-300 cursor-pointer"
+                @click="emit('viewFullComparison', props.comparisons.playerOne.id, props.comparisons.playerTwo.id)">View
+                full comparison
+            </button>
         </div>
     </div>
 </template>

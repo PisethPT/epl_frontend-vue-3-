@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useTeamStore } from '@/stores';
-import TeamInfoCard from '@/components/TeamInfoCard.vue';
+import BaseClubDetail from '@/components/BaseClubDetail.vue';
 import { PLApps } from '@/stores/plApp';
 import { ArrowDown, ArrowRightBold, ArrowUp } from '@element-plus/icons-vue';
 
@@ -201,7 +201,7 @@ function toggleMatchView(view)
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-4 py-4 px-3">
         <div class="flex flex-wrap gap-4 h-fit">
             <!-- team info card -->
-            <TeamInfoCard v-if="clubDetails" :team="clubDetails" />
+            <BaseClubDetail v-if="clubDetails" :team="clubDetails" />
 
             <!-- club info -->
             <div v-if="clubDetails"
@@ -668,7 +668,7 @@ function toggleMatchView(view)
                     <div class="flex justify-center items-center rounded-2xl h-full p-4 gap-3"
                         :style="{ backgroundColor: clubDetails?.teamThemeColor || '#37003c' }">
                         <img :src="clubDetails ? teamStore.TEAM_LOGOS_DIR + clubDetails.clubCrest : ''" alt=""
-                            class="w-23 h-auto object-cover">
+                            class="w-auto h-23 object-cover">
                     </div>
                     <span class="text-sm text-white font-bold">
                         Rice score anm Madueke assists in England win
@@ -679,7 +679,7 @@ function toggleMatchView(view)
                     <div class="flex justify-center items-center rounded-2xl h-full p-4 gap-3"
                         :style="{ backgroundColor: clubDetails?.teamThemeColor || '#37003c' }">
                         <img :src="clubDetails ? teamStore.TEAM_LOGOS_DIR + clubDetails.clubCrest : ''" alt=""
-                            class="w-23 h-auto object-cover">
+                            class="w-auto h-23 object-cover">
                     </div>
                     <span class="text-sm text-white font-bold">
                         41 photos from our 4-1 win over London city
@@ -690,7 +690,7 @@ function toggleMatchView(view)
                     <div class="flex justify-center items-center rounded-2xl h-full p-4 gap-3"
                         :style="{ backgroundColor: clubDetails?.teamThemeColor || '#37003c' }">
                         <img :src="clubDetails ? teamStore.TEAM_LOGOS_DIR + clubDetails.clubCrest : ''" alt=""
-                            class="w-23 h-auto object-cover">
+                            class="w-auto h-23 object-cover">
                     </div>
                     <span class="text-sm text-white font-bold">
                         Renee Reflects on opening day win

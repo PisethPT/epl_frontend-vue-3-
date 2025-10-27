@@ -99,7 +99,7 @@ onMounted(async () =>
                             <div class="flex items-center gap-2 w-1/3">
                                 <div class="text-center">
                                     <img v-if="player.nationality"
-                                        :src="nationalityData.nationalities.find((nat) => nat.name === player.nationality)?.icon"
+                                        :src="nationalityData.nationalities.find((nation) => nation.name === player.nationality)?.icon"
                                         :alt="player.nationality" class="w-7 h-7 object-contain mx-auto">
                                 </div>
                                 <span class="text-white text-xs text-center">{{ player.nationality }}</span>

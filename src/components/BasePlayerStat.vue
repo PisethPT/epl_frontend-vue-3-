@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineProps } from 'vue';
-import { useApiConfig } from '@/stores/apiConfig';
 import { ArrowRight } from '@element-plus/icons-vue';
+import BasePlayerStatCard from './BasePlayerStatCard.vue';
 
 const props = defineProps({
     title: {
@@ -10,13 +10,13 @@ const props = defineProps({
     }
 });
 
-const apiConfig = useApiConfig();
 const players = ref([
     {
         rank: 1,
-        player: {
+        info: {
             name: 'Gabriel Magalhães',
             photo: 'gabriel_magalhães.png',
+            nationality: 'Brazil',
         },
         club: {
             clubCrest: 'ars.png',
@@ -27,9 +27,10 @@ const players = ref([
     },
     {
         rank: 2,
-        player: {
+        info: {
             name: 'James Trafford',
             photo: 'james_trafford.png',
+            nationality: 'England',
         },
         club: {
             clubCrest: 'bunley.svg',
@@ -40,9 +41,10 @@ const players = ref([
     },
     {
         rank: 3,
-        player: {
+        info: {
             name: 'Oleksandr Zinchenko',
             photo: 'oleksandr_zinchenko.png',
+            nationality: 'Ukraine',
         },
         club: {
             clubCrest: 'ars.png',
@@ -53,9 +55,10 @@ const players = ref([
     },
     {
         rank: 4,
-        player: {
+        info: {
             name: 'Emiliano Buendía',
             photo: 'emiliano_buendía.png',
+            nationality: 'Argentina',
         },
         club: {
             clubCrest: 'avl.png',
@@ -66,9 +69,10 @@ const players = ref([
     },
     {
         rank: 1,
-        player: {
+        info: {
             name: 'Gabriel Magalhães',
             photo: 'gabriel_magalhães.png',
+            nationality: 'Cambodia',
         },
         club: {
             clubCrest: 'ars.png',
@@ -79,9 +83,10 @@ const players = ref([
     },
     {
         rank: 2,
-        player: {
+        info: {
             name: 'James Trafford',
             photo: 'james_trafford.png',
+            nationality: 'England',
         },
         club: {
             clubCrest: 'bunley.svg',
@@ -92,9 +97,10 @@ const players = ref([
     },
     {
         rank: 3,
-        player: {
+        info: {
             name: 'Oleksandr Zinchenko',
             photo: 'oleksandr_zinchenko.png',
+            nationality: 'Ukraine',
         },
         club: {
             clubCrest: 'ars.png',
@@ -105,9 +111,10 @@ const players = ref([
     },
     {
         rank: 4,
-        player: {
+        info: {
             name: 'Emiliano Buendía',
             photo: 'emiliano_buendía.png',
+            nationality: 'Argentina',
         },
         club: {
             clubCrest: 'avl.png',
@@ -116,11 +123,12 @@ const players = ref([
         },
         stat: 5
     },
-        {
+    {
         rank: 3,
-        player: {
+        info: {
             name: 'Oleksandr Zinchenko',
             photo: 'oleksandr_zinchenko.png',
+            nationality: 'Ukraine',
         },
         club: {
             clubCrest: 'ars.png',
@@ -131,9 +139,10 @@ const players = ref([
     },
     {
         rank: 4,
-        player: {
+        info: {
             name: 'Emiliano Buendía',
             photo: 'emiliano_buendía.png',
+            nationality: 'Argentina',
         },
         club: {
             clubCrest: 'avl.png',
@@ -153,26 +162,7 @@ const players = ref([
             </el-icon></span>
 
         <div v-for="player in players" class="flex flex-col gap-2 w-full">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-white font-bold text-md me-2">{{ player.rank }}</span>
-                    <div class="rounded-[14px] min-w-12 min-h-12 overflow-hidden" :style="{ backgroundColor: player.club.clubTheme }">
-                        <img :src="apiConfig.PLAYER_LOGOS_DIR + player.player.photo" alt="Club Crest"
-                            class="w-12 h-12 object-contain mx-auto pt-1" />
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <span class="text-white font-bold text-md">{{ player.player.name }}</span>
-                        <div class="flex items-center gap-2">
-                            <div class="min-w-5 min-h-5 overflow-hidden">
-                                <img :src="apiConfig.TEAM_LOGOS_DIR + player.club.clubCrest" alt="Club Crest"
-                                    class="w5 h-5 object-contain mx-auto pt-1" />
-                            </div>
-                            <span class="text-white text-sm">{{ player.club.name }}</span>
-                        </div>
-                    </div>
-                </div>
-                <span class="text-white text-2xl font-bold">{{ player.stat }}</span>
-            </div>
+            <BasePlayerStatCard :player="player" />
         </div>
     </div>
 </template>

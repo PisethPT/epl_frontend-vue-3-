@@ -2,6 +2,7 @@
 import { ref, defineProps } from 'vue';
 import { useApiConfig } from '@/stores/apiConfig';
 import { ArrowRight } from '@element-plus/icons-vue';
+import BasePLClubeStatCard from './BasePLClubeStatCard.vue';
 
 const props = defineProps({
     title: {
@@ -33,19 +34,7 @@ const apiConfig = useApiConfig();
             </el-icon></span>
 
         <div v-for="club in clubs" class="flex flex-col gap-2 w-full mb-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-white font-bold text-md me-3">{{ club.rank }}</span>
-                    <div class="rounded-[14px] px-[2px] min-w-12 min-h-12" :style="{ backgroundColor: club.clubTheme }">
-                        <img :src="apiConfig.TEAM_LOGOS_DIR + club.clubCrest" alt="Club Crest"
-                            class="w-12 h-12 p-1 object-contain mx-auto" />
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <span class="text-white font-bold text-md">{{ club.name }}</span>
-                    </div>
-                </div>
-                <span class="text-white text-2xl font-bold">{{ club.stat }}</span>
-            </div>
+            <BasePLClubeStatCard :club="club" :is-club-theme-visible="true" />
         </div>
     </div>
 </template>

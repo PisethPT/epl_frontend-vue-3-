@@ -8,10 +8,9 @@ import
 {
     ArrowRightBold,
     Edit,
-    Plus,
-    Search,
 } from '@element-plus/icons-vue'
 import SponsorBar from '@/components/SponsorBar.vue';
+import BaseFilter from '@/components/BaseFilter.vue';
 
 const title = ref('Clubs');
 const teamStore = useTeamStore();
@@ -19,6 +18,14 @@ const TEAM_LOGO_DIR = ref('');
 const query = ref('');
 const loading = ref(false);
 const sponsorImage = ref('/src/assets/sponsors/9044630324637544770.png');
+const filters = ref([
+    {
+        id: 1,
+        label: '2025/26',
+        tag: 'seasons',
+    },
+]);
+
 
 onMounted(async () =>
 {
@@ -47,11 +54,9 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
         <!-- page title -->
         <PageTitleBase :title="title" />
 
-        <div class="flex justify-between flex-wrap">
-            <h1 class="ml-5 font-bold text-2xl text-white">2025/26 Season Clubs</h1>
-            <!-- <el-input v-model="query" class="!sm:w-full" style="width: 500px; min-width: auto; margin: 10px 20px; background: #37003c!important;"
-                size="small" placeholder="Search ..." :prefix-icon="Search" clearable /> -->
-        </div>
+        <BaseFilter :isReset="true" :filters="filters" />
+
+        <h1 class="m-3 font-bold text-2xl text-white">2025/26 Season Clubs</h1>
         <div class="flex justify-center w-full flex-wrap grid-cols-5 gap-3 mt-2">
             <div v-for="club in clubs" :key="club.id">
                 <ClubCard :club="club"></ClubCard>
@@ -60,6 +65,7 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
     </div>
 
     <div class="content-center">
+
         <h1 class="m-3 font-bold text-2xl text-white">All-time Premier League Clubs</h1>
         <el-card
             class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !rounded-2xl !border-0 mb-4 mx-3 custom-card overflow-hidden">
@@ -83,14 +89,16 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
                             <img :src="TEAM_LOGO_DIR + club.clubCrest" alt="Club Crest"
                                 class="w-auto h-11 p-1 object-contain mx-auto" />
                         </div>
-                        <div class="flex gap-2 items-center w-full">
-                            <h3 class="text-md font-bold text-center text-white text-wrap">{{ club.name }}</h3>
-                            <RouterLink :to="{ name: 'guest-club-detail', params: { id: club.id } }">
-                                <el-icon>
-                                    <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
-                                </el-icon>
-                            </RouterLink>
-                        </div>
+                        <RouterLink class="flex gap-2 items-center w-full"
+                            :to="{ name: 'clubs', params: { clubId: club.id, clubName: club.name.toString().toLowerCase() } }">
+                            <h3
+                                class="text-md font-bold text-center text-white text-wrap hover:underline hover:cursor-pointer">
+                                {{
+                                    club.name }}</h3>
+                            <el-icon>
+                                <ArrowRightBold class="text-white text-xs " />
+                            </el-icon>
+                        </RouterLink>
                     </div>
                     <div class="flex w-1/3 gap-4 float-end">
                         <span class="text-white w-1/3 text-xs">{{ club.homeStadium }}</span>

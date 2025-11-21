@@ -1,7 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
 import { useApiConfig } from '@/stores/apiConfig';
-import { ElMessageBox } from 'element-plus';
 import { RouterLink } from 'vue-router';
 import 
 {
@@ -29,78 +28,45 @@ const props = defineProps({
 });
 const apiConfigStore = useApiConfig();
 const TEAM_LOGOS_DIR = apiConfigStore.TEAM_LOGOS_DIR;
-
-function showTeamDetails(club)
-{
-    const name = club?.name || 'N/A'
-    const city = club?.city || 'N/A'
-    const founded = club?.founded || 'N/A'
-    const stadium = club?.homeStadium || 'N/A'
-    const coach = club?.headCoach || 'N/A'
-    const logoUrl = `${TEAM_LOGOS_DIR}${club?.clubCrest}`
-
-    ElMessageBox.alert(
-        `
-        <div class="flex flex-row gap-3">
-          <div class="block">
-            <img src="${logoUrl}" alt="Club Crest" class="w-24 h-24 object-contain mx-auto my-4" />
-          </div>
-          <div class="block text-left">
-            <h3 class="text-lg font-bold">${name}</h3>
-            <p class="text-sm text-gray-600">City: ${city}</p>
-            <p class="text-sm text-gray-600">Founded: ${founded}</p>
-            <p class="text-sm text-gray-600">Stadium: ${stadium}</p>
-            <p class="text-sm text-gray-600">Coach: ${coach}</p>
-          </div>
-        </div>
-        `,
-        {
-            title: 'Team Detail',
-            draggable: true,
-            dangerouslyUseHTMLString: true,
-            showClose: true,
-            center: false,
-            closeOnHashChange: true,
-        }
-    ).catch((err) =>
-    {
-        if (err !== 'cancel' && err !== 'close') console.error(err)
-    })
-}
 </script>
 
 <template>
-        <el-card
-            class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !border-0 !rounded-2xl w-[90vw] sm:w-[45vw]  md:w-[45vw] lg:w-[30vw] xl:w-[24vw]">
-            <div class="flex items-center gap-4">
-                <div class="flex justify-center items-center rounded-[14px] mt-2 px-1 w-14 h-12" :style="{ backgroundColor: club.teamThemeColor }">
-                    <img :src="TEAM_LOGOS_DIR + club.clubCrest" alt="Club Crest"
-                        class="w-auto h-10 object-contain mx-auto" />
-                </div>
-                <div class="flex justify-between items-center w-full">
-                    <h3 class="text-lg font-bold text-center text-white text-wrap">{{ club.name }}</h3>
-                    <RouterLink :to="{ name: 'guest-club-detail', params: { id: club.id } }">
+    <el-card
+        class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !border-0 !rounded-2xl w-[90vw] sm:w-[45vw]  md:w-[45vw] lg:w-[30vw] xl:w-[24vw]">
+        <div class="flex items-center gap-4">
+            <div class="flex justify-center items-center rounded-[14px] mt-2 px-1 w-14 h-12"
+                :style="{ backgroundColor: club.teamThemeColor }">
+                <img :src="TEAM_LOGOS_DIR + club.clubCrest" alt="Club Crest"
+                    class="w-auto h-10 object-contain mx-auto" />
+            </div>
+            <div class="flex justify-between items-center w-full">
+                <RouterLink
+                    :to="{ name: 'clubs-overview', params: { clubId: club.id, clubName: club.name.toString().toLowerCase() } }">
+                    <h3 class="text-lg font-bold text-center text-white text-wrap hover:underline">{{ club.name }}</h3>
+                </RouterLink>
+                <RouterLink
+                    :to="{ name: 'clubs-overview', params: { clubId: club.id, clubName: club.name.toString().toLowerCase() } }">
                     <el-icon>
                         <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
                     </el-icon>
-                    </RouterLink>
-                </div>
+                </RouterLink>
             </div>
+        </div>
 
-            <div class="flex justify-between gap-3 mt-4 ">
-                <a href="#"
-                    class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
-                    Follow
-                </a>
-                <a v-if="club.websiteUrl !== ''" :href="club.websiteUrl" target="_blank"
-                    class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
-                    Visit website
-                    <el-icon>
-                        <Edit />
-                    </el-icon>
-                </a>
-            </div>
-        </el-card>
-    
+        <div class="flex justify-between gap-3 mt-4 ">
+            <a href="#"
+                class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
+                Follow
+            </a>
+            <a v-if="club.websiteUrl !== ''" :href="club.websiteUrl" target="_blank"
+                class="!bg-[#4b1254] text-white rounded-3xl text-xs py-2 px-6 hover:!bg-[#1e0021b9] w-full text-center hover:cursor-pointer">
+                Visit website
+                <el-icon>
+                    <Edit />
+                </el-icon>
+            </a>
+        </div>
+    </el-card>
+
 
 </template>

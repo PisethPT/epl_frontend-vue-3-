@@ -107,14 +107,21 @@ export const usePlayerStore = defineStore("PlayerStore", {
         const formData = new FormData();
         formData.append("firstName", form.firstName);
         formData.append("lastName", form.lastName);
+        formData.append(
+          "dateOfBirth",
+          new Date(form.dateOfBirth).toLocaleDateString()
+        );
         formData.append("nationality", form.nationality);
         formData.append("preferredFoot", form.preferredFoot);
         formData.append("socialMedia", form.socialMedia);
         formData.append("position", form.position);
         formData.append("playerNumber", form.playerNumber);
+        formData.append("placeOfBirth", form.placeOfBirth);
+        formData.append("joinedClub", form.joinedClub);
+        formData.append("height", form.height);
         formData.append("teamId", form.teamId);
         fileList.value.forEach((file) => {
-          console.log("file: " + file.raw);
+          //console.log("file: " + file.raw);
 
           formData.append("photo", file.raw);
         });
@@ -144,11 +151,18 @@ export const usePlayerStore = defineStore("PlayerStore", {
         const formData = new FormData();
         formData.append("firstName", form.firstName);
         formData.append("lastName", form.lastName);
+        formData.append(
+          "dateOfBirth",
+          new Date(form.dateOfBirth).toLocaleDateString()
+        );
         formData.append("nationality", form.nationality);
         formData.append("preferredFoot", form.preferredFoot);
         formData.append("socialMedia", form.socialMedia);
         formData.append("position", form.position);
         formData.append("playerNumber", form.playerNumber);
+        formData.append("placeOfBirth", form.placeOfBirth);
+        formData.append("joinedClub", form.joinedClub);
+        formData.append("height", form.height);
         formData.append("teamId", form.teamId);
         fileList.value.forEach((file) => {
           formData.append("photo", file.raw);
@@ -191,6 +205,54 @@ export const usePlayerStore = defineStore("PlayerStore", {
       } catch (error) {
         console.log("error: " + error);
         return "error: " + error;
+      }
+    },
+    async getPlayerInfoById(playerId) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          this.apiConfig.ENDPOINTS.PLAYER_ENDPOINTS.GET_PLAYER_BY_ID_ENDPOINT +
+            playerId,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.status === 200) return await response.data.content; // return player, club
+        return null;
+      } catch (error) {
+        if (error.response) {
+          console.error("Backend error:", error.response.data);
+        } else {
+          console.error("Request error:", error.message);
+        }
+        return error;
+      }
+    },
+    async getTeammatesByPlayerIdAndClubId(playerId, clubId) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          this.apiConfig.ENDPOINTS.PLAYER_ENDPOINTS.GET_TEAMMATES_BY_PLAYER_ID_AND_CLUB_ID +
+            playerId + '/clubId/' + clubId,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.status === 200) return await response.data.content;
+        return null;
+      } catch (error) {
+        if (error.response) {
+          console.error("Backend error:", error.response.data);
+        } else {
+          console.error("Request error:", error.message);
+        }
+        return error;
       }
     },
   },

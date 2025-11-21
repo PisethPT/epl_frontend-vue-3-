@@ -20,15 +20,15 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="rounded-2xl min-h-[210px] w-full flex justify-between p-5"
+    <div class="rounded-2xl h-[200px] w-full flex justify-between p-5 relative"
         :style="{ backgroundColor: team.teamThemeColor ? team.teamThemeColor : '#37003c' }">
-        <div class="w-3/4 flex justify-start flex-col items-start gap-2">
+        <div class="flex justify-start flex-col items-start gap-1">
             <div class="w-auto">
                 <img :src="team.clubCrest ? apiConfig.TEAM_LOGOS_DIR + team.clubCrest : ''" alt="Club Crest"
-                    class="!w-auto !h-16 mx-auto" />
+                    class="!w-auto !h-14 mx-auto" />
             </div>
             <div class="text-start">
-                <h1 class="text-4xl font-bold" :style="{color: team.teamThemeColor == '#ffffff' ? '#000' : '#ffffff'}">{{ team.name }}</h1>
+                <h1 class="md:text-4xl text-2xl font-bold" :style="{color: team.teamThemeColor == '#ffffff' ? '#000' : '#ffffff'}">{{ team.name }}</h1>
                 <el-link :href="team.websiteUrl" target="_blank" :underline="false"
                     class="!text-sm hover:underline" :style="{color: team.teamThemeColor == '#ffffff' ? '#000' : '#ffffff'}">
                     Official club site
@@ -86,7 +86,7 @@ const props = defineProps({
                 </div>
             </div>
         </div>
-        <div class="1/4">
+        <div class="absolute right-0 me-5">
             <el-link :underline="false" :href="team.websiteUrl" target="_blank"
                 class="text-xs bg-[#3d3c3c3f] rounded-3xl !py-2 !px-3 w-full text-center hover:cursor-pointer" :style="{color: team.teamThemeColor == '#ffffff' ? '#000' : '#ffffff'}">
                 Follow

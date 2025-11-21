@@ -45,7 +45,11 @@ const localForm = ref({
     position: '',
     playerNumber: 0,
     teamId: null,
-    photo: ''
+    photo: '',
+    dateOfBirth: '',
+    placeOfBirth: '',
+    joinedClub: '',
+    height: '',
 })
 
 const formRules = {
@@ -285,5 +289,3 @@ function onSubmit()
         <img class="w-full" :src="dialogImageUrl" alt="Preview" />
     </el-dialog>
 </template>
-
-

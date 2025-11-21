@@ -13,9 +13,10 @@ const props = defineProps({
         type: Boolean,
         required: true
     },
-    comparisons: {
-        type: Object,
-        required: true
+    comparisonsFields: {
+        type: Array,
+        required: true,
+        default: () => []
     },
     selectedPlayer1: {
         type: Object,
@@ -43,7 +44,16 @@ const props = defineProps({
         </div>
         <div class="flex flex-col"
             :style="{ display: isOptionsVisible ? 'flex' : 'none', gap: isOptionsVisible ? '1.25rem' : '0' }">
-            <BaseComparisonsFields :comparisons="comparisons" />
+            <div v-for="(comparison, index) in props.comparisonsFields" :key="index"
+                class="grid grid-cols-[50px_1fr_50px]">
+                <span class="text-white font-bold text-md border-l-4 ps-4"
+                    :style="{ borderColor: comparison.playerOneMark === true ? props.selectedPlayer1.club.clubTheme : 'transparent' }">{{
+                        comparison.playerOnePoint }}</span>
+                <span class="text-white font-normal text-md text-center">{{ comparison.label }}</span>
+                <span class="text-white font-bold text-md text-end justify-self-end truncate border-r-4 pe-4"
+                    :style="{ borderColor: comparison.playerTwoMark === true ? props.selectedPlayer2.club.clubTheme : 'transparent' }">{{
+                        comparison.playerTwoPoint }}</span>
+            </div>
         </div>
     </div>
 </template>

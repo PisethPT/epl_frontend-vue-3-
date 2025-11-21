@@ -172,6 +172,7 @@ async function handleSubmit()
 
 function handleOpenDialog()
 {
+    title.value = 'Add New Team';
     Object.assign(form, {
         id: 0,
         name: '',
@@ -393,7 +394,8 @@ function closeDialog()
         <template #club="{ row }">
             <div class="flex justify-center">
                 <div class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center p-2 shadow-inner">
-                    <img :src="row.clubCrest ? TEAM_LOGOS_DIR + row.clubCrest : ''" :alt="row.name">
+                    <img :src="row.clubCrest ? TEAM_LOGOS_DIR + row.clubCrest : ''" :alt="row.name"
+                        class="w-auto h-12 object-contain">
                 </div>
             </div>
         </template>

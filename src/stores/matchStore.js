@@ -209,11 +209,12 @@ export const useMatchStore = defineStore("match", {
         return error;
       }
     },
-    async getMatchTables() {
+    async getMatchTables(clubId) {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          this.apiConfig.ENDPOINTS.MATCH_ENDPOINTS.GET_MATCHES_TABLES_ENDPOINT,
+          this.apiConfig.ENDPOINTS.MATCH_ENDPOINTS.GET_MATCHES_TABLES_ENDPOINT +
+            clubId,
           {
             headers: {
               Authorization: "Bearer " + token,
@@ -225,9 +226,11 @@ export const useMatchStore = defineStore("match", {
           let pos = 1;
           this.matchTables = [];
           this.matchTables = await response.data.content.map((element) => ({
+            clubId: element.clubId,
             pos: pos++,
-            teamName: element.teamName,
-            teamImage: element.teamImage,
+            clubName: element.clubName,
+            clubCrest: element.clubCrest,
+            isLatestWin: element.isLatestWin,
             pl: element.pl,
             w: element.w,
             d: element.d,

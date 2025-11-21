@@ -3,12 +3,9 @@ import { ref, onMounted } from 'vue';
 import { usePlayerStore } from '@/stores';
 import nationalityData from '@/assets/nationality.json';
 import { ElMessage } from 'element-plus';
-import
-{
-    ArrowRightBold,
-    Search,
-} from '@element-plus/icons-vue'
-import PageTitleBase from '@/components/PageTitleBase.vue';
+import BasePlayerCard from '@/components/BasePlayerCard.vue';
+import BaseFilter from '@/components/BaseFilter.vue';
+import SponsorBar from '@/components/SponsorBar.vue';
 
 const title = ref('Players');
 const playersStore = usePlayerStore();
@@ -16,6 +13,23 @@ const players = ref([]);
 const query = ref('');
 const loading = ref(false);
 const sponsorImage = ref('/src/assets/sponsors/PL2526-ClubKits-Referral-Promos-_0000s_0000_ARS.webp');
+const filters = ref([
+    {
+        id: 1,
+        label: '2025/26',
+        tag: 'seasons',
+    },
+    {
+        id: 2,
+        label: 'Clubs',
+        tag: 'clubs',
+    },
+    {
+        id: 3,
+        label: 'Positions',
+        tag: 'positions',
+    },
+]);
 
 onMounted(async () =>
 {
@@ -39,12 +53,12 @@ onMounted(async () =>
     <div class="content-center">
         <!-- sponsor bar -->
         <SponsorBar :sponsorImage="sponsorImage" />
+        <h1
+            class="text-white text-5xl font-bold !bg-gradient-to-r from-[#943bff] to-[#25f1ff] px-4 py-4 mx-3 my-6 rounded-t-2xl sm:rounded-2xl md:rounded-2xl xl:rounded-2xl">
+            {{ title }}
+        </h1>
 
-        <PageTitleBase :title="title" />
-        <!-- <div class="flex justify-center flex-row m-2 flex-wrap gap-2">
-            <el-input v-model="query" style="width: 500px; min-width: auto;" size="large" placeholder="Search ..."
-                :suffix-icon="Search" />
-        </div> -->
+        <BaseFilter :is-search="true" v-model="query" :is-reset="true" :filters="filters" />
 
         <el-card
             class="!bg-gradient-to-br from-[#28002b] to-[#330d36] !rounded-2xl !border-0 mb-4 mx-3 custom-card overflow-hidden">
@@ -69,21 +83,7 @@ onMounted(async () =>
                 <div v-for="player in players" :key="player.id"
                     class="flex items-center justify-between py-3 px-2 transition">
                     <div class="flex justify-between w-2/4">
-                        <div class="flex items-center gap-2 w-1/2">
-                            <div class="rounded-[14px] min-w-12 min-h-12 overflow-hidden"
-                                :style="{ backgroundColor: player.teamThemeColor }">
-                                <img :src="playersStore.PLAYER_PHOTO_DIR + player.photo" alt="Club Crest"
-                                    class="w-12 h-12 object-contain mx-auto pt-1" />
-                            </div>
-                            <div class="flex gap-2 items-center w-full">
-                                <h3 class="text-md font-bold text-center text-white text-wrap">{{ player.firstName }} {{
-                                    player.lastName
-                                    }}</h3>
-                                <el-icon>
-                                    <ArrowRightBold class="text-white text-xs hover:cursor-pointer" />
-                                </el-icon>
-                            </div>
-                        </div>
+                        <BasePlayerCard :player="player" />
 
                         <div class="flex justify-evenly w-2/3">
                             <div class="w-1/3 flex gap-2 items-center">
@@ -91,7 +91,11 @@ onMounted(async () =>
                                     <img :src="playersStore.TEAM_LOGOS_DIR + player.teamClubCrest" alt=""
                                         class="w-7 h-7 object-contain mx-auto">
                                 </div>
-                                <span class="text-white text-xs text-center">{{ player.teamName }}</span>
+                                <RouterLink
+                                    :to="{ name: 'clubs', params: { clubId: player.teamId, clubName: player.teamName.toString().toLowerCase() } }">
+                                    <span class="text-white text-xs text-center hover:underline hover:cursor-pointer">{{
+                                        player.teamName }}</span>
+                                </RouterLink>
                             </div>
                             <div class="w-1/3 flex items-center">
                                 <span class="text-white text-xs text-end">{{ player.position }}</span>
@@ -99,10 +103,10 @@ onMounted(async () =>
                             <div class="flex items-center gap-2 w-1/3">
                                 <div class="text-center">
                                     <img v-if="player.nationality"
-                                        :src="nationalityData.nationalities.find((nation) => nation.name === player.nationality)?.icon"
+                                        :src="nationalityData.nationalities.find((nation) => nation.nationality === player.nationality)?.icon"
                                         :alt="player.nationality" class="w-7 h-7 object-contain mx-auto">
                                 </div>
-                                <span class="text-white text-xs text-center">{{ player.nationality }}</span>
+                                <span class="text-white text-xs text-center">{{ player.placeOfBirth }}</span>
                             </div>
                         </div>
                     </div>
@@ -116,7 +120,6 @@ onMounted(async () =>
                 </div>
             </div>
         </el-card>
-
     </div>
 </template>
 

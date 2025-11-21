@@ -24,10 +24,11 @@ export const useApiConfig = defineStore("apiConfig", () => {
     POST_NEW_PLAYER_ENDPOINT: BASE_URL + "/players/create",
     PUT_PLAYER_ENDPOINT: BASE_URL + "/players/edit/",
     DELETE_PLAYER_ENDPOINT: BASE_URL + "/players/delete/",
+    GET_TEAMMATES_BY_PLAYER_ID_AND_CLUB_ID: BASE_URL + "/players/teammates/playerId/"
   };
   const MATCH_ENDPOINTS = {
     GET_MATCHES_ENDPOINT: BASE_URL + "/matches",
-    GET_MATCHES_TABLES_ENDPOINT: BASE_URL + "/matches/tables",
+    GET_MATCHES_TABLES_ENDPOINT: BASE_URL + "/matches/tables/",
     GET_MATCH_BY_ID_ENDPOINT: BASE_URL + "/matches/",
     POST_MATCH_ENDPOINT: BASE_URL + "/matches/create",
     PUT_MATCH_ENDPOINT: BASE_URL + "/matches/edit/",

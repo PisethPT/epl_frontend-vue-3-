@@ -104,7 +104,7 @@ const handleSelect = (index) =>
                 class="flex items-center space-x-2 hover:!text-white hover:!bg-transparent">
                 <span class="text-white menu-title">Clubs</span>
             </el-menu-item>
-            <el-menu-item index="guest-videos-index">
+            <el-menu-item index="video">
                 <span class="text-white menu-title">Videos</span>
             </el-menu-item>
         </div>

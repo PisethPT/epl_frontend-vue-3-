@@ -4,6 +4,7 @@ import { useMatchStore, useNewsStore } from '@/stores';
 import NewsCard from '@/components/NewsCard.vue';
 import BaseMatchCard from '@/components/BaseMatchCard.vue';
 import { ElMessage } from 'element-plus';
+import { ArrowDown } from '@element-plus/icons-vue';
 
 const matchStore = useMatchStore();
 const newsStore = useNewsStore();
@@ -32,7 +33,7 @@ onMounted(async () =>
   matchTablesLoading.value = true;
   try
   {
-    await matchStore.getMatchTables();
+    await matchStore.getMatchTables(0);
     TEAM_LOGOS_DIR.value = matchStore.TEAM_LOGOS_DIR;
     matchTables.value = matchStore.matchTables;
 
@@ -59,7 +60,7 @@ onMounted(async () =>
 
 <template>
   <main class="px-3 min-h-screen flex flex-col">
-    
+
     <!-- Carousel -->
     <!-- <el-carousel :interval="4000" type="card" height="230px" class="mt-4">
       <el-carousel-item v-for="item in news.slice(0, 5)" :key="item" class="rounded-2xl relative">
@@ -118,9 +119,13 @@ onMounted(async () =>
           <template #header>
             <div class="flex items-center justify-between">
               <h2 class="text-white font-bold text-2xl">Matches</h2>
-              <el-select v-model="selectedRound" size="small" class="!w-32" placeholder="Round">
-                <el-option v-for="round in rounds" :key="round" :label="'GW ' + round" :value="round" />
-              </el-select>
+              <div
+                class="flex justify-center items-center gap-1 text-white text-center text-sm w-fit px-3 py-[6px] rounded-[10px] bg-transparent border-[#624d64] border-2 text-nowrap hover:bg-[#654c6818] cursor-pointer">
+                GW 2
+                <el-icon>
+                  <ArrowDown class="text-white text-md" />
+                </el-icon>
+              </div>
             </div>
           </template>
           <div class="w-full max-w-6xl mx-auto">
@@ -140,22 +145,27 @@ onMounted(async () =>
           <template #header style="border: none!important;">
             <div class="card-header flex justify-between items-center">
               <h2 class="text-white font-bold text-2xl">Table</h2>
-              <el-select v-model="sessionSelected" placeholder="Sessions" style="width: 115px;" size="small">
-                <el-option v-for="option in options" :key="option.value" :value="option.value"
-                  :label="option.label"></el-option>
-              </el-select>
+
+              <div
+                class="flex justify-center items-center gap-1 text-white text-center text-sm w-fit px-3 py-[6px] rounded-[10px] bg-transparent border-[#624d64] border-2 text-nowrap hover:bg-[#654c6818] cursor-pointer">
+                2025/26
+                <el-icon>
+                  <ArrowDown class="text-white text-md" />
+                </el-icon>
+              </div>
+
             </div>
           </template>
           <el-table :data="matchTables" class="w-full"
             :header-cell-style="{ background: '#37003c', color: 'white', fontWeight: 'bold' }"
             :cell-style="{ background: '#37003c', color: 'white' }" :border="false">
             <el-table-column fixed prop="pos" label="Pos" width="50" align="center" />
-            <el-table-column fixed prop="teamImage" label="Team" style="min-width: 400px;">
+            <el-table-column fixed prop="clubCrest" label="Team" style="min-width: 400px;">
               <template #default="scope">
                 <div class="flex text-center items-center gap-3">
-                  <img :src="TEAM_LOGOS_DIR + scope.row.teamImage" :alt="scope.row.teamName"
+                  <img :src="TEAM_LOGOS_DIR + scope.row.clubCrest" :alt="scope.row.clubName"
                     class="w-8 h-8 object-contain">
-                  <span>{{ scope.row.teamName }}</span>
+                  <span>{{ scope.row.clubName }}</span>
                 </div>
               </template>
             </el-table-column>

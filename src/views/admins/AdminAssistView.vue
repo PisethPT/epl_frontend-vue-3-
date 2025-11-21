@@ -494,10 +494,10 @@ const formatTime = (timeString) =>
             <div class="flex justify-center">
                 <div v-if="row.player.preferredFoot == 'Right'"
                     class="bg-yellow-100 w-10 h-10 rounded-full flex items-center justify-center shadow-inner">
-                    <span class="text-xl">👟</span>
+                    <span class="text-xl rotate-x-0 rotate-y-180">👟</span>
                 </div>
                 <div v-else class="bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center shadow-inner">
-                    <span class="text-xl">👟</span>
+                    <span class="text-xl rotate-x-0 rotate-y-180">👟</span>
                 </div>
             </div>
         </template>

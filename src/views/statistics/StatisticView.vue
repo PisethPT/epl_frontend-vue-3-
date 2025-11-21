@@ -1,11 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useApiConfig } from '@/stores/apiConfig';
 import SponsorBar from '@/components/SponsorBar.vue';
 import router from '@/router';
 
 const title = ref('Stats Centre');
-const apiConfig = useApiConfig();
 const sponsorImage = ref('/src/assets/sponsors/9044630324637544770.png');
 const statMenuActive = ref('Dashboard');
 const statsMenu = ref([
@@ -40,7 +38,7 @@ onMounted(() =>
                 class="text-white text-sm pb-1 border-b-4 hover:cursor-pointer whitespace-nowrap"
                 :style="statMenuActive == menu.name ? { borderBottom: '4px solid white', fontWeight: 'bold' } : { borderBottom: '4px solid transparent', fontWeight: 'normal' }">
                 <router-link :to="{ name: menu.route }" @click="statMenuActive = menu.name">{{ menu.name
-                    }}</router-link>
+                }}</router-link>
             </div>
         </div>
 
@@ -53,11 +51,11 @@ onMounted(() =>
 
 <style scoped>
 .scrollbar-none::-webkit-scrollbar {
-    display: none;
+    display: none !important;
 }
 
 .scrollbar-none {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
 }
 </style>

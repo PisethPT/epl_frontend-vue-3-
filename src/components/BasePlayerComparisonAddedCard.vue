@@ -38,7 +38,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="bg-[#37003c] flex flex-col gap-2 rounded-xl flex-1 p-2 h-57 cursor-pointer">
+    <div class="bg-[#37003c] flex flex-col gap-2 rounded-xl flex-1 p-2 h-auto cursor-pointer">
         <div class="flex flex-col gap-2" @click="emit('clickToAddPlayer', props.param, props.playerIndex)">
             <div class="rounded-[14px] w-full h-25 overflow-hidden"
                 :style="{ backgroundColor: player.club?.clubTheme }">
@@ -46,16 +46,16 @@ const props = defineProps({
                     class="w-25 h-auto object-contain mx-auto pt-1" />
             </div>
             <div class="flex flex-col justify-center gap-1">
-                <span class="text-white font-bold text-md">{{ player.info?.name.split(' ')[0] }}</span>
+                <span class="text-white font-bold text-md">{{ player.info?.name.split(' ')[1] }}</span>
                 <div class="flex justify-between">
                     <div class="flex items-center gap-1">
                         <div class="min-w-5 min-h-5 overflow-hidden">
                             <img :src="apiConfig.TEAM_LOGOS_DIR + player.club?.clubCrest" alt="Club Crest"
                                 class="w-auto h-5 object-contain mx-auto pt-1" />
                         </div>
-                        <span class="text-white text-sm">{{ player.club?.name }}</span>
+                        <span class="text-white text-xs md:text-sm lg:text-base">{{ player.club?.name }}</span>
                     </div>
-                    <span class="text-white text-sm">{{ player.info?.position }}</span>
+                    <span class="text-white text-xs md:text-sm lg:text-base">{{ player.info?.position }}</span>
                 </div>
 
             </div>

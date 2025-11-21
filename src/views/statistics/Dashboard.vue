@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import BasePlayerStat from '@/components/BasePlayerStat.vue';
 import BasePLClubStat from '@/components/BasePLClubStat.vue';
-import BaseStatPrior from '@/components/BaseStatPrior.vue';
+import BaseAvailablePrior from '@/components/BaseAvailablePrior.vue';
 </script>
 
 <template>
@@ -26,5 +26,5 @@ import BaseStatPrior from '@/components/BaseStatPrior.vue';
         </div>
     </div>
 
-    <BaseStatPrior />
+    <BaseAvailablePrior />
 </template>

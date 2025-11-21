@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import BaseStatPrior from '@/components/BaseStatPrior.vue';
+import BaseStatPrior from '@/components/BaseAvailablePrior.vue';
 import
 {
     ArrowRight,
@@ -155,7 +155,7 @@ const players = ref([
 <template>
     <div class="content-center mx-4 my-4 bg-[#28002b] rounded-2xl px-4 pt-4 pb-0 h-fit flex flex-col">
         <div class="flex justify-between items-center w-full h-fit">
-            <h2 class="text-white text-2xl font-bold mb-4">Premier League Player Stats</h2>
+            <h2 class="text-white md:text-2xl text-xl font-bold mb-4">Premier League Player Stats</h2>
             <div class="flex gap-2">
                 <button
                     class="flex items-center justify-center rounded-full bg-[#3e003f] w-8 h-8 hover:bg-[#55005a] cursor-pointer">
@@ -170,7 +170,6 @@ const players = ref([
                     </el-icon>
                 </button>
             </div>
-
         </div>
         <div class="flex flex-col w-full">
             <div class="grid grid-cols-[50px_1fr_auto] items-center gap-2 px-4 py-2 mb-2">
@@ -179,10 +178,12 @@ const players = ref([
                 <span class="text-gray-400 font-bold text-md">Goals</span>
             </div>
             <div v-for="player in players" :key="player.rank">
-                <BasePlayerStatCard :player="player" :rank-size="'50px'" :is-nationality-visible="true" class="px-4 py-4 hover:bg-[#3a0040] hover:rounded-lg" /> <!-- hover:scale-105 transition-transform duration-200 -->
+                <BasePlayerStatCard :player="player" :rank-size="'50px'" :is-nationality-visible="true"
+                    class="px-4 py-4 hover:bg-[#3a0040] hover:rounded-lg" />
+                <!-- hover:scale-105 transition-transform duration-200 -->
             </div>
         </div>
     </div>
 
     <BaseStatPrior />
-</template> 
+</template>

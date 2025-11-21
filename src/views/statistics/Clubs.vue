@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import BaseStatPrior from '@/components/BaseStatPrior.vue';
+import BaseStatPrior from '@/components/BaseAvailablePrior.vue';
 import
 {
     ArrowRight,
@@ -25,7 +25,7 @@ const clubs = ref([
 <template>
     <div class="content-center mx-4 my-4 bg-[#28002b] rounded-2xl px-4 py-4 h-fit flex flex-col">
         <div class="flex justify-between items-center w-full h-fit">
-            <h2 class="text-white text-2xl font-bold mb-4">Premier League Club Stats</h2>
+            <h2 class="text-white md:text-2xl text-xl font-bold mb-4">Premier League Club Stats</h2>
             <div class="flex gap-2">
                 <button
                     class="flex items-center justify-center rounded-full bg-[#3e003f] w-8 h-8 hover:bg-[#55005a] cursor-pointer">
@@ -49,7 +49,8 @@ const clubs = ref([
                 <span class="text-gray-400 font-bold text-md">Goals</span>
             </div>
             <div v-for="club in clubs" :key="club.rank">
-                <BasePLClubeStatCard :club="club" :rank-size="'50px'" :is-club-theme-visible="false" class="px-4 py-4 hover:bg-[#3a0040] hover:rounded-lg" />
+                <BasePLClubeStatCard :club="club" :rank-size="'50px'" :is-club-theme-visible="false"
+                    class="px-4 py-4 hover:bg-[#3a0040] hover:rounded-lg" />
             </div>
         </div>
 

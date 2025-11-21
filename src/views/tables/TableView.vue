@@ -4,11 +4,35 @@ import PageTitleBase from '@/components/PageTitleBase.vue';
 import { useApiConfig } from '@/stores/apiConfig';
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue';
 import SponsorBar from '@/components/SponsorBar.vue';
+import BaseFilter from '@/components/BaseFilter.vue';
 
 const apiConfig = useApiConfig();
 
 const title = ref('Tables');
 const sponsorImage = ref('/src/assets/sponsors/9044630324637544770.png');
+const filters = ref([
+    {
+        id: 1,
+        label: 'Premier League',
+        tag: 'leagues',
+    },
+    {
+        id: 2,
+        label: '2025/26',
+        tag: 'seasons',
+    },
+    {
+        id: 3,
+        label: 'All Matchweeks',
+        tag: 'allMatchweeks',
+    },
+    {
+        id: 4,
+        label: 'Home & Alway',
+        tag: 'homeAndAlway',
+    },
+]);
+
 const dataTable = ref([
     {
         pos: 1,
@@ -277,17 +301,14 @@ const dataTable = ref([
 
 <template>
     <div class="content-center">
-        <!-- Sponsor Bar -->
-        <SponsorBar :sponsorImage="sponsorImage" :rounded="false"/>
-
+        <SponsorBar :sponsorImage="sponsorImage" :rounded="false" />
         <PageTitleBase :title="title" />
+        <BaseFilter :isReset="true" :filters="filters" />
 
         <div class="flex-1 overflow-y-auto mt-4 mx-4 rounded-2xl !bg-[#28002b] py-4 pe-2">
-            <!-- header row -->
             <div class="grid grid-cols-[90px_300px_1fr] text-white font-normal text-[16px]">
-                <div class="sticky left-0 bg-[#28002b] z-10 p-3 text-center">Pos</div>
-                <div class="sticky left-[70px] bg-[#28002b] z-10 p-3 w-fit">Team</div>
-                <!-- Stats -->
+                <div class="sticky left-0 bg-[#28002b] z-10 px-3 text-center">Pos</div>
+                <div class="sticky left-[70px] bg-[#28002b] z-10 px-3 w-fit">Team</div>
                 <div class="grid grid-cols-[50px_50px_50px_50px_50px_50px_50px_170px_50px_60px] justify-self-end pr-6">
                     <div class="text-center">PI</div>
                     <div class="text-center">W</div>
@@ -302,8 +323,6 @@ const dataTable = ref([
                 </div>
             </div>
 
-
-            <!-- body rows -->
             <div v-for="row in dataTable" :key="row.pos"
                 class="relative grid grid-cols-[90px_300px_1fr] items-center text-white text-sm hover:bg-[#3a0040] rounded-lg transition h-[59px] mt-2">
                 <div
@@ -317,7 +336,6 @@ const dataTable = ref([
                         class="w-8 h-8 object-contain" alt="" />
                     <span class="text-[17px] font-bold">{{ row.club.name }}</span>
                 </div>
-                <!-- Stats -->
                 <div
                     class="grid grid-cols-[50px_50px_50px_50px_50px_50px_50px_170px_50px_60px] justify-self-end pr-6 items-center">
                     <div class="text-center">{{ row.pi }}</div>
@@ -343,14 +361,11 @@ const dataTable = ref([
                             class="w-8 h-8 object-contain" alt="" />
                     </div>
                 </div>
-
-                <!-- Left indicator -->
                 <div v-if="row.pos <= 4" class="absolute left-0 top-0 h-full w-1 bg-blue-500 rounded-r-lg z-10"></div>
                 <div v-else-if="row.pos == 5" class="absolute left-0 top-0 h-full w-1 bg-orange-500 rounded-r-lg z-10">
                 </div>
-                <!-- row.pos >= 18-->
-                <div v-else-if="row.pts <= 4"
-                    class="absolute left-0 top-0 h-full w-1 bg-pink-500 rounded-r-lg z-10"></div>
+                <div v-else-if="row.pts <= 4" class="absolute left-0 top-0 h-full w-1 bg-pink-500 rounded-r-lg z-10">
+                </div>
             </div>
         </div>
         <div class="flex items-center gap-3 flex-wrap mx-4 mt-6">

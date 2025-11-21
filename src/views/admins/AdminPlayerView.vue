@@ -21,9 +21,12 @@ const playerStore = usePlayerStore();
 const players = ref([]);
 const teams = ref([]);
 const selectedTeam = ref(null);
+const placeOfBirths = ref([]);
 const nationalities = ref([]);
 const selectTeamPlaceholder = ref('Select a Team');
+const selectedPlaceOfBirth = ref(null);
 const selectedNationality = ref(null);
+const selectPlaceOfBirthPlaceholder = ref('Select a Place of Birth');
 const selectNationalityPlaceholder = ref('Select a Nationality');
 const TEAM_LOGOS_DIR = ref('');
 const PLAYER_PHOTOS_DIR = ref('');
@@ -40,6 +43,50 @@ const fileList = ref([]);
 const previewVisible = ref(false);
 const dialogImageUrl = ref('');
 
+const joinedClubSelectListItem = ref([
+    { label: '2019/2020', value: '2019/2020' },
+    { label: '2020/2021', value: '2020/2021' },
+    { label: '2021/2022', value: '2021/2022' },
+    { label: '2022/2023', value: '2022/2023' },
+    { label: '2023/2024', value: '2023/2024' },
+    { label: '2024/2025', value: '2024/2025' },
+    { label: '2025/2026', value: '2025/2026' },
+]);
+
+
+const positionSelectListItem = ref([
+    {
+        label: 'Goalkeeper',
+        value: 'Goalkeeper',
+    },
+    {
+        label: 'Defender',
+        value: 'Defender',
+    },
+    {
+        label: 'Midfielder',
+        value: 'Midfielder',
+    },
+    {
+        label: 'Forward',
+        value: 'Forward',
+    },
+])
+const preferredFootSelectListItem = ref([
+    {
+        label: 'Right',
+        value: 'Right',
+    },
+    {
+        label: 'Left',
+        value: 'Left',
+    },
+    {
+        label: 'Both',
+        value: 'Both',
+    },
+])
+
 
 const form = reactive({
     id: 0,
@@ -51,14 +98,20 @@ const form = reactive({
     position: '',
     playerNumber: 0,
     teamId: null,
-    photo: ''
+    photo: '',
+    dateOfBirth: '',
+    placeOfBirth: null,
+    joinedClub: '',
+    height: '',
 });
 
 const columns = [
     { label: 'Photo', prop: 'photo', slot: 'photo', width: '100px', align: 'center', sortable: false },
     { label: 'First Name', prop: 'firstName', minWidth: 210, sortable: true },
     { label: 'Last Name', prop: 'lastName', minWidth: 210, sortable: true },
+    { label: 'Date of Birth', prop: 'dateOfBirth', minWidth: 210, align: 'center', sortable: true },
     { label: 'Nationality', prop: 'nationality', slot: 'nationality', width: 150, align: 'center', sortable: true },
+    { label: 'Place of Birth', prop: 'placeOfBirth', slot: 'placeOfBirth', width: 150, align: 'center', sortable: true },
     { label: 'Position', prop: 'position', width: 150, sortable: true },
     { label: 'Player Number', prop: 'playerNumber', width: 150, align: 'center', sortable: true },
     { label: 'Preferred Foot', prop: 'preferredFoot', width: 150, align: 'center', sortable: true },
@@ -69,6 +122,7 @@ const columns = [
 const rules = {
     firstName: [{ required: true, message: 'Please enter the first name', trigger: 'blur' }],
     lastName: [{ required: true, message: 'Please enter the last name', trigger: 'blur' }],
+    placeOfBirth: [{ required: true, message: 'Please select a country of player', trigger: 'change' }],
     nationality: [{ required: true, message: 'Please select a nationality of player', trigger: 'change' }],
     preferredFoot: [{ required: true, message: 'Please select a preferred foot', trigger: 'blur' }],
     socialMedia: [{ required: true, message: 'Please enter social media links', trigger: 'blur' }],
@@ -79,27 +133,27 @@ const rules = {
 
 const emit = defineEmits(['update:modelValue', 'update:form', 'submit']);
 
-watch(() => form, (val) =>
+
+watch(form, (val) =>
 {
-    // console.log('model value:', modelValue.value);
+    if (!val) return
 
-    if (val)
-    {
+    selectedTeam.value = teams.value.find(t => t.id === val.teamId) || null
+    selectedPlaceOfBirth.value = placeOfBirths.value.find(p => p.name === val.placeOfBirth) || null
+    selectedNationality.value = nationalities.value.find(n => n.name === val.nationality) || null
 
-        selectedTeam.value = teams.value.find(t => t.id === val.teamId) || null;
-        selectedNationality.value = nationalities.value.find(n => n.name === val.nationality) || null;
+    // file list from photo URL
+    fileList.value = val.photo ? [{
+        name: `${val.firstName} ${val.lastName}`.trim(),
+        url: val.photo,
+        raw: null,
+        status: 'success'
+    }] : []
 
-        fileList.value = val.photo ? [{
-            name: `${val.firstName} ${val.lastName}`,
-            url: val.photo,
-            raw: null,
-            status: 'success'
-        }] : [];
-    }
-    emit('update:modelValue', modelValue.value);
-    emit('update:form', { ...form });
-}, { immediate: true, deep: true });
-
+    // emit updates
+    if (typeof modelValue !== 'undefined') emit('update:modelValue', modelValue.value)
+    emit('update:form', { ...form })
+}, { immediate: true, deep: true })
 
 watch(selectedTeam, (team) =>
 {
@@ -108,8 +162,13 @@ watch(selectedTeam, (team) =>
 
 watch(selectedNationality, (nationality) =>
 {
-    console.log(nationality.name, 'selected');
+    // console.log(nationality.name, 'selected');
     form.nationality = nationality?.name ?? null
+})
+
+watch(selectedPlaceOfBirth, (country) =>
+{
+    form.placeOfBirth = country?.name ?? null
 })
 
 onMounted(async () =>
@@ -126,10 +185,16 @@ onMounted(async () =>
         TEAM_LOGOS_DIR.value = playerStore.TEAM_LOGOS_DIR
         PLAYER_PHOTOS_DIR.value = playerStore.PLAYER_PHOTO_DIR;
 
-        nationalities.value = nationalityData.nationalities.map(nat => ({
-            id: nat.name,
-            name: nat.name,
-            logo: nat.icon
+        placeOfBirths.value = nationalityData.nationalities.map(country => ({
+            id: country.name,
+            name: country.name,
+            logo: country.icon
+        }));
+
+        nationalities.value = nationalityData.nationalities.map(n => ({
+            id: n.nationality,
+            name: n.nationality,
+            logo: n.icon
         }));
 
     } catch (error)
@@ -153,8 +218,7 @@ const tableData = computed(() =>
             player.teamName.toString().toLowerCase().includes(query.value.toLowerCase())
         )
     );
-})
-
+});
 
 // functions
 async function handleSubmit()
@@ -169,10 +233,18 @@ async function handleSubmit()
         }
         form.photo = fileList.value[0].url
 
-        form.teamId = selectedTeam.value ? selectedTeam.value.id : null
-        form.nationality = selectedNationality.value ? selectedNationality.value.name : null
+        form.teamId = selectedTeam.value ? selectedTeam.value.id : null;
+        form.placeOfBirth = selectedPlaceOfBirth.value ? selectedPlaceOfBirth.value.name : null;
+        form.nationality = selectedNationality.value ? selectedNationality.value.name : null;
+
+        console.log(form.placeOfBirth, ', ', selectedPlaceOfBirth.value.name);
         console.log(form.nationality, ', ', selectedNationality.value.name);
 
+        if (!form.placeOfBirth)
+        {
+            ElMessage.error('Please select a place of birth')
+            return
+        }
         if (!form.nationality)
         {
             ElMessage.error('Please select a nationality')
@@ -209,9 +281,10 @@ async function handleSubmit()
             }
             else
             {
-                ElMessage.error('Failed to update player');
+                ElMessage.error('Error: ' + data);
             }
         }
+        emit('update:modelValue', false);
         emit('update:form', { ...form });
         emit('submit', { ...form.value, fileList: fileList.value });
     } catch (error)
@@ -296,17 +369,22 @@ function handleDelete(row)
 
 function handleOpenDialog()
 {
+    title.value = 'Add New Player';
     Object.assign(form, {
         id: 0,
         firstName: '',
         lastName: '',
+        placeOfBirth: null,
         nationality: null,
         preferredFoot: '',
         socialMedia: '',
         position: '',
         playerNumber: null,
         teamId: null,
-        photo: null
+        photo: null,
+        dateOfBirth: '',
+        joinedClub: '',
+        height: '',
     });
 
     modelValue.value = true;
@@ -349,14 +427,19 @@ function handleClear()
 {
     Object.assign(form, {
         id: 0,
-        name: '',
-        city: '',
-        founded: '',
-        homeStadium: '',
-        headCoach: '',
-        clubCrest: '',
-        websiteUrl: '',
-        clubThemeColor: '',
+        firstName: '',
+        lastName: '',
+        placeOfBirth: null,
+        nationality: null,
+        preferredFoot: '',
+        socialMedia: '',
+        position: '',
+        playerNumber: null,
+        teamId: null,
+        photo: null,
+        dateOfBirth: '',
+        joinedClub: '',
+        height: '',
     })
 
     fileList.value.forEach((file) =>
@@ -391,24 +474,55 @@ function closeDialog()
                 </el-form-item>
             </div>
 
+            <!-- Date of Birth / Hight -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <el-form-item label="Match Date" prop="dateOfBirth">
+                    <el-date-picker v-model="form.dateOfBirth" type="date" placeholder="Player Date of Birth" />
+                </el-form-item>
+
+                <el-form-item label="Hight" prop="hight">
+                    <el-input v-model="form.height" clearable />
+                </el-form-item>
+            </div>
+
+            <!-- Place of Birth /  Nationality-->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <BaseSelectWithIcon v-model="selectedPlaceOfBirth" :options="placeOfBirths" label="Place of Birth"
+                    prop="placeOfBirth" :placeholder="selectPlaceOfBirthPlaceholder" />
+
+                <BaseSelectWithIcon v-model="selectedNationality" :options="nationalities" label="Nationality"
+                    prop="nationality" :placeholder="selectNationalityPlaceholder" />
+            </div>
+
+
+            <!-- Preferred Foot / Joined Club -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <el-form-item label="Preferred Foot" prop="preferredFoot">
+                    <el-select v-model="form.preferredFoot" placeholder="Select Preferred Foot" filterable>
+                        <el-option v-for="foot in preferredFootSelectListItem" :key="foot.value" :label="foot.label"
+                            :value="foot.value" />
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="Joined Club" prop="joinedClub">
+                    <el-select v-model="form.joinedClub" placeholder="Select Joined Club" filterable>
+                        <el-option v-for="joinedClub in joinedClubSelectListItem" :key="joinedClub.value"
+                            :label="joinedClub.label" :value="joinedClub.value" />
+                    </el-select>
+                </el-form-item>
+            </div>
+
             <!-- Position / Number -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <el-form-item label="Position" prop="position">
-                    <el-input v-model="form.position" clearable />
+                    <el-select v-model="form.position" placeholder="Select position" filterable>
+                        <el-option v-for="position in positionSelectListItem" :key="position.value"
+                            :label="position.label" :value="position.value" />
+                    </el-select>
                 </el-form-item>
 
                 <el-form-item label="Player Number" prop="playerNumber">
                     <el-input-number v-model.number="form.playerNumber" type="number" :min="1" />
-                </el-form-item>
-            </div>
-
-            <!-- National / Preferred Foot -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <BaseSelectWithIcon v-model="selectedNationality" :options="nationalities" label="Nationality"
-                    prop="nationality" :placeholder="selectNationalityPlaceholder" />
-
-                <el-form-item label="Preferred Foot" prop="preferredFoot">
-                    <el-input v-model="form.preferredFoot" type="text" clearable />
                 </el-form-item>
             </div>
 
@@ -453,13 +567,25 @@ function closeDialog()
     <BaseTable :table-data="tableData" :columns="columns" :loading="loading" :show-index="true">
         <template #photo="{ row }">
             <el-avatar :size="60" :src="row.photo ? PLAYER_PHOTOS_DIR + row.photo : ''"
-                class="border-2 border-gray-200 shadow-sm" />
+                class="border-2 border-gray-200 shadow-sm overflow-hidden" />
         </template>
 
         <template #nationality="{ row }">
-            <img v-if="row.nationality" :src="nationalities.find((nat) => nat.name === row.nationality)?.logo"
-                :alt="row.nationality" class="w-8 h-8 object-contain mx-auto">
+            <img v-if="row.nationality" :src="placeOfBirths.find((nat) => nat.name === row.placeOfBirth)?.logo"
+                :alt="row.placeOfBirth" class="w-8 h-8 object-contain mx-auto">
             <div class="text-xs text-gray-500 text-center">
+                {{ row.placeOfBirth }}
+            </div>
+        </template>
+
+        <template #dateOfBirth="{ row }">
+            <div class="text-sm text-gray-500 text-center">
+                {{ row.dateOfBirth }}
+            </div>
+        </template>
+
+        <template #placeOfBirth="{ row }">
+            <div class="text-sm text-gray-500 text-center">
                 {{ row.nationality }}
             </div>
         </template>

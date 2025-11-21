@@ -124,6 +124,7 @@ const tableData = computed(() =>
 
 function handleOpenDialog()
 {
+    title.value = 'Add News Info';
     Object.assign(form, {
         id: 0,
         title: '',
@@ -439,7 +440,7 @@ async function formatVideoLink(link)
             <span>{{ row.user && row.user.firstName ? row.user.firstName : '' }} {{ row.user && row.user.lastName ?
                 row.user.lastName : '' }}</span>
         </template>
-        
+
         <template #actions>
             <el-table-column label="Actions" width="420" label-class-name="text-center" align="center" fixed="right">
                 <template #header>

@@ -48,13 +48,12 @@ const filters = ref([
         {{ title }}
     </h1>
 
-
     <BaseFilter :isReset="true" :filters="filters" />
 
     <div class="flex flex-1 flex-col gap-4 mt-4">
         <div class="flex justify-center items-center w-full gap-10">
             <button
-                class="flex items-center justify-center rounded-full bg-[#4b1254] w-10 h-10 hover:bg-[#6c0472] cursor-pointer">
+                class="flex items-center justify-center rounded-full bg-[#37003c] w-10 h-10 hover:bg-[#410544] cursor-pointer">
                 <el-icon>
                     <ArrowLeft class="text-white" />
                 </el-icon>
@@ -64,20 +63,20 @@ const filters = ref([
                 <span class="text-white text-sm">Sat 8 Nov - Sun 9 Nov</span>
             </div>
             <button
-                class="flex items-center justify-center rounded-full bg-[#4b1254] w-10 h-10 hover:bg-[#6c0472] cursor-pointer">
+                class="flex items-center justify-center rounded-full bg-[#37003c] w-10 h-10 hover:bg-[#410544] cursor-pointer">
                 <el-icon>
                     <ArrowRight class="text-white" />
                 </el-icon>
             </button>
         </div>
     </div>
-    <div class="!bg-gradient-to-br from-[#28002b] to-[#330d36] py-4 mx-3 my-6 rounded-2xl h-fit">
+    <div class="bg-[#28002b] py-4 mx-3 my-6 rounded-2xl h-fit">
         <!-- tomorrow's matches -->
         <section class="mb-4">
             <div class="flex justify-between mx-4">
                 <span class="font-bold text-md text-white">Sat 27 Sep</span>
                 <button
-                    class="font-bold !text-center text-xs text-white !bg-[#37003c] px-3 py-2 rounded-2xl cursor-pointer ">See
+                    class="font-bold !text-center text-xs text-white !bg-[#37003c] px-3 py-2 rounded-2xl hover:bg-[#410544] cursor-pointer">See
                     all
                     <el-icon>
                         <ArrowRightBold class="text-white text-center text-xs hover:cursor-pointer" />
@@ -85,7 +84,7 @@ const filters = ref([
                 </button>
             </div>
 
-            <div v-for="value in 6" class="overflow-y-auto scrollbar-none hover:bg-[#330d36] mt-2">
+            <div v-for="value in 6" class="overflow-y-auto scrollbar-none hover:bg-[#37003c] mt-2">
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3x">
                     <div></div>
                     <router-link
@@ -124,7 +123,7 @@ const filters = ref([
                 </button>
             </div>
 
-            <div v-for="value in 3" class="overflow-y-auto scrollbar-none hover:bg-[#330d36] mt-2">
+            <div v-for="value in 3" class="overflow-y-auto scrollbar-none hover:bg-[#37003c] mt-2">
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3x">
                     <div></div>
                     <router-link
@@ -163,7 +162,7 @@ const filters = ref([
                 </button>
             </div>
 
-            <div v-for="value in 1" class="overflow-y-auto scrollbar-none hover:bg-[#330d36] mt-2">
+            <div v-for="value in 1" class="overflow-y-auto scrollbar-none hover:bg-[#37003c] mt-2">
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3x">
                     <div></div>
                     <router-link
@@ -190,7 +189,7 @@ const filters = ref([
         </section>
     </div>
 
-    <div class="!bg-gradient-to-br from-[#28002b] to-[#330d36] py-4 mx-3 my-13 rounded-2xl h-fit">
+    <div class="bg-[#28002b] py-4 mx-3 my-13 rounded-2xl h-fit">
         <div class="flex justify-between mx-4">
             <div>
                 <span class="font-bold text-md text-white">Possible Premier League Fixtures Changes in 2025/26</span>

@@ -44,13 +44,16 @@ const previewVisible = ref(false);
 const dialogImageUrl = ref('');
 
 const joinedClubSelectListItem = ref([
-    { label: '2019/2020', value: '2019/2020' },
-    { label: '2020/2021', value: '2020/2021' },
-    { label: '2021/2022', value: '2021/2022' },
-    { label: '2022/2023', value: '2022/2023' },
-    { label: '2023/2024', value: '2023/2024' },
-    { label: '2024/2025', value: '2024/2025' },
-    { label: '2025/2026', value: '2025/2026' },
+    { label: '2016/17', value: '2016/17' },
+    { label: '2017/18', value: '2017/18' },
+    { label: '2018/19', value: '2018/19' },
+    { label: '2019/20', value: '2019/20' },
+    { label: '2020/21', value: '2020/21' },
+    { label: '2021/22', value: '2021/22' },
+    { label: '2022/23', value: '2022/23' },
+    { label: '2023/24', value: '2023/24' },
+    { label: '2024/25', value: '2024/25' },
+    { label: '2025/26', value: '2025/26' },
 ]);
 
 

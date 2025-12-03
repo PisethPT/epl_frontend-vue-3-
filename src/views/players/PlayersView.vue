@@ -92,7 +92,7 @@ onMounted(async () =>
                                         class="w-7 h-7 object-contain mx-auto">
                                 </div>
                                 <RouterLink
-                                    :to="{ name: 'clubs', params: { clubId: player.teamId, clubName: player.teamName.toString().toLowerCase() } }">
+                                    :to="{ name: 'clubs', params: { clubId: player.teamId, clubName: player.teamName.toLowerCase() } }">
                                     <span class="text-white text-xs text-center hover:underline hover:cursor-pointer">{{
                                         player.teamName }}</span>
                                 </RouterLink>
@@ -128,5 +128,9 @@ onMounted(async () =>
 html,
 body {
     background: #1e0021 !important;
+}
+
+.custom-card :deep(.el-card__header) {
+    border-bottom: none !important;
 }
 </style>

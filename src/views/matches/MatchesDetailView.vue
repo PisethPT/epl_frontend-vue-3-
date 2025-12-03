@@ -6,7 +6,6 @@ import { useApiConfig } from '@/stores/apiConfig';
 import
 {
     Plus,
-    ScaleToOriginal,
 } from '@element-plus/icons-vue';
 
 const apiConfig = useApiConfig();
@@ -125,7 +124,6 @@ onMounted(async () =>
                         </div>
                     </div>
 
-
                     <div class="bg-[#28002b] rounded-t-2xl rounded-b-2xl p-4 z-10 relative -mt-3">
                         <div class="flex flex-col gap-3 w-full">
                             <!-- goals area -->
@@ -164,7 +162,8 @@ onMounted(async () =>
                             <div class="flex justify-center items-center">
                                 <div class="text-gray-500 w-full">
                                     <div class="flex flex-col items-center">
-                                        <span class="text-gray-400 text-xs lg:text-sm">Matchweek {{ matchInfo?.matchWeek }}</span>
+                                        <span class="text-gray-400 text-xs lg:text-sm">Matchweek {{ matchInfo?.matchWeek
+                                        }}</span>
                                         <div
                                             class="text-gray-400 text-xs lg:text-sm text-wrap whitespace-nowrap text-center flex items-center h-auto gap-2">
                                             {{ matchInfo?.matchDate || 'TBD' }} • {{ matchInfo?.kickoffStadium ||
@@ -204,7 +203,6 @@ onMounted(async () =>
                     All Matches
                 </button>
             </div>
-
 
             <div class="flex flex-1 flex-col gap-4">
                 <div class="pt-2 pe-2 flex gap-4 overflow-x-auto scrollbar-none">

@@ -1,11 +1,17 @@
 <script setup>
 import SponsorBar from '@/components/SponsorBar.vue';
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-
+import { useRoute } from 'vue-router'
 
 const route = useRoute();
 const sponsorImage = ref('/src/assets/sponsors/14952318241031863229.jpg');
+
+onMounted(() =>
+{
+    window.scrollTo(0, 0);
+    const videoId = route.params.videoId;
+    const videoTitle = route.params.videoTitle;
+});
 </script>
 
 <template>

@@ -7,6 +7,7 @@ import
     ArrowLeft,
     CaretRight,
 } from '@element-plus/icons-vue';
+import BaseVideosCard from '@/components/BaseVideosCard.vue';
 
 const title = ref('Videos');
 const isAtStart = ref(true);
@@ -18,6 +19,45 @@ const videosMenu = ref([
     { name: 'The Archive', route: 'video-the-archive' },
 ]);
 const theArchiveOverviewUrl = ref('video-the-archive-overview');
+
+const latestVideos = ref([
+    {
+        id: 4455832,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        category: 'Fixtures',
+        thumbnail: '/path/to/thumbnail1.jpg',
+    },
+    {
+        id: 4455833,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        thumbnail: '/path/to/thumbnail2.jpg'
+    },
+    {
+        id: 4455834,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        thumbnail: '/path/to/thumbnail3.jpg'
+    }, 
+    {
+        id: 4455835,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        thumbnail: '/path/to/thumbnail4.jpg'
+    }, 
+    {
+        id: 4455836,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        thumbnail: '/path/to/thumbnail5.jpg'
+    }, 
+    {
+        id: 4455837,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        thumbnail: '/path/to/thumbnail6.jpg'
+    },
+    {
+        id: 4455838,
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+        thumbnail: '/path/to/thumbnail7.jpg'
+    },
+]);
 
 onMounted(() =>
 {
@@ -75,45 +115,14 @@ const allVideos = () => router.push({ name: 'all-videos' });
                 class="text-white text-sm pb-1 border-b-4 hover:cursor-pointer whitespace-nowrap"
                 :style="videoMenuActive == menu.name ? { borderBottom: '4px solid white', fontWeight: 'bold' } : { borderBottom: '4px solid transparent', fontWeight: 'normal' }">
                 <router-link :to="{ name: menu.route }" @click="videoMenuActive = menu.name">{{ menu.name
-                }}</router-link>
+                    }}</router-link>
             </div>
         </div>
 
         <div class="flex flex-1 flex-col gap-12 mt-13 mx-4">
             <!-- latest videos -->
-            <div class="flex flex-col gap-5 !bg-[#28002b] rounded-2xl w-full p-4">
-                <div class="flex justify-between items-center">
-                    <span class="text-white text-2xl font-bold">Latest Videos</span>
-                    <div class="flex gap-2">
-                        <button @click="allVideos"
-                            class="flex items-center justify-center rounded-full bg-[#3e003f] text-xs text-white w-fit h-8 px-3 hover:underline cursor-pointer whitespace-nowrap">
-                            All Videos
-                            <el-icon>
-                                <ArrowRight class="text-white" />
-                            </el-icon>
-                        </button>
-                    </div>
-                </div>
-                <div ref="awardsContainer">
-                    <div class="flex items-start gap-4 w-full rounded-t-2xl overflow-x-auto scrollbar-none">
-                        <div v-for="(value, index) in 6" :key="index" class="flex flex-col gap-2 rounded-2xl h-fit">
-                            <div class="flex bg-[#4b1254] rounded-2xl w-[300px] h-[160px] relative overflow-hidden">
-                                <router-link
-                                    :to="{ name: 'video-viewer', params: { videoId: '4455832', videoTitle: 'lorem-ipsum-dolor-sit-amet-consectetur-adipisicing' } }"
-                                    class="hover:bg-[#edaef777] flex justify-center items-center w-full h-full"></router-link>
-                                <div
-                                    class="absolute text-center bg-[#28002b] !w-7 !h-7 rounded-full !bottom-2 !right-2 flex justify-center items-center">
-                                    <el-icon>
-                                        <CaretRight class="text-white" />
-                                    </el-icon>
-                                </div>
-                            </div>
-                            <span class="text-white text-md font-bold">Lorem ipsum dolor sit amet, consectetur
-                                adipisicing</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <BaseVideosCard :title="'Latest Videos'" :videos="latestVideos" :all-videos="allVideos" :isAllVideosButton="true"
+                :allVideosButtonTitle="'All Videos'" :isPreviousAndNextButtons="true" />
 
             <!-- best moments of 2025/26 -->
             <div class="flex flex-col gap-5 !bg-[#28002b] rounded-2xl p-4 mx-4">

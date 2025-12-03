@@ -262,7 +262,7 @@ const dataTable = ref([
             club: {
                 id: 15,
                 name: "Manchester United",
-                clubCrest: "mun.png",
+                clubCrest: "menu.svg",
             },
         },
     },
@@ -272,7 +272,7 @@ const dataTable = ref([
         club: {
             id: 15,
             name: 'Manchester United',
-            clubCrest: 'mun.png',
+            clubCrest: 'menu.svg',
         },
         pi: 3,
         w: 1,

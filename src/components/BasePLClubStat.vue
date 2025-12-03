@@ -20,7 +20,7 @@ const clubs = ref([
     { rank: 6, name: 'Tottenham Hotspur', clubCrest: 'tot.svg', clubTheme: '#000a3c', stat: 7 },
     { rank: 7, name: 'Chelsea', clubCrest: 'che.png', clubTheme: '#001489', stat: 6 },
     { rank: 8, name: 'Aston Villa', clubCrest: 'avl.png', clubTheme: '#480024', stat: 5 },
-    { rank: 9, name: 'Manchester United', clubCrest: 'mun.png', clubTheme: '#b90006', stat: 4 },
+    { rank: 9, name: 'Manchester United', clubCrest: 'menu.svg', clubTheme: '#b90006', stat: 4 },
     { rank: 10, name: 'Fulham', clubCrest: 'ful.png', clubTheme: '#000000', stat: 3 },
 ]);
 

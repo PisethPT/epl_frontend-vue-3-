@@ -40,19 +40,17 @@ const apiConfig = useApiConfig();
             </div>
         </div>
 
-
         <div class="grid rows-2 lg:grid-rows-none lg:grid-cols-2 relative">
             <div class="border-b-1 lg:border-b-0 lg:border-e-1 border-[#4b1254] relative overflow-hidden">
                 <div
                     class="absolute border-b-2 lg:border-x-0 lg:border-r-2 border-x-2 lg:border-y-2 border-[#4b1254] bg-[#28002b] w-[50%] lg:w-30 h-30 lg:h-[50%] top-0 lg:top-1/2 left-1/2 lg:left-0 transform -translate-x-1/2 lg:translate-x-0 lg:-translate-y-1/2 z-10">
                 </div>
                 <div
-                    class="absolute border-b-2 lg:border-x-0 lg:border-r-2 border-x-2 lg:border-y-2 border-[#4b1254] w-[15%] lg:w-12 h-[15%] lg:h-[15%] lg:top-1/2 left-1/2 lg:left-0 transform -translate-x-1/2 lg:translate-x-0 -translate-y-1/2 z-20">
+                    class="absolute border-b-2 lg:border-x-0 lg:border-r-2 border-x-2 lg:border-y-2 border-[#4b1254] w-[15%] lg:w-10 h-[20%] lg:h-[18%] top-0 lg:top-1/2 left-1/2 lg:left-0 transform -translate-x-1/2 lg:translate-x-0 -translate-y-1/2 z-20">
                 </div>
                 <div
                     class="absolute w-35 h-35 rounded-full border-2 border-[#4b1254] top-4 lg:top-1/2 left-1/2 lg:left-4 transform -translate-x-1/2 lg:translate-x-0 translate-y-0 lg:-translate-y-1/2">
                 </div>
-
             </div>
 
             <div
@@ -61,13 +59,13 @@ const apiConfig = useApiConfig();
 
             <div class="border-t-1 lg:border-t-0 lg:border-s-1 border-[#4b1254] relative">
                 <div
-                    class="absolute border-l-2 border-y-2 border-[#4b1254] bg-[#28002b] w-30 h-[50%] top-1/2 right-0 transform translate-x-0 -translate-y-1/2 z-10">
+                    class="absolute border-t-2 lg:border-x-0 lg:border-l-2 border-x-2 lg:border-y-2 border-[#4b1254] bg-[#28002b] w-[50%] lg:w-30 h-30 lg:h-[50%] bottom-0 lg:top-1/2 right-1/2 lg:right-0 transform translate-x-1/2 lg:translate-x-0 translate-y-0 lg:-translate-y-1/2 z-10">
                 </div>
                 <div
-                    class="absolute border-l-2 border-y-2 border-[#4b1254] w-12 h-[15%] top-1/2 right-0 transform translate-x-0 -translate-y-1/2 z-20">
+                    class="absolute border-t-2 lg:border-x-0 lg:border-l-2 border-x-2 lg:border-y-2 border-[#4b1254] w-[15%] lg:w-10 h-[10%] lg:h-[18%] bottom-0 lg:top-1/2 right-1/2 lg:right-0 transform translate-x-1/2 lg:translate-x-0 translate-y-0 lg:-translate-y-1/2 z-20">
                 </div>
                 <div
-                    class="absolute w-35 h-35 rounded-full border-2 border-[#4b1254] top-1/2 right-4 transform translate-x-0 -translate-y-1/2 ">
+                    class="absolute w-35 h-35 rounded-full border-2 border-[#4b1254] bottom-4 lg:top-1/2 right-1/2 lg:right-4 transform translate-x-1/2 lg:translate-x-0 translate-y-0 lg:-translate-y-1/2 ">
                 </div>
 
             </div>

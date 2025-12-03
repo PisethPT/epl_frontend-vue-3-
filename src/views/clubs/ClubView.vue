@@ -90,11 +90,10 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
                                 class="w-auto h-11 p-1 object-contain mx-auto" />
                         </div>
                         <RouterLink class="flex gap-2 items-center w-full"
-                            :to="{ name: 'clubs', params: { clubId: club.id, clubName: club.name.toString().toLowerCase() } }">
+                            :to="{ name: 'clubs', params: { clubId: club.id, clubName: club.name.toLowerCase() } }">
                             <h3
                                 class="text-md font-bold text-center text-white text-wrap hover:underline hover:cursor-pointer">
-                                {{
-                                    club.name }}</h3>
+                                {{ club.name }}</h3>
                             <el-icon>
                                 <ArrowRightBold class="text-white text-xs " />
                             </el-icon>
@@ -129,5 +128,8 @@ const clubs = computed(() => teamStore.searchTeams(query.value));
 html,
 body {
     background: #1e0021 !important;
+}
+.custom-card :deep(.el-card__header) {
+    border-bottom: none !important;
 }
 </style>
